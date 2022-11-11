@@ -51,11 +51,7 @@ const UserHeader = () => {
   };
 
   useEffect(() => {
-    // if (currentUser?._id === user?._id) {
-    //   getCurrentUser(dispatch, user?._id, user?.accessToken);
-    // } else {
     getUser(dispatch, id, user?.accessToken);
-    // }
   }, [dispatch, id, user]);
 
   return (

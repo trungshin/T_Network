@@ -34,6 +34,9 @@ import {
   followUserStart,
   followUserSuccess,
   followUserFailed,
+  deleteUserStart,
+  deleteUserSuccess,
+  deleteUserFailed,
 } from "./userSlice";
 import {
   createPostFailed,
@@ -186,7 +189,7 @@ export const getCurrentUser = async (dispatch, id, token) => {
 export const updateUser = async (dispatch, user, id, token) => {
   dispatch(updateStart());
   try {
-    const res = await axios.patch(`${APIPaths.Users}/${id}`, user, {
+    const res = await axios.put(`${APIPaths.Users}/${id}`, user, {
       headers: { token: `Bearer ${token}` },
     });
     // console.log(res.config);
@@ -259,6 +262,18 @@ export const unFollowUser = async (dispatch, id, userId, token) => {
   }
 };
 
+export const deleteUser = async (dispatch, token, id) => {
+  dispatch(deleteUserStart());
+  try {
+    await axios.delete(`${APIPaths.Users}/${id}`, {
+      headers: { token: `Bearer ${token}` },
+    });
+    dispatch(deleteUserSuccess());
+  } catch (err) {
+    dispatch(deleteUserFailed());
+  }
+};
+
 export const createPost = async (dispatch, token, post, postToggle) => {
   dispatch(createPostStart());
   try {
@@ -297,6 +312,7 @@ export const deletePost = async (dispatch, token, id, userId) => {
     dispatch(deletePostFailed());
   }
 };
+
 // pageNumber
 export const getAllPosts = async (
   dispatch,

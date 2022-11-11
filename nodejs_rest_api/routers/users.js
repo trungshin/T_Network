@@ -13,10 +13,10 @@ export function userRouter() {
   const router = Router();
 
   //UPDATE USER
-  router.patch("/:id", UserAuthorization, updateUser);
+  router.put("/:id", UserAuthorization, updateUser);
 
   //DELETE USER
-  router.delete("/:id", UserAuthorization, deleteUser);
+  router.delete("/:id", verifyToken, deleteUser);
 
   //GET A USER
   router.get("/:id", verifyToken, getUser);
@@ -33,4 +33,3 @@ export function userRouter() {
   return router;
 }
 
-//module.exports = router;

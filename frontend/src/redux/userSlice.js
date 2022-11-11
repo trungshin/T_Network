@@ -23,6 +23,10 @@ export const userSlice = createSlice({
       pending: false,
       error: false,
     },
+    deleteUser: {
+      pending: false,
+      error: null,
+    },
   },
   reducers: {
     updateStart: (state) => {
@@ -88,6 +92,17 @@ export const userSlice = createSlice({
       state.followUser.pending = false;
       state.followUser.error = false;
     },
+    deleteUserStart: (state) => {
+      state.deleteUser.pending = true;
+    },
+    deleteUserSuccess: (state) => {
+      state.deleteUser.pending = false;
+      state.deleteUser.error = false;
+    },
+    deleteUserFailed: (state) => {
+      state.deleteUser.error = true;
+      state.deleteUser.pending = false;
+    },
   },
 });
 
@@ -108,5 +123,8 @@ export const {
   followUserStart,
   followUserSuccess,
   followUserFailed,
+  deleteUserStart,
+  deleteUserSuccess,
+  deleteUserFailed,
 } = userSlice.actions;
 export default userSlice.reducer;
