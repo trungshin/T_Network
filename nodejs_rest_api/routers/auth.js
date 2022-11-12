@@ -1,35 +1,35 @@
 import { Router } from "express";
 import {
-  register,
-  login,
-  requestRefreshToken,
-  logOut,
-  activateEmail,
-  forgotPassword,
-  resetPassword,
+	register,
+	login,
+	requestRefreshToken,
+	logOut,
+	activateEmail,
+	forgotPassword,
+	resetPassword
 } from "../controllers/auth";
 import { verifyToken } from "../controllers/middleware";
 
 export function authRouter() {
-  const router = Router();
+	const router = Router();
 
-  //REGISTER
-  router.post("/register", register);
+	//REGISTER
+	router.post("/register", register);
 
-  router.post("/activation", activateEmail);
- 
-  router.post("/forgot", forgotPassword);
+	router.post("/activation", activateEmail);
 
-  router.post("/reset", verifyToken, resetPassword);
+	router.post("/forgot", forgotPassword);
 
-  //LOGIN
-  router.post("/login", login);
+	router.post("/reset", verifyToken, resetPassword);
 
-  //REFRESH TOKEN
-  router.post("/refresh", requestRefreshToken);
+	//LOGIN
+	router.post("/login", login);
 
-  //LOG OUT
-  router.post("/logout", verifyToken, logOut);
+	//REFRESH TOKEN
+	router.post("/refresh", requestRefreshToken);
 
-  return router;
+	//LOG OUT
+	router.post("/logout", verifyToken, logOut);
+
+	return router;
 }

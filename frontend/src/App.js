@@ -9,56 +9,41 @@ import ForgotPassword from "./components/ForgotPassword";
 import ResetPassword from "./components/ResetPassword";
 
 function App() {
-  return (
-    <Router>
-      <div className="App">
-        <Routes>
-          <>
-            <Route path="/" element={<Login />} />
-            <Route path="/register" element={<Register />} />
-            <Route
-              path="/newsfeed"
-              element={
-                <RequireAuth>
-                  <Newsfeed />
-                </RequireAuth>
-              }
-            />
+	return (
+		<Router>
+			<div className="App">
+				<Routes>
+					<>
+						<Route path="/" element={<Login />} />
+						<Route path="/register" element={<Register />} />
+						<Route
+							path="/newsfeed"
+							element={
+								<RequireAuth>
+									<Newsfeed />
+								</RequireAuth>
+							}
+						/>
 
-            <Route
-              path="/user/:id"
-              element={
-                <RequireAuth>
-                  <Profile />
-                </RequireAuth>
-              }
-            />
+						<Route
+							path="/user/:id"
+							element={
+								<RequireAuth>
+									<Profile />
+								</RequireAuth>
+							}
+						/>
 
-            <Route
-              path="/user/activate/:activationToken"
-              element={
-                <ActivationEmail />
-              }
-            />
+						<Route path="/user/activate/:activationToken" element={<ActivationEmail />} />
 
-            <Route
-              path="/user/forgotPassword"
-              element={
-                <ForgotPassword />
-              }
-            />
+						<Route path="/user/forgotPassword" element={<ForgotPassword />} />
 
-            <Route
-              path="/user/reset/:token"
-              element={
-                <ResetPassword />
-              }
-            />
-          </>
-        </Routes>
-      </div>
-    </Router>
-  );
+						<Route path="/user/reset/:token" element={<ResetPassword />} />
+					</>
+				</Routes>
+			</div>
+		</Router>
+	);
 }
 
 export default App;

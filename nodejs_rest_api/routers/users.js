@@ -1,35 +1,27 @@
-import {
-  getUser,
-  deleteUser,
-  updateUser,
-  followUser,
-  unFollowUser,
-  getAllUsers,
-} from "../controllers/user";
+import { getUser, deleteUser, updateUser, followUser, unFollowUser, getAllUsers } from "../controllers/user";
 import { verifyToken, UserAuthorization } from "../controllers/middleware";
 import { Router } from "express";
 
 export function userRouter() {
-  const router = Router();
+	const router = Router();
 
-  //UPDATE USER
-  router.put("/:id", UserAuthorization, updateUser);
+	//UPDATE USER
+	router.put("/:id", UserAuthorization, updateUser);
 
-  //DELETE USER
-  router.delete("/:id", verifyToken, deleteUser);
+	//DELETE USER
+	router.delete("/:id", verifyToken, deleteUser);
 
-  //GET A USER
-  router.get("/:id", verifyToken, getUser);
+	//GET A USER
+	router.get("/:id", verifyToken, getUser);
 
-  //GET ALL USERS
-  router.get("/", verifyToken, getAllUsers);
+	//GET ALL USERS
+	router.get("/", verifyToken, getAllUsers);
 
-  //FOLLOW A USER
-  router.put("/:id/follow", verifyToken, followUser);
+	//FOLLOW A USER
+	router.put("/:id/follow", verifyToken, followUser);
 
-  //UNFOLLOW A USER
-  router.put("/:id/unfollow", verifyToken, unFollowUser);
+	//UNFOLLOW A USER
+	router.put("/:id/unfollow", verifyToken, unFollowUser);
 
-  return router;
+	return router;
 }
-

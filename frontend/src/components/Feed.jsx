@@ -24,10 +24,9 @@
 //       }, 100)
 //   },[])
 
-
 //   return (
 //     <Box
-//       flex={4} 
+//       flex={4}
 //       p={{ xs: 0, md: 2 }}
 //       sx={{
 //         position: "fixed",

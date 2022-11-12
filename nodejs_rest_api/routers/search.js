@@ -3,9 +3,9 @@ import { verifyToken } from "../controllers/middleware";
 import { Router } from "express";
 
 export function searchRouter() {
-  const router = Router();
+	const router = Router();
 
-  router.get("/", verifyToken, searchUser);
+	router.get("/", verifyToken, searchUser);
 
-  return router;
+	return router;
 }
