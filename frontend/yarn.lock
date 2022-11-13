@@ -3071,6 +3071,11 @@ caniuse-lite@^1.0.0, caniuse-lite@^1.0.30001297, caniuse-lite@^1.0.30001312:
   resolved "https://registry.yarnpkg.com/caniuse-lite/-/caniuse-lite-1.0.30001312.tgz#e11eba4b87e24d22697dae05455d5aea28550d5f"
   integrity sha512-Wiz1Psk2MEK0pX3rUzWaunLTZzqS2JYZFzNKqAiJGiuxIjRPLgV6+VDPOg6lQOUxmDwhTlh198JsTTi8Hzw6aQ==
 
+caniuse-lite@^1.0.30001431:
+  version "1.0.30001431"
+  resolved "https://registry.yarnpkg.com/caniuse-lite/-/caniuse-lite-1.0.30001431.tgz#e7c59bd1bc518fae03a4656be442ce6c4887a795"
+  integrity sha512-zBUoFU0ZcxpvSt9IU66dXVT/3ctO1cy4y9cscs1szkPlcWb6pasYM144GqrUygUbT+k7cmUCW61cvskjcv0enQ==
+
 case-sensitive-paths-webpack-plugin@^2.4.0:
   version "2.4.0"
   resolved "https://registry.yarnpkg.com/case-sensitive-paths-webpack-plugin/-/case-sensitive-paths-webpack-plugin-2.4.0.tgz#db64066c6422eed2e08cc14b986ca43796dbc6d4"
