@@ -20,7 +20,7 @@ app.use(helmet());
 app.use(morgan("common"));
 app.use(
 	cors({
-		origin: "https://6371e344f5116b7032a0b064--animated-melomakarona-a25799.netlify.app"
+		origin: "https://t-network.netlify.app"
 	})
 );
 app.use(cookieParser());
