@@ -8,17 +8,6 @@ import { Typography, Chip, Button, Stack } from "@mui/material";
 import { People } from "@mui/icons-material";
 import EditPage from "./EditPage";
 
-const Header = styled("div")(({ theme }) => ({
-	display: "flex",
-	position: "absolute",
-	paddingLeft: "20px",
-	// width: "calc(100%)",
-	top: "10px"
-	// alignItems: "flex-end",
-	// "& > *": {
-	//   margin: `${theme.spacing(3)}px ${theme.spacing(1)}px`,
-	// },
-}));
 const H4 = styled("h4")(() => ({
 	margin: 0,
 	width: 15,

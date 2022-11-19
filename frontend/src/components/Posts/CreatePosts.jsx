@@ -44,7 +44,6 @@ const CreatePost = () => {
 	const fullScreen = useMediaQuery(theme.breakpoints.down("md"));
 	const dispatch = useDispatch();
 	const user = useSelector((state) => state.user.user?.currentUser);
-	// const fullPost = useSelector((state) => state.nav.fullPost);
 
 	const handleClickOpen = (scrollType) => {
 		setOpen(true);
@@ -74,15 +73,6 @@ const CreatePost = () => {
 		handleClose();
 		window.location.reload();
 	};
-
-	// const handleMultipleImages = (e) => {
-	//   const targetFiles = e.target.files[0];
-	//   // const targetFilesObject = [...targetFiles];
-	//   // const imagesArray = targetFilesObject.map((file) => {
-	//   //   return URL.createObjectURL(file);
-	//   // });
-	//   setImages(URL.createObjectURL(targetFiles));
-	// };
 
 	const handleFileInputChange = (e) => {
 		const file = e.target.files[0];

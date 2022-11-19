@@ -1,7 +1,6 @@
 import { Router } from "express";
 import {
 	createPost,
-	updatePost,
 	deletePost,
 	getAPost,
 	getPostFromUser,
@@ -20,9 +19,6 @@ export function postRouter() {
 
 	//CREATE A POST
 	router.post("/", upload.single("image"), verifyToken, createPost);
-
-	//UPDATE A POST
-	router.patch("/:id", verifyToken, updatePost);
 
 	//DELETE A POST
 	router.delete("/:id", UserPostAuthorization, deletePost);
@@ -47,13 +43,6 @@ export function postRouter() {
 
 	//CREATE A COMMENT
 	router.post("/comment/:id", verifyToken, createComment);
-
-	//GET ALL COMMENTS
-	// router.get(
-	//   "/comments",
-	//   verifyToken,
-	//   getAllComments
-	// );
 
 	// GET ALL COMMENTS IN A POST
 	router.get("/comment/:id", verifyToken, getCommentsInPost);

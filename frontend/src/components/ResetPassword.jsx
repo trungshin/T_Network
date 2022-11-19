@@ -5,7 +5,8 @@ import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import * as Yup from "yup";
 import { useFormik } from "formik";
-import { TextField, Button, Grid } from "@mui/material";
+import { Button, Grid, OutlinedInput, InputAdornment, IconButton, FormControl, InputLabel } from "@mui/material";
+import { Visibility, VisibilityOff } from "@mui/icons-material";
 import { resetPassword } from "../redux/apiRequests";
 import GridLayout from "./GridLayout";
 
@@ -14,6 +15,8 @@ function ResetPassword() {
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
 	const [success, setSuccess] = useState("");
+	const [showPassword, setShowPassword] = useState(false);
+	const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
 	const formik = useFormik({
 		initialValues: {
@@ -38,6 +41,18 @@ function ResetPassword() {
 		}
 	});
 
+	const handleClickShowPassword = () => {
+		setShowPassword(!showPassword);
+	};
+
+	const handleClickShowConfirmPassword = () => {
+		setShowConfirmPassword(!showConfirmPassword);
+	};
+
+	const handleMouseDownPassword = (e) => {
+		e.preventDefault();
+	};
+
 	const handleNavigate = () => {
 		navigate("/");
 	};
@@ -48,33 +63,61 @@ function ResetPassword() {
 					<Grid item>{success && showSuccessMsg(success)}</Grid>
 
 					<Grid item>
-						<TextField
-							required
-							fullWidth
-							id="password"
-							name="password"
-							label="Password"
-							type="password"
-							value={formik.values.password}
-							onChange={formik.handleChange}
-							error={formik.touched.password && Boolean(formik.errors.password)}
-							helperText={formik.touched.password && formik.errors.password}
-						/>
+						<FormControl sx={{ width: 300 }} variant="outlined">
+							<InputLabel htmlFor="password">Password *</InputLabel>
+							<OutlinedInput
+								required
+								fullWidth
+								id="password"
+								label="Password"
+								type={showPassword ? "text" : "password"}
+								value={formik.values.password}
+								onChange={formik.handleChange}
+								error={formik.touched.password && Boolean(formik.errors.password)}
+								helperText={formik.touched.password && formik.errors.password}
+								endAdornment={
+									<InputAdornment position="end">
+										<IconButton
+											aria-label="toggle password visibility"
+											onClick={handleClickShowPassword}
+											onMouseDown={handleMouseDownPassword}
+											edge="end"
+										>
+											{showPassword ? <VisibilityOff /> : <Visibility />}
+										</IconButton>
+									</InputAdornment>
+								}
+							/>
+						</FormControl>
 					</Grid>
 
 					<Grid item>
-						<TextField
-							required
-							fullWidth
-							id="confirmPassword"
-							name="confirmPassword"
-							label="Confirm Password"
-							type="password"
-							value={formik.values.confirmPassword}
-							onChange={formik.handleChange}
-							error={formik.touched.confirmPassword && Boolean(formik.errors.confirmPassword)}
-							helperText={formik.touched.confirmPassword && formik.errors.confirmPassword}
-						/>
+						<FormControl sx={{ width: 300 }} variant="outlined">
+							<InputLabel htmlFor="confirmPassword">Confirm Password *</InputLabel>
+							<OutlinedInput
+								required
+								fullWidth
+								id="confirmPassword"
+								label="Confirm Password"
+								type={showConfirmPassword ? "text" : "password"}
+								value={formik.values.confirmPassword}
+								onChange={formik.handleChange}
+								error={formik.touched.confirmPassword && Boolean(formik.errors.confirmPassword)}
+								helperText={formik.touched.confirmPassword && formik.errors.confirmPassword}
+								endAdornment={
+									<InputAdornment position="end">
+										<IconButton
+											aria-label="toggle password visibility"
+											onClick={handleClickShowConfirmPassword}
+											onMouseDown={handleMouseDownPassword}
+											edge="end"
+										>
+											{showConfirmPassword ? <VisibilityOff /> : <Visibility />}
+										</IconButton>
+									</InputAdornment>
+								}
+							/>
+						</FormControl>
 					</Grid>
 
 					<Grid item>

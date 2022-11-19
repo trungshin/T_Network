@@ -2,9 +2,8 @@ import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { styled } from "@mui/material/styles";
 import { NavLink, useNavigate } from "react-router-dom";
-import { Box, Toolbar, IconButton, Badge, Avatar, Typography, Menu, MenuItem } from "@mui/material";
+import { Box, Toolbar, IconButton, Avatar, Typography, Menu, MenuItem } from "@mui/material";
 import MuiAppBar from "@mui/material/AppBar";
-import { Mail, Notifications } from "@mui/icons-material";
 import MenuIcon from "@mui/icons-material/Menu";
 import { sideBarToggle } from "../redux/navigateSlice";
 import { logOutUser } from "../redux/apiRequests";
@@ -57,16 +56,6 @@ const NavBar = () => {
 				<SearchUser user={user} />
 
 				<IconButtons>
-					<IconButton size="small" aria-label="show 4 new mails" color="inherit">
-						<Badge badgeContent={4} color="error">
-							<Mail />
-						</Badge>
-					</IconButton>
-					<IconButton size="small" aria-label="show 17 new notifications" color="inherit">
-						<Badge badgeContent={17} color="error">
-							<Notifications />
-						</Badge>
-					</IconButton>
 					<IconButton size="medium" edge="end" aria-label="account of current user" color="inherit">
 						<Avatar
 							sx={{ width: 30, height: 30 }}

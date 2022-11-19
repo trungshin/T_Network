@@ -5,12 +5,8 @@ import { followUser, unFollowUser } from "../redux/apiRequests";
 
 const FollowBtn = ({ user, marginProps }) => {
 	const currentUser = useSelector((state) => state.user.user?.currentUser);
-	const otherUser = useSelector((state) => state.user.otherUser?.otherUser);
 	const [followed, setFollowed] = useState(false);
 	const dispatch = useDispatch();
-	console.log(followed);
-
-	// const [load, setLoad] = useState(false)
 
 	useEffect(() => {
 		if (user?.followers?.find((item) => item === currentUser?._id)) {

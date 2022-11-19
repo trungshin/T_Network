@@ -65,14 +65,6 @@ const EditPage = ({ open, scroll, setOpen }) => {
 			setAvatar(reader.result);
 		};
 	};
-	// const previewFile = (file) => {
-	//   const reader = new FileReader();
-	//   reader.readAsDataURL(file);
-	//   reader.onloadend = () => {
-	//     setAvatar(reader.result);
-	//   };
-	//   setAvatar(reader.result);
-	// };
 
 	return (
 		<>
@@ -135,15 +127,9 @@ const EditPage = ({ open, scroll, setOpen }) => {
 					</Stack>
 				</DialogContent>
 				<DialogActions>
-					{/* {description || images.length > 0 ? ( */}
 					<Button autoFocus variant="contained" onClick={handleEdit}>
 						Save
 					</Button>
-					{/* ) : (
-                <Button variant="contained" disabled>
-                  Save
-                </Button>
-              )} */}
 				</DialogActions>
 			</Dialog>
 		</>
