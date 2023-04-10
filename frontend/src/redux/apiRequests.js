@@ -278,12 +278,18 @@ export const createPost = async (dispatch, token, post, postToggle) => {
 	}
 };
 
-export const updatePost = async (dispatch, userId, id, token) => {
+export const updatePost = async (dispatch, token, id, newPost, userId) => {
 	dispatch(updatePostStart());
+	// alert(userId);
+	// alert(newPost);
+	alert(newPost);
+	// alert(id);
 	try {
-		const res = await axios.patch(`${APIPaths.Posts}/${id}`, userId, {
-			headers: { token: `Bearer ${token}` }
+		const res = await axios.put(`${APIPaths.Posts}/${id}`, newPost, {
+			headers: { token: `Bearer ${token}` },
+			data: { userId: userId }
 		});
+		alert("hello");
 		dispatch(updatePostSuccess(res.data));
 	} catch (err) {
 		console.log(err);
@@ -304,11 +310,31 @@ export const deletePost = async (dispatch, token, id, userId) => {
 	}
 };
 
+// export const getAllPosts = async (
+// 	dispatch,
+// 	token,
+// 	pageNumber,
+// 	setHasMore
+//   ) => {
+// 	dispatch(getAllPostStart());
+// 	try {
+// 	  const res = await axios.get(
+// 		`${APIPaths.Posts}?page=${pageNumber}&limit=2`,
+// 		{
+// 		  headers: { token: `Bearer ${token}` },
+// 		}
+// 	  );
+// 	  setHasMore(res.data.results.length > 0);
+// 	  dispatch(getAllPostSuccess(res.data.results));
+// 	} catch (err) {
+// 	  dispatch(getAllPostFailed());
+// 	}
+//   };
+
 // pageNumber
-export const getAllPosts = async (dispatch, token, setLoading, page, setWasLastList, setPrevPage) => {
+export const getAllPosts = async (dispatch, token, page) => {
 	dispatch(getAllPostStart());
 	try {
-		setLoading(true);
 		const res = await axios.get(
 			// `${APIPaths.Posts}?page=${pageNumber}&limit=4`,
 			`${APIPaths.Posts}?page=${page}&limit=2`,
@@ -316,13 +342,12 @@ export const getAllPosts = async (dispatch, token, setLoading, page, setWasLastL
 				headers: { token: `Bearer ${token}` }
 			}
 		);
-		if (!res.data.results.length) {
-			setWasLastList(true);
-			return;
-		}
-		setPrevPage(page);
+		// if (!res.data.results.length) {
+		// 	setWasLastList(true);
+		// 	return;
+		// }
+		// setPrevPage(page);
 		dispatch(getAllPostSuccess(res.data.results));
-		setLoading(false);
 	} catch (e) {
 		dispatch(getAllPostFailed());
 	}

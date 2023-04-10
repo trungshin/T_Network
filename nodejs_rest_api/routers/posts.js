@@ -2,6 +2,7 @@ import { Router } from "express";
 import {
 	createPost,
 	deletePost,
+	updatePost,
 	getAPost,
 	getPostFromUser,
 	getFriendsPost,
@@ -22,6 +23,9 @@ export function postRouter() {
 
 	//DELETE A POST
 	router.delete("/:id", UserPostAuthorization, deletePost);
+
+	//UPDATE A POST
+	router.put("/:id", UserPostAuthorization, updatePost);
 
 	//LIKE A POST
 	router.patch("/:id/like", verifyToken, likePost);

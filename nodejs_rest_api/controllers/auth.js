@@ -88,7 +88,7 @@ export const generateRefreshToken = (user) => {
 };
 
 export const generateActivationToken = (user) => {
-	return jwt.sign(user, process.env.JWT_ACTIVATION_KEY, { expiresIn: "7d" });
+	return jwt.sign(user, process.env.JWT_ACTIVATION_KEY, { expiresIn: "30d" });
 };
 
 export const login = async (req, res) => {

@@ -11,22 +11,57 @@ import {
 	Avatar,
 	IconButton,
 	Menu,
-	MenuItem
+	MenuItem,
+	Dialog,
+	DialogActions,
+	DialogContent,
+	DialogTitle,
+	useMediaQuery,
+	TextField,
+	Button,
+	Stack,
+	Tooltip
 } from "@mui/material";
 import { MoreVert, DeleteOutlined, Message } from "@mui/icons-material";
 import { likePost, unLikePost, deletePost, getUserComment } from "../../redux/apiRequests";
 import LikeButton from "../LikeButton";
 import Comment from "../Comment";
 import InputComment from "../InputComment";
+import { useTheme, styled } from "@mui/material/styles";
+import { Close, PhotoCamera } from "@mui/icons-material";
+import { updatePost } from "../../redux/apiRequests";
+
+const Input = styled("input")({
+	display: "none"
+});
+
+const Img = styled("img")(({ theme }) => ({
+	borderRadius: "5px",
+	display: "block",
+	height: 150,
+	[theme.breakpoints.down("sm")]: {
+		height: 50
+	}
+}));
 
 const Post = ({ post }) => {
+	const [openDialog, setOpenDialog] = useState(false);
+	const [scroll, setScroll] = useState("paper");
 	const [isLike, setIsLike] = useState(false);
 	const [likeNumber, setLikeNumber] = useState(post?.likes?.length);
 	const user = useSelector((state) => state.user.user?.currentUser);
 	const { comments } = useSelector((state) => state.comment.userComments);
+	const theme = useTheme();
+	const fullScreen = useMediaQuery(theme.breakpoints.down("md"));
+	const [description, setDescription] = useState(post?.description);
+	const [images, setImages] = useState(post?.img);
 
 	const [anchorEl, setAnchorEl] = useState(null);
 	const open = Boolean(anchorEl);
+	const handleClickOpen = (scrollType) => {
+		setOpenDialog(true);
+		setScroll(scrollType);
+	};
 	const handleClick = (e) => {
 		setAnchorEl(e.currentTarget);
 	};
@@ -63,6 +98,43 @@ const Post = ({ post }) => {
 
 	const handleComment = (id) => {
 		getUserComment(dispatch, user?.accessToken, id);
+	};
+
+	const handleCloseDialog = () => {
+		setOpenDialog(false);
+	};
+
+	const handleUpdatePost = (e) => {
+		e.preventDefault();
+		if (!images) {
+			const newPost = {
+				userId: user?._id,
+				description: description
+			};
+			updatePost(dispatch, user?.accessToken, post?._id, newPost, user?._id);
+		} else if (images) {
+			const newPost = {
+				userId: user?._id,
+				description: description,
+				img: images
+			};
+			updatePost(dispatch, user?.accessToken, post?._id, newPost, user?._id);
+		}
+		setImages("");
+		handleClose();
+		window.location.reload();
+	};
+
+	const handleFileInputChange = (e) => {
+		const file = e.target.files[0];
+		previewFile(file);
+	};
+	const previewFile = (file) => {
+		const reader = new FileReader();
+		reader.readAsDataURL(file);
+		reader.onloadend = () => {
+			setImages(reader.result);
+		};
 	};
 
 	return (
@@ -113,6 +185,11 @@ const Post = ({ post }) => {
 					<MenuItem onClick={() => handleDelete(post?._id)}>
 						<DeleteOutlined /> Remove Post
 					</MenuItem>
+					{user?._id === post?.userId && (
+						<MenuItem onClick={() => handleClickOpen("paper")}>
+							<DeleteOutlined /> Edit Post
+						</MenuItem>
+					)}
 				</Menu>
 			)}
 			<CardContent>
@@ -155,6 +232,122 @@ const Post = ({ post }) => {
 					/>
 				))}
 			<InputComment post={post} user={user} />
+
+			<Dialog
+				fullScreen={fullScreen}
+				open={openDialog}
+				onClose={handleCloseDialog}
+				scroll={scroll}
+				aria-labelledby="responsive-dialog-title"
+			>
+				<DialogTitle id="responsive-dialog-title">
+					{"Update Post"}
+					<IconButton
+						aria-label="close"
+						onClick={handleCloseDialog}
+						sx={{
+							position: "absolute",
+							right: 8,
+							top: 8,
+							color: (theme) => theme.palette.grey[500]
+						}}
+					>
+						<Close />
+					</IconButton>
+				</DialogTitle>
+				<DialogContent dividers={scroll === "paper"}>
+					<div
+						style={{
+							display: "flex",
+							alignItems: "center",
+							marginLeft: "5px"
+						}}
+					>
+						<IconButton
+							size="small"
+							edge="end"
+							aria-label="account of current user"
+							aria-haspopup="true"
+							color="inherit"
+						>
+							<Avatar alt={user?.username} src={user?.avatar} />
+						</IconButton>
+						<Typography>{user?.username}</Typography>
+					</div>
+					<TextField
+						variant="standard"
+						value={description}
+						id="post"
+						name="post"
+						onChange={(e) => setDescription(e.target.value)}
+						multiline
+						rows={10}
+						sx={{
+							width: "500px"
+						}}
+					/>
+					<div
+						style={{
+							flexDirection: "row",
+							flexWrap: "wrap",
+							justifyContent: "left",
+							display: "flex"
+						}}
+					>
+						{images && (
+							<div
+								style={{
+									marginTop: "22px",
+									marginRight: "8px",
+									position: "relative"
+								}}
+							>
+								<IconButton
+									onClick={() => {
+										setImages("");
+									}}
+									sx={{
+										top: "-5%",
+										right: "-5%",
+										position: "absolute"
+									}}
+								>
+									<Close />
+								</IconButton>
+								<Img src={images} />
+							</div>
+						)}
+					</div>
+				</DialogContent>
+				<DialogActions>
+					<Stack direction="row" spacing={2}>
+						<div>
+							<Input
+								accept="image/*"
+								id="icon-button-file"
+								type="file"
+								onChange={handleFileInputChange}
+							/>
+							<Tooltip title="Attach photo" placement="top" arrow>
+								<label htmlFor="icon-button-file">
+									<IconButton color="primary" aria-label="upload picture" component="span">
+										<PhotoCamera />
+									</IconButton>
+								</label>
+							</Tooltip>
+						</div>
+						{description || images.length > 0 ? (
+							<Button autoFocus variant="contained" onClick={handleUpdatePost}>
+								Update
+							</Button>
+						) : (
+							<Button variant="contained" disabled>
+								Update
+							</Button>
+						)}
+					</Stack>
+				</DialogActions>
+			</Dialog>
 		</Card>
 	);
 };

@@ -35,19 +35,33 @@ export const createPost = async (req, res) => {
 	}
 };
 
-// export const updatePost = async (req, res) => {
-// 	try {
-// 		const post = await Post.findById(req.params.id); //find the post ID in post model
-// 		if (post.userId === req.body.userId) {
-// 			await post.updateOne({ $set: req.body });
-// 			res.status(200).json("The post has been updated");
-// 		} else {
-// 			return res.status(403).json("You can only update your post");
-// 		}
-// 	} catch (err) {
-// 		res.status(500).json(err);
-// 	}
-// };
+export const updatePost = async (req, res) => {
+	try {
+		console.log(req.body);
+		const { description, img } = req.body;
+		const post = await Post.findById(req.params.id);
+		//find the post ID in post model
+		if (post.userId === req.body.userId) {
+			console.log("hell");
+			if (img) {
+				await cloudinary.uploader.destroy(post.cloudinaryId);
+				const result = await cloudinary.uploader.upload(img, {
+					upload_preset: "network_library"
+				});
+				await post.updateOne({
+					$set: { description: description, img: result.secure_url, cloudinaryId: result.public_id }
+				});
+			} else {
+				await post.updateOne({ $set: { description: description } });
+			}
+			res.status(200).json("The post has been updated");
+		} else {
+			return res.status(403).json("You can only update your post");
+		}
+	} catch (err) {
+		res.status(500).json(err);
+	}
+};
 
 export const deletePost = async (req, res) => {
 	try {
