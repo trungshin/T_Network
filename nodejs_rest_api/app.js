@@ -20,7 +20,7 @@ app.use(helmet());
 app.use(morgan("common"));
 app.use(
 	cors({
-		origin: "https://t-network.netlify.app"
+		origin: "https://t-social-network.vercel.app"
 	})
 );
 app.use(cookieParser());
