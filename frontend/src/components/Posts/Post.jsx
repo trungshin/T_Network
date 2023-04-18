@@ -20,7 +20,8 @@ import {
 	TextField,
 	Button,
 	Stack,
-	Tooltip
+	Tooltip,
+	Box
 } from "@mui/material";
 import { MoreVert, DeleteOutlined, Message, EditOutlined } from "@mui/icons-material";
 import { likePost, unLikePost, deletePost, getUserComment } from "../../redux/apiRequests";
@@ -137,64 +138,74 @@ const Post = ({ post }) => {
 		};
 	};
 
+	const StylesPost = styled(Box)(() => ({
+		marginTop: "16px",
+		marginBottom: "16px",
+		backgroundColor: "#fff",
+
+		".card": {
+			boxShadow: "0 0 2px 1px rgba(0,0,0,0.2) !important"
+		}
+	}));
+
 	return (
-		<Card
-			sx={{
-				borderRadius: "14px",
-				margin: 5
-			}}
-		>
-			<CardHeader
-				avatar={
-					<NavLink to={`/user/${post?.userId}`}>
+		<StylesPost>
+			<Card className="card">
+				<CardHeader
+					avatar={
+						<NavLink to={`/user/${post?.userId}`}>
+							<IconButton
+								size="small"
+								edge="end"
+								aria-label="account of current user"
+								aria-haspopup="true"
+								color="inherit"
+							>
+								<Avatar alt="Travis Howard" src={post?.avatar} />
+							</IconButton>
+						</NavLink>
+					}
+					action={
 						<IconButton
-							size="small"
-							edge="end"
-							aria-label="account of current user"
+							id="more_icon"
+							aria-controls={open ? "basic-menu" : undefined}
 							aria-haspopup="true"
-							color="inherit"
+							aria-expanded={open ? "true" : undefined}
+							onClick={handleClick}
 						>
-							<Avatar alt="Travis Howard" src={post?.avatar} />
+							<MoreVert />
 						</IconButton>
-					</NavLink>
-				}
-				action={
-					<IconButton
-						id="more_icon"
-						aria-controls={open ? "basic-menu" : undefined}
-						aria-haspopup="true"
-						aria-expanded={open ? "true" : undefined}
-						onClick={handleClick}
+					}
+					title={post?.username}
+					subheader={moment(post?.createdAt).fromNow()}
+				/>
+				{(user?._id === post?.userId || user?.admin) && (
+					<Menu
+						id="menu"
+						anchorEl={anchorEl}
+						open={open}
+						onClose={handleClose}
+						MenuListProps={{
+							"aria-labelledby": "more_icon"
+						}}
 					>
-						<MoreVert />
-					</IconButton>
-				}
-				title={post?.username}
-				subheader={moment(post?.createdAt).fromNow()}
-			/>
-			{(user?._id === post?.userId || user?.admin) && (
-				<Menu
-					id="menu"
-					anchorEl={anchorEl}
-					open={open}
-					onClose={handleClose}
-					MenuListProps={{
-						"aria-labelledby": "more_icon"
-					}}
-				>
-					<MenuItem onClick={() => handleDelete(post?._id)}>
-						<DeleteOutlined /> Remove Post
-					</MenuItem>
-					{user?._id === post?.userId && (
-						<MenuItem onClick={() => handleClickOpen("paper")}>
-							<EditOutlined /> Edit Post
+						<MenuItem onClick={() => handleDelete(post?._id)}>
+							<DeleteOutlined /> Remove Post
 						</MenuItem>
+						{user?._id === post?.userId && (
+							<MenuItem onClick={() => handleClickOpen("paper")}>
+								<EditOutlined /> Edit Post
+							</MenuItem>
+						)}
+					</Menu>
+				)}
+				<CardContent style={{ padding: 0 }}>
+					{post?.description !== "" && (
+						<Typography style={{ padding: 16 }} variant="body2">
+							{post?.description}
+						</Typography>
 					)}
-				</Menu>
-			)}
-			<CardContent style={{ padding: 0 }}>
-				{ (post?.description !== '') && (<Typography  style={{ padding: 16 }} variant="body2">{post?.description}</Typography>)}
-				{post?.img && (
+					{post?.img && (
 						<img
 							style={{
 								maxWidth: "100%",
@@ -203,149 +214,150 @@ const Post = ({ post }) => {
 							src={post?.img}
 							alt="postImg"
 						/>
-				)}
-			</CardContent>
-			<CardActions style={{ padding: 0 }}>
-				<IconButton color="primary">
-					<LikeButton isLike={isLike} handleLike={handleLike} handleUnLike={handleUnLike} />
-				</IconButton>
-				<h6>{likeNumber} likes</h6>
-				<IconButton color="primary">
-					<Message onClick={() => handleComment(post?._id)} />
-				</IconButton>
-				<h6>{post?.comments} comments</h6>
-			</CardActions>
-			{comments?.length > 0 &&
-				comments.map((comment) => (
-					<Comment
-						key={comment._id}
-						id={comment._id}
-						postId={comment.postId}
-						postUserId={comment.postUserId}
-						username={comment.username}
-						avatar={comment.avatar}
-						createdAt={comment.createdAt}
-						content={comment.content}
-					/>
-				))}
-			<InputComment post={post} user={user} />
-
-			<Dialog
-				fullScreen={fullScreen}
-				open={openDialog}
-				onClose={handleCloseDialog}
-				scroll={scroll}
-				aria-labelledby="responsive-dialog-title"
-			>
-				<DialogTitle id="responsive-dialog-title">
-					{"Update Post"}
-					<IconButton
-						aria-label="close"
-						onClick={handleCloseDialog}
-						sx={{
-							position: "absolute",
-							right: 8,
-							top: 8,
-							color: (theme) => theme.palette.grey[500]
-						}}
-					>
-						<Close />
+					)}
+				</CardContent>
+				<CardActions style={{ padding: 0 }}>
+					<IconButton color="primary">
+						<LikeButton isLike={isLike} handleLike={handleLike} handleUnLike={handleUnLike} />
 					</IconButton>
-				</DialogTitle>
-				<DialogContent dividers={scroll === "paper"}>
-					<div
-						style={{
-							display: "flex",
-							alignItems: "center",
-							marginLeft: "5px"
-						}}
-					>
+					<h6>{likeNumber} likes</h6>
+					<IconButton color="primary">
+						<Message onClick={() => handleComment(post?._id)} />
+					</IconButton>
+					<h6>{post?.comments} comments</h6>
+				</CardActions>
+				{comments?.length > 0 &&
+					comments.map((comment) => (
+						<Comment
+							key={comment._id}
+							id={comment._id}
+							postId={comment.postId}
+							postUserId={comment.postUserId}
+							username={comment.username}
+							avatar={comment.avatar}
+							createdAt={comment.createdAt}
+							content={comment.content}
+						/>
+					))}
+				<InputComment post={post} user={user} />
+
+				<Dialog
+					fullScreen={fullScreen}
+					open={openDialog}
+					onClose={handleCloseDialog}
+					scroll={scroll}
+					aria-labelledby="responsive-dialog-title"
+				>
+					<DialogTitle id="responsive-dialog-title">
+						{"Update Post"}
 						<IconButton
-							size="small"
-							edge="end"
-							aria-label="account of current user"
-							aria-haspopup="true"
-							color="inherit"
+							aria-label="close"
+							onClick={handleCloseDialog}
+							sx={{
+								position: "absolute",
+								right: 8,
+								top: 8,
+								color: (theme) => theme.palette.grey[500]
+							}}
 						>
-							<Avatar alt={user?.username} src={user?.avatar} />
+							<Close />
 						</IconButton>
-						<Typography>{user?.username}</Typography>
-					</div>
-					<TextField
-						variant="standard"
-						value={description}
-						id="post"
-						name="post"
-						onChange={(e) => setDescription(e.target.value)}
-						multiline
-						rows={10}
-						sx={{
-							width: "500px"
-						}}
-					/>
-					<div
-						style={{
-							flexDirection: "row",
-							flexWrap: "wrap",
-							justifyContent: "left",
-							display: "flex"
-						}}
-					>
-						{images && (
-							<div
-								style={{
-									marginTop: "22px",
-									marginRight: "8px",
-									position: "relative"
-								}}
+					</DialogTitle>
+					<DialogContent dividers={scroll === "paper"}>
+						<div
+							style={{
+								display: "flex",
+								alignItems: "center",
+								marginLeft: "5px"
+							}}
+						>
+							<IconButton
+								size="small"
+								edge="end"
+								aria-label="account of current user"
+								aria-haspopup="true"
+								color="inherit"
 							>
-								<IconButton
-									onClick={() => {
-										setImages("");
-									}}
-									sx={{
-										top: "-5%",
-										right: "-5%",
-										position: "absolute"
+								<Avatar alt={user?.username} src={user?.avatar} />
+							</IconButton>
+							<Typography>{user?.username}</Typography>
+						</div>
+						<TextField
+							variant="standard"
+							value={description}
+							id="post"
+							name="post"
+							onChange={(e) => setDescription(e.target.value)}
+							multiline
+							rows={10}
+							sx={{
+								width: "500px"
+							}}
+						/>
+						<div
+							style={{
+								flexDirection: "row",
+								flexWrap: "wrap",
+								justifyContent: "left",
+								display: "flex"
+							}}
+						>
+							{images && (
+								<div
+									style={{
+										marginTop: "22px",
+										marginRight: "8px",
+										position: "relative"
 									}}
 								>
-									<Close />
-								</IconButton>
-								<Img src={images} />
-							</div>
-						)}
-					</div>
-				</DialogContent>
-				<DialogActions>
-					<Stack direction="row" spacing={2}>
-						<div>
-							<Input
-								accept="image/*"
-								id="icon-button-file"
-								type="file"
-								onChange={handleFileInputChange}
-							/>
-							<Tooltip title="Attach photo" placement="top" arrow>
-								<label htmlFor="icon-button-file">
-									<IconButton color="primary" aria-label="upload picture" component="span">
-										<PhotoCamera />
+									<IconButton
+										onClick={() => {
+											setImages("");
+										}}
+										sx={{
+											top: "-5%",
+											right: "-5%",
+											position: "absolute"
+										}}
+									>
+										<Close />
 									</IconButton>
-								</label>
-							</Tooltip>
+									<Img src={images} />
+								</div>
+							)}
 						</div>
-						{description || images ? (
-							<Button autoFocus variant="contained" onClick={handleUpdatePost}>
-								Update
-							</Button>
-						) : (
-							<Button variant="contained" disabled>
-								Update
-							</Button>
-						)}
-					</Stack>
-				</DialogActions>
-			</Dialog>
-		</Card>
+					</DialogContent>
+					<DialogActions>
+						<Stack direction="row" spacing={2}>
+							<div>
+								<Input
+									accept="image/*"
+									id="icon-button-file"
+									type="file"
+									onChange={handleFileInputChange}
+								/>
+								<Tooltip title="Attach photo" placement="top" arrow>
+									<label htmlFor="icon-button-file">
+										<IconButton color="primary" aria-label="upload picture" component="span">
+											<PhotoCamera />
+										</IconButton>
+									</label>
+								</Tooltip>
+							</div>
+							{description || images ? (
+								<Button autoFocus variant="contained" onClick={handleUpdatePost}>
+									Update
+								</Button>
+							) : (
+								<Button variant="contained" disabled>
+									Update
+								</Button>
+							)}
+						</Stack>
+					</DialogActions>
+				</Dialog>
+			</Card>
+		</StylesPost>
 	);
 };
 

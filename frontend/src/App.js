@@ -7,12 +7,13 @@ import Profile from "./pages/profile";
 import ActivationEmail from "./components/ActivationEmail";
 import ForgotPassword from "./components/ForgotPassword";
 import ResetPassword from "./components/ResetPassword";
-
+import { Box } from "@mui/material";
+import { GlobalStyles } from "./styles/GlobalStyles";
 
 function App() {
 	return (
 		<Router>
-			<div className="App">
+			<Box className="App" sx={GlobalStyles}>
 				<Routes>
 					<>
 						<Route path="/" element={<Login />} />
@@ -42,7 +43,7 @@ function App() {
 						<Route path="/user/reset/:token" element={<ResetPassword />} />
 					</>
 				</Routes>
-			</div>
+			</Box>
 		</Router>
 	);
 }
