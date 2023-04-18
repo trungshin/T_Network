@@ -331,7 +331,7 @@ export const getAllPosts = async (dispatch, token, page) => {
 	try {
 		const res = await axios.get(
 			// `${APIPaths.Posts}?page=${pageNumber}&limit=4`,
-			`${APIPaths.Posts}?page=${page}&limit=2`,
+			`${APIPaths.Posts}?page=${page}&limit=10`,
 			{
 				headers: { token: `Bearer ${token}` }
 			}

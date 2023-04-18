@@ -11,7 +11,8 @@ const BoxShadow = ({ children }) => {
 					justifyContent: "center",
 					alignItems: "center",
 					width: "100%",
-					borderRadius: 2
+					borderRadius: 2,
+					margin: 1
 				}
 			}}
 		>

@@ -139,8 +139,8 @@ const Post = ({ post }) => {
 	};
 
 	const StylesPost = styled(Box)(() => ({
-		marginTop: "16px",
-		marginBottom: "16px",
+		marginTop: "8px",
+		marginBottom: "8px",
 		backgroundColor: "#fff",
 
 		".card": {
