@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Card, CardHeader, IconButton, Avatar, Stack, Box, styled, Badge, Typography } from "@mui/material";
+import { Card, CardHeader, IconButton, Avatar, Stack, Box, styled, Badge, Typography, Button } from "@mui/material";
 import FollowBtn from "./FollowBtn";
 // import Avatar from "@mui/material/Avatar";
 import { useSelector, useDispatch } from "react-redux";
@@ -99,11 +99,11 @@ const UserCard = ({ user }) => {
 										{user.username}
 									</Typography>
 								</Link>
-
-								<Stack flexDirection="row" marginRight={1} justifyContent="center" alignItems="center">
+								<FollowBtn user={user}/>
+								{/* <Stack flexDirection="row" marginRight={1} justifyContent="center" alignItems="center">
 									<FiberManualRecordIcon sx={{ fontSize: 10 }} />
-									<Typography>Follow</Typography>
-								</Stack>
+									<FollowBtn user={user}/>
+								</Stack> */}
 							</Stack>
 
 							<Link to={`/user/${user._id}`} className="link">
@@ -111,12 +111,14 @@ const UserCard = ({ user }) => {
 							</Link>
 						</Stack>
 					</Stack>
-
-					<Stack>
-						<IconButton>
-							<CloseIcon />
-						</IconButton>
-					</Stack>
+					
+					{currentUser?.admin && (
+						<Stack>
+							<IconButton>
+								<CloseIcon />
+							</IconButton>
+						</Stack>
+					)}
 				</Stack>
 			)}
 		</>

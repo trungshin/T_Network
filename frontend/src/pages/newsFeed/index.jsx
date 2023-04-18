@@ -7,9 +7,8 @@ import Rightbar from "../../components/Rightbar";
 import CreatePost from "../../components/Posts/CreatePosts";
 import { getAllPosts, getAllUsers } from "../../redux/apiRequests";
 import Post from "../../components/Posts/Post";
-import NewspaperOutlinedIcon from "@mui/icons-material/NewspaperOutlined";
 import { Link } from "react-router-dom";
-import Person2OutlinedIcon from "@mui/icons-material/Person2Outlined";
+import {PersonOutlined, NewspaperOutlined} from '@mui/icons-material';
 import UserCard from "../../components/UserCard";
 
 const Newsfeed = () => {
@@ -189,8 +188,8 @@ export const SideBar = () => {
 	const user = useSelector((state) => state.user.user?.currentUser);
 
 	const dummySidebar = [
-		{ id: 1, name: "Newsfeed", icon: <NewspaperOutlinedIcon />, link: "/newsfeed" },
-		{ id: 1, name: "Profile", icon: <Person2OutlinedIcon />, link: `/user/${user?._id}` }
+		{ id: 1, name: "Newsfeed", icon: <NewspaperOutlined />, link: "/newsfeed" },
+		{ id: 1, name: "Profile", icon: <PersonOutlined />, link: `/user/${user?._id}` }
 	];
 
 	return (
@@ -270,7 +269,7 @@ export const RightBar = () => {
 			<Box className="section">
 				<Box sx={{ marginBottom: 1, paddingLeft: 1 }}>
 					<Typography fontSize={18} color="#666" fontWeight={500}>
-						Bạn có thể quen biết những người này
+						Discover people
 					</Typography>
 				</Box>
 

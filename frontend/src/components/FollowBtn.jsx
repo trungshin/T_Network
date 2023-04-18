@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { Button } from "@mui/material";
 import { followUser, unFollowUser } from "../redux/apiRequests";
 
-const FollowBtn = ({ user, marginProps }) => {
+const FollowBtn = ({ user }) => {
 	const currentUser = useSelector((state) => state.user.user?.currentUser);
 	const [followed, setFollowed] = useState(false);
 	const dispatch = useDispatch();
@@ -35,11 +35,11 @@ const FollowBtn = ({ user, marginProps }) => {
 	return (
 		<>
 			{followed ? (
-				<Button variant="outlined" style={{ margin: marginProps }} onClick={handleUnFollow} color="error">
+				<Button variant="outlined" onClick={handleUnFollow} color="error">
 					UnFollow
 				</Button>
 			) : (
-				<Button variant="outlined" style={{ margin: marginProps }} onClick={handleFollow}>
+				<Button variant="outlined" onClick={handleFollow}>
 					Follow
 				</Button>
 			)}
