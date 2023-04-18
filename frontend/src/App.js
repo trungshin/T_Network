@@ -8,6 +8,7 @@ import ActivationEmail from "./components/ActivationEmail";
 import ForgotPassword from "./components/ForgotPassword";
 import ResetPassword from "./components/ResetPassword";
 
+
 function App() {
 	return (
 		<Router>
