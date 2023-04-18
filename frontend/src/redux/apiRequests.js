@@ -278,18 +278,12 @@ export const createPost = async (dispatch, token, post, postToggle) => {
 	}
 };
 
-export const updatePost = async (dispatch, token, id, newPost, userId) => {
+export const updatePost = async (dispatch, token, id, newPost) => {
 	dispatch(updatePostStart());
-	// alert(userId);
-	// alert(newPost);
-	alert(newPost);
-	// alert(id);
 	try {
 		const res = await axios.put(`${APIPaths.Posts}/${id}`, newPost, {
 			headers: { token: `Bearer ${token}` },
-			data: { userId: userId }
 		});
-		alert("hello");
 		dispatch(updatePostSuccess(res.data));
 	} catch (err) {
 		console.log(err);

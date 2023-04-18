@@ -38,7 +38,7 @@ const Newsfeed = () => {
 	//infinite scroll
 
 	const scrollToEnd = () => {
-		// console.log("this is the end of the page:", page);
+		console.log("this is the end of the page:", page);
 		// console.log("next", !next, next);
 
 		setPage(page + 1);
@@ -50,6 +50,10 @@ const Newsfeed = () => {
 		// if the page has reached to the bottom
 
 		const { scrollHeight, clientHeight, scrollTop } = document.documentElement;
+
+		console.log("scrollHeight", scrollHeight);
+		console.log("clientHeight", clientHeight);
+		console.log("scrollTop", scrollTop);
 
 		if (scrollTop + clientHeight >= scrollHeight - 1) {
 			scrollToEnd();

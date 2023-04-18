@@ -22,7 +22,7 @@ import {
 	Stack,
 	Tooltip
 } from "@mui/material";
-import { MoreVert, DeleteOutlined, Message } from "@mui/icons-material";
+import { MoreVert, DeleteOutlined, Message, EditOutlined } from "@mui/icons-material";
 import { likePost, unLikePost, deletePost, getUserComment } from "../../redux/apiRequests";
 import LikeButton from "../LikeButton";
 import Comment from "../Comment";
@@ -30,6 +30,7 @@ import InputComment from "../InputComment";
 import { useTheme, styled } from "@mui/material/styles";
 import { Close, PhotoCamera } from "@mui/icons-material";
 import { updatePost } from "../../redux/apiRequests";
+import { red } from "@mui/material/colors";
 
 const Input = styled("input")({
 	display: "none"
@@ -104,21 +105,20 @@ const Post = ({ post }) => {
 		setOpenDialog(false);
 	};
 
-	const handleUpdatePost = (e) => {
-		e.preventDefault();
+	const handleUpdatePost = () => {
 		if (!images) {
 			const newPost = {
 				userId: user?._id,
 				description: description
 			};
-			updatePost(dispatch, user?.accessToken, post?._id, newPost, user?._id);
+			updatePost(dispatch, user?.accessToken, post?._id, newPost);
 		} else if (images) {
 			const newPost = {
 				userId: user?._id,
 				description: description,
 				img: images
 			};
-			updatePost(dispatch, user?.accessToken, post?._id, newPost, user?._id);
+			updatePost(dispatch, user?.accessToken, post?._id, newPost);
 		}
 		setImages("");
 		handleClose();
@@ -187,28 +187,25 @@ const Post = ({ post }) => {
 					</MenuItem>
 					{user?._id === post?.userId && (
 						<MenuItem onClick={() => handleClickOpen("paper")}>
-							<DeleteOutlined /> Edit Post
+							<EditOutlined /> Edit Post
 						</MenuItem>
 					)}
 				</Menu>
 			)}
-			<CardContent>
-				<Typography variant="body2">{post?.description}</Typography>
+			<CardContent style={{ padding: 0 }}>
+				{ (post?.description !== '') && (<Typography  style={{ padding: 16 }} variant="body2">{post?.description}</Typography>)}
 				{post?.img && (
-					<div>
 						<img
 							style={{
-								marginTop: "1rem",
 								maxWidth: "100%",
 								objectFit: "contain"
 							}}
 							src={post?.img}
 							alt="postImg"
 						/>
-					</div>
 				)}
 			</CardContent>
-			<CardActions style={{ paddingBottom: 0 }}>
+			<CardActions style={{ padding: 0 }}>
 				<IconButton color="primary">
 					<LikeButton isLike={isLike} handleLike={handleLike} handleUnLike={handleUnLike} />
 				</IconButton>
@@ -336,7 +333,7 @@ const Post = ({ post }) => {
 								</label>
 							</Tooltip>
 						</div>
-						{description || images.length > 0 ? (
+						{description || images ? (
 							<Button autoFocus variant="contained" onClick={handleUpdatePost}>
 								Update
 							</Button>

@@ -20,7 +20,7 @@ app.use(helmet());
 app.use(morgan("common"));
 app.use(
 	cors({
-		origin: "https://t-social-network.vercel.app"
+		origin: "http://localhost:3000"
 	})
 );
 app.use(cookieParser());

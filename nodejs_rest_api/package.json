@@ -3,7 +3,7 @@
 	"version": "1.0.0",
 	"description": "",
 	"type": "module",
-	"main": "index.js",
+	"main": "app.js",
 	"scripts": {
 		"start": "nodemon --experimental-specifier-resolution=node app.js",
 		"format": "yarn prettier --write ."

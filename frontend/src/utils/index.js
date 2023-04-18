@@ -1,4 +1,4 @@
-export const APIBase = "https://t-network-backend.vercel.app/api";
+export const APIBase = "http://localhost:8080/api";
 
 export const APIPaths = {
 	Auth: `${APIBase}/auth`,
