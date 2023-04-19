@@ -31,7 +31,6 @@ import InputComment from "../InputComment";
 import { useTheme, styled } from "@mui/material/styles";
 import { Close, PhotoCamera } from "@mui/icons-material";
 import { updatePost } from "../../redux/apiRequests";
-import { red } from "@mui/material/colors";
 
 const Input = styled("input")({
 	display: "none"
@@ -167,6 +166,7 @@ const Post = ({ post }) => {
 						</NavLink>
 					}
 					action={
+<<<<<<< HEAD
 						<React.Fragment>
 							<Box
 								sx={{
@@ -239,6 +239,17 @@ const Post = ({ post }) => {
 								)}
 							</Menu>
 						</React.Fragment>
+=======
+						<IconButton
+							id="more_icon"
+							aria-controls={open ? "menu" : undefined}
+							aria-haspopup="true"
+							aria-expanded={open ? "true" : undefined}
+							onClick={handleClick}
+						>
+							<MoreVert />
+						</IconButton>
+>>>>>>> f9e52828be1d67c280483a7ae5942069dd394dfd
 					}
 					title={post?.username}
 					subheader={moment(post?.createdAt).fromNow()}

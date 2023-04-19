@@ -1,14 +1,40 @@
 import React, { useEffect, useState } from "react";
-import { Card, CardHeader, IconButton, Avatar, Stack, Box, styled, Badge, Typography, Button } from "@mui/material";
+import { IconButton, Avatar, Stack, Box, styled, Badge, Typography } from "@mui/material";
 import FollowBtn from "./FollowBtn";
-// import Avatar from "@mui/material/Avatar";
 import { useSelector, useDispatch } from "react-redux";
-import { Link, NavLink } from "react-router-dom";
-// import { deleteComment } from "../redux/apiRequests";
+import { Link } from "react-router-dom";
 import moment from "moment";
 import { deleteUser } from "../redux/apiRequests";
-import FiberManualRecordIcon from "@mui/icons-material/FiberManualRecord";
-import CloseIcon from "@mui/icons-material/Close";
+import { Close } from "@mui/icons-material";
+
+const StyledBadge = styled(Badge)(({ theme }) => ({
+	"& .MuiBadge-badge": {
+		backgroundColor: "#44b700",
+		color: "#44b700",
+		boxShadow: `0 0 0 2px ${theme.palette.background.paper}`,
+		"&::after": {
+			position: "absolute",
+			top: 0,
+			left: 0,
+			width: "100%",
+			height: "100%",
+			borderRadius: "50%",
+			animation: "ripple 1.2s infinite ease-in-out",
+			border: "1px solid currentColor",
+			content: '""'
+		}
+	},
+	"@keyframes ripple": {
+		"0%": {
+			transform: "scale(.8)",
+			opacity: 1
+		},
+		"100%": {
+			transform: "scale(2.4)",
+			opacity: 0
+		}
+	}
+}));
 
 const UserCard = ({ user }) => {
 	const currentUser = useSelector((state) => state.user.user?.currentUser);
@@ -22,44 +48,6 @@ const UserCard = ({ user }) => {
 	return (
 		<>
 			{currentUser?._id === user?._id ? null : (
-				// <Card style={{ margin: 5, height: 66 }}>
-				// 	<CardHeader
-				// 		style={{ padding: 0 }}
-				// 		avatar={
-				// 			<NavLink to={`/user/${user._id}`}>
-				// 				<IconButton
-				// 					size="small"
-				// 					edge="end"
-				// 					aria-label="account of current user"
-				// 					aria-haspopup="true"
-				// 					color="inherit"
-				// 				>
-				// 					<Avatar alt="Remy Sharp" src={user.avatar} />
-				// 				</IconButton>
-				// 			</NavLink>
-				// 		}
-				// 		action={
-				// 			<>
-				// 				{currentUser?.admin ? (
-				// 					<Stack>
-				// 						<IconButton
-				// 							style={{ marginLeft: 88, padding: 0, width: 24 }}
-				// 							onClick={() => handleDeleteUser(user?._id)}
-				// 						>
-				// 							<Close />
-				// 						</IconButton>
-				//						<FollowBtn user={user} marginProps={"0 15px 15px 15px"} />
-				// 					</Stack>
-				// 				) : (
-				// 					<FollowBtn user={user} marginProps={15} />
-				// 				)}
-				// 			</>
-				// 		}
-				// 		title={user.username}
-				// 		subheader={moment(user.createdAt).fromNow()}
-				// 	/>
-				// </Card>
-
 				<Stack
 					sx={{
 						flexDirection: "row",
@@ -99,11 +87,7 @@ const UserCard = ({ user }) => {
 										{user.username}
 									</Typography>
 								</Link>
-								<FollowBtn user={user}/>
-								{/* <Stack flexDirection="row" marginRight={1} justifyContent="center" alignItems="center">
-									<FiberManualRecordIcon sx={{ fontSize: 10 }} />
-									<FollowBtn user={user}/>
-								</Stack> */}
+								<FollowBtn user={user} />
 							</Stack>
 
 							<Link to={`/user/${user._id}`} className="link">
@@ -111,11 +95,11 @@ const UserCard = ({ user }) => {
 							</Link>
 						</Stack>
 					</Stack>
-					
+
 					{currentUser?.admin && (
 						<Stack>
-							<IconButton>
-								<CloseIcon />
+							<IconButton onClick={() => handleDeleteUser(user?._id)}>
+								<Close />
 							</IconButton>
 						</Stack>
 					)}
@@ -126,32 +110,3 @@ const UserCard = ({ user }) => {
 };
 
 export default UserCard;
-
-const StyledBadge = styled(Badge)(({ theme }) => ({
-	"& .MuiBadge-badge": {
-		backgroundColor: "#44b700",
-		color: "#44b700",
-		boxShadow: `0 0 0 2px ${theme.palette.background.paper}`,
-		"&::after": {
-			position: "absolute",
-			top: 0,
-			left: 0,
-			width: "100%",
-			height: "100%",
-			borderRadius: "50%",
-			animation: "ripple 1.2s infinite ease-in-out",
-			border: "1px solid currentColor",
-			content: '""'
-		}
-	},
-	"@keyframes ripple": {
-		"0%": {
-			transform: "scale(.8)",
-			opacity: 1
-		},
-		"100%": {
-			transform: "scale(2.4)",
-			opacity: 0
-		}
-	}
-}));

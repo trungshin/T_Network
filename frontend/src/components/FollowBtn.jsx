@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { Button } from "@mui/material";
+import { Typography } from "@mui/material";
 import { followUser, unFollowUser } from "../redux/apiRequests";
+import { FiberManualRecord } from "@mui/icons-material";
 
 const FollowBtn = ({ user }) => {
 	const currentUser = useSelector((state) => state.user.user?.currentUser);
@@ -35,13 +36,29 @@ const FollowBtn = ({ user }) => {
 	return (
 		<>
 			{followed ? (
-				<Button variant="outlined" onClick={handleUnFollow} color="error">
+				<Typography
+					variant="outlined"
+					textTransform="uppercase"
+					fontWeight={500}
+					fontSize={14}
+					color="crimson"
+					onClick={handleUnFollow}
+				>
+					<FiberManualRecord sx={{ fontSize: 10, marginRight: "5px" }} />
 					UnFollow
-				</Button>
+				</Typography>
 			) : (
-				<Button variant="outlined" onClick={handleFollow}>
+				<Typography
+					variant="outlined"
+					textTransform="uppercase"
+					fontWeight={500}
+					fontSize={14}
+					color="dodgerblue"
+					onClick={handleFollow}
+				>
+					<FiberManualRecord sx={{ fontSize: 10, marginRight: "5px" }} />
 					Follow
-				</Button>
+				</Typography>
 			)}
 		</>
 	);
