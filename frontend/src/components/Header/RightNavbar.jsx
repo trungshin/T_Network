@@ -1,60 +1,30 @@
+import React, { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { Link, useNavigate } from "react-router-dom";
 import {
 	Avatar,
 	Box,
-	Container,
 	Divider,
-	Grid,
 	IconButton,
 	ListItemIcon,
 	Menu,
 	MenuItem,
-	Popover,
-	Popper,
 	Stack,
 	Tooltip,
 	Typography
 } from "@mui/material";
-import React, { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
-import ChatBubbleOutlineOutlinedIcon from "@mui/icons-material/ChatBubbleOutlineOutlined";
-import { Logout, PersonAdd, Settings } from "@mui/icons-material";
-import FiberManualRecordIcon from "@mui/icons-material/FiberManualRecord";
-import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
-import NotificationsNoneIcon from "@mui/icons-material/NotificationsNone";
-import { logOutUser } from "../redux/apiRequests";
-import { useDispatch, useSelector } from "react-redux";
-import CloseIcon from "@mui/icons-material/Close";
+import {
+	Logout,
+	PersonAdd,
+	Settings,
+	ChatBubbleOutlineOutlined,
+	FiberManualRecord,
+	MoreHoriz,
+	NotificationsNone
+} from "@mui/icons-material";
+import { logOutUser } from "../../redux/apiRequests";
 
-const Navbar_v2 = () => {
-	return (
-		<Box sx={{ paddingTop: 1, paddingBottom: 1 }}>
-			<Container maxWidth="xl">
-				<Grid container>
-					<Grid item xs>
-						<Stack justifyContent="center" alignItems="start" width="100%" height="100%">
-							<Logo />
-						</Stack>
-					</Grid>
-					<Grid item xs={5}>
-						<Stack justifyContent="center" alignItems="center" width="100%" height="100%">
-							<Search />
-						</Stack>
-					</Grid>
-					<Grid item xs>
-						<Stack justifyContent="center" alignItems="end" width="100%" height="100%">
-							<RightNavbar />
-						</Stack>
-					</Grid>
-				</Grid>
-			</Container>
-		</Box>
-	);
-};
-
-export default Navbar_v2;
-
-export const RightNavbar = () => {
+const RightNavbar = () => {
 	// Message
 	const Message = () => {
 		const [anchorEl, setAnchorEl] = React.useState(null);
@@ -69,7 +39,7 @@ export const RightNavbar = () => {
 		const dummy = [{ id: 1 }, { id: 2 }, { id: 3 }, { id: 3 }, { id: 3 }, { id: 3 }, { id: 3 }];
 
 		return (
-			<React.Fragment>
+			<>
 				<Box
 					sx={{
 						display: "flex",
@@ -91,7 +61,7 @@ export const RightNavbar = () => {
 							aria-haspopup="true"
 							aria-expanded={open ? "true" : undefined}
 						>
-							<ChatBubbleOutlineOutlinedIcon className="icon-chat" />
+							<ChatBubbleOutlineOutlined className="icon-chat" />
 						</IconButton>
 					</Tooltip>
 				</Box>
@@ -141,7 +111,7 @@ export const RightNavbar = () => {
 							Chat
 						</Typography>
 						<IconButton>
-							<MoreHorizIcon />
+							<MoreHoriz />
 						</IconButton>
 					</Stack>
 
@@ -154,7 +124,7 @@ export const RightNavbar = () => {
 											<Avatar alt="" src="" sx={{ width: 60, height: 60 }} />
 										</Stack>
 										<Stack flexDirection="column">
-											<Typography>Hà Văn Được</Typography>
+											<Typography>Ha Van Duoc</Typography>
 											<Stack
 												flexDirection="row"
 												sx={{
@@ -164,13 +134,13 @@ export const RightNavbar = () => {
 													}
 												}}
 											>
-												<Typography>Bạn đã gửi 1 ảnh</Typography>
+												<Typography>You have sent 1 photo</Typography>
 
 												<Stack flexDirection="row" justifyContent="center" alignItems="center">
-													<FiberManualRecordIcon
+													<FiberManualRecord
 														sx={{ fontSize: 4, marginLeft: 1, marginRight: 1 }}
 													/>
-													<Typography> 1 giờ</Typography>
+													<Typography> 1 hour ago</Typography>
 												</Stack>
 											</Stack>
 										</Stack>
@@ -181,21 +151,21 @@ export const RightNavbar = () => {
 					})}
 
 					<Stack justifyContent="center" alignItems="center">
-						<Typography color="dodgerblue" fontWeight={500} sx={{ cursor: "pointer", marginTop: 1 }}>
-							Xem tất cả
+						<Typography fontWeight={500} sx={{ cursor: "pointer", marginTop: 1, color: "dodgerblue" }}>
+							See all
 						</Typography>
 					</Stack>
 				</Menu>
-			</React.Fragment>
+			</>
 		);
 	};
 
 	// Notification
 	const Notification = () => {
-		const [anchorEl, setAnchorEl] = React.useState(null);
+		const [anchorEl, setAnchorEl] = useState(null);
 		const open = Boolean(anchorEl);
-		const handleClick = (event) => {
-			setAnchorEl(event.currentTarget);
+		const handleClick = (e) => {
+			setAnchorEl(e.currentTarget);
 		};
 		const handleClose = () => {
 			setAnchorEl(null);
@@ -204,7 +174,7 @@ export const RightNavbar = () => {
 		const dummy = [{ id: 1 }, { id: 2 }, { id: 3 }];
 
 		return (
-			<React.Fragment>
+			<>
 				<Box
 					sx={{
 						display: "flex",
@@ -226,7 +196,7 @@ export const RightNavbar = () => {
 							aria-haspopup="true"
 							aria-expanded={open ? "true" : undefined}
 						>
-							<NotificationsNoneIcon className="icon-chat" />
+							<NotificationsNone className="icon-chat" />
 						</IconButton>
 					</Tooltip>
 				</Box>
@@ -276,7 +246,7 @@ export const RightNavbar = () => {
 							Notification
 						</Typography>
 						<IconButton>
-							<MoreHorizIcon />
+							<MoreHoriz />
 						</IconButton>
 					</Stack>
 
@@ -310,7 +280,7 @@ export const RightNavbar = () => {
 													}
 												}}
 											>
-												<Typography>lsjkfksdjflsdfklsjkf</Typography>
+												<Typography>Lorem ipsum dolor sit amet conse</Typography>
 											</Stack>
 										</Stack>
 									</Stack>
@@ -320,25 +290,25 @@ export const RightNavbar = () => {
 					})}
 
 					<Stack justifyContent="center" alignItems="center">
-						<Typography color="dodgerblue" fontWeight={500} sx={{ cursor: "pointer", marginTop: 1 }}>
-							Xem tất cả
+						<Typography fontWeight={500} sx={{ cursor: "pointer", marginTop: 1, color: "dodgerblue" }}>
+							See all
 						</Typography>
 					</Stack>
 				</Menu>
-			</React.Fragment>
+			</>
 		);
 	};
 
 	// Account Menu
 	const AccountMenu = () => {
-		const [anchorEl, setAnchorEl] = React.useState(null);
+		const [anchorEl, setAnchorEl] = useState(null);
 		const user = useSelector((state) => state.user.user?.currentUser);
 		const open = Boolean(anchorEl);
 		const dispatch = useDispatch();
 		const navigate = useNavigate();
 
-		const handleClick = (event) => {
-			setAnchorEl(event.currentTarget);
+		const handleClick = (e) => {
+			setAnchorEl(e.currentTarget);
 		};
 
 		const handleClose = () => {
@@ -350,7 +320,7 @@ export const RightNavbar = () => {
 		};
 
 		return (
-			<React.Fragment>
+			<>
 				<Box sx={{ display: "flex", alignItems: "center", textAlign: "center" }}>
 					<Tooltip title="Account settings">
 						<IconButton
@@ -426,7 +396,7 @@ export const RightNavbar = () => {
 						Logout
 					</MenuItem>
 				</Menu>
-			</React.Fragment>
+			</>
 		);
 	};
 
@@ -438,157 +408,4 @@ export const RightNavbar = () => {
 		</Stack>
 	);
 };
-
-export const Logo = () => {
-	return (
-		<Stack justifyContent="center" alignItems="center">
-			<Link to="/newsfeed" className="link">
-				<Typography fontSize={35} fontWeight={500} color="var(--color-main)" sx={{ cursor: "pointer" }}>
-					T-Network
-				</Typography>
-			</Link>
-		</Stack>
-	);
-};
-
-export const Search = () => {
-	const [result, setResult] = useState([]);
-	const [anchorEl, setAnchorEl] = React.useState(null);
-	const open = Boolean(anchorEl);
-	const handleFocus = (event) => {
-		console.log("focus");
-		setAnchorEl(anchorEl ? null : event.currentTarget);
-	};
-	const handleClose = () => {
-		setAnchorEl(null);
-	};
-
-	return (
-		<Box
-			sx={{
-				position: "relative",
-				backgroundColor: "#f0f2f5",
-				padding: "5px",
-				borderRadius: 15,
-				boxShadow: "0 1px 1px rgba(0,0,0,0.2)",
-
-				":hover": {
-					".icon-search svg": {
-						color: "var(--color-main)"
-					}
-				},
-
-				".icon-search": {
-					position: "absolute",
-					left: 0,
-					top: 0,
-					width: 42,
-					height: 42,
-					display: "flex",
-					justifyContent: "center",
-					alignItems: "center",
-					cursor: "pointer",
-					backgroundColor: "transparent",
-					paddingLeft: 1,
-					paddingRight: 1,
-
-					"& svg": {
-						color: "#666"
-					}
-				},
-
-				".input input": {
-					border: "none",
-					outline: "none",
-					width: 480,
-					height: 30,
-					lineHeight: 25,
-					fontSize: 17,
-					paddingLeft: "45px",
-					paddingRight: 3,
-					backgroundColor: "transparent",
-
-					"::placeholder": {
-						fontSize: 14
-					}
-				}
-			}}
-		>
-			<Stack flexDirection="row" justifyContent="center" alignItems="center">
-				<Box className="icon-search">
-					<SearchOutlinedIcon />
-				</Box>
-
-				<Box className="input">
-					<input placeholder="Tìm kiếm trên T-Network" onFocus={handleFocus} />
-				</Box>
-
-				<Popper
-					sx={{
-						backgroundColor: "#fff",
-						zIndex: 100,
-						boxShadow: "0 0 3px 1px rgba(0,0,0,0.2)",
-						width: 550,
-						borderRadius: 1
-					}}
-					anchorEl={anchorEl}
-					id="account-menu-search"
-					open={open}
-					onClose={handleClose}
-					onClick={handleClose}
-					transformOrigin={{ horizontal: "right", vertical: "top" }}
-					anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
-				>
-					<Stack
-						flexDirection="row"
-						justifyContent="space-between"
-						alignItems="center"
-						sx={{ paddingLeft: 2, paddingTop: 2, paddingRight: 2, paddingBottom: 1 }}
-					>
-						<Typography fontWeight={500}>Tìm kiếm gần đây</Typography>
-						<Typography color="dodgerblue" sx={{ cursor: "pointer" }}>
-							Chỉnh sửa
-						</Typography>
-					</Stack>
-
-					<MenuItem
-						onClick={handleClose}
-						sx={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}
-					>
-						<Typography>Profile</Typography>
-						<IconButton>
-							<CloseIcon fontSize="small" />
-						</IconButton>
-					</MenuItem>
-					<MenuItem
-						onClick={handleClose}
-						sx={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}
-					>
-						<Typography>Profile</Typography>
-						<IconButton>
-							<CloseIcon fontSize="small" />
-						</IconButton>
-					</MenuItem>
-					<MenuItem
-						onClick={handleClose}
-						sx={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}
-					>
-						<Typography>Profile</Typography>
-						<IconButton>
-							<CloseIcon fontSize="small" />
-						</IconButton>
-					</MenuItem>
-					<MenuItem
-						onClick={handleClose}
-						sx={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}
-					>
-						<Typography>Profile</Typography>
-						<IconButton>
-							<CloseIcon fontSize="small" />
-						</IconButton>
-					</MenuItem>
-				</Popper>
-			</Stack>
-		</Box>
-	);
-};
+export default RightNavbar;

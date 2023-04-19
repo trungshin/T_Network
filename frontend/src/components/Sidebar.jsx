@@ -1,122 +1,78 @@
 import React from "react";
-import { NavLink } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
-import { styled } from "@mui/material/styles";
-import { ListItemText, ListItemIcon, ListItemButton, List, Tooltip } from "@mui/material";
-import MuiDrawer from "@mui/material/Drawer";
-import { Person, Feed } from "@mui/icons-material";
-import { sideBarToggle } from "../redux/navigateSlice";
+import { useSelector } from "react-redux";
+import { Link } from "react-router-dom";
+import { Box, Stack, Typography } from "@mui/material";
+import { PersonOutlined, NewspaperOutlined } from "@mui/icons-material";
 
-const drawerWidth = 180;
-
-const openedMixin = (theme) => ({
-	width: drawerWidth,
-	transition: theme.transitions.create("width", {
-		easing: theme.transitions.easing.sharp,
-		duration: theme.transitions.duration.enteringScreen
-	}),
-	overflowX: "hidden"
-});
-
-const closedMixin = (theme) => ({
-	transition: theme.transitions.create("width", {
-		easing: theme.transitions.easing.sharp,
-		duration: theme.transitions.duration.leavingScreen
-	}),
-	overflowX: "hidden",
-	width: `calc(${theme.spacing(7)} + 10px)`,
-	[theme.breakpoints.up("sm")]: {
-		width: `calc(${theme.spacing(8)} + 10px)`
-	}
-});
-
-const DrawerHeader = styled("div")(({ theme }) => ({
-	display: "flex",
-	alignItems: "center",
-	justifyContent: "flex-end",
-	padding: theme.spacing(0, 1),
-	// necessary for content to be below app bar
-	...theme.mixins.toolbar
-}));
-
-const Drawer = styled(MuiDrawer, {
-	shouldForwardProp: (prop) => prop !== "open"
-})(({ theme, open }) => ({
-	width: drawerWidth,
-	flexShrink: 0,
-	whiteSpace: "nowrap",
-	boxSizing: "border-box",
-	...(open && {
-		...openedMixin(theme),
-		"& .MuiDrawer-paper": openedMixin(theme)
-	}),
-	...(!open && {
-		...closedMixin(theme),
-		"& .MuiDrawer-paper": closedMixin(theme)
-	})
-}));
-
-const Sidebar = () => {
+const SideBar = () => {
 	const user = useSelector((state) => state.user.user?.currentUser);
 
-	const menuItems = [
-		{
-			name: "Newsfeed",
-			icon: <Feed />,
-			path: "/newsfeed"
-		},
-		{
-			name: "Profile",
-			icon: <Person />,
-			path: `/user/${user?._id}`
-		}
+	const dummySidebar = [
+		{ id: 1, name: "Newsfeed", icon: <NewspaperOutlined />, link: "/newsfeed" },
+		{ id: 1, name: "Profile", icon: <PersonOutlined />, link: `/user/${user?._id}` }
 	];
 
-	const dispatch = useDispatch();
-	const isOpen = useSelector((state) => state.nav.sidebar.open);
-	const toggleDrawer = () => {
-		dispatch(sideBarToggle(false));
-	};
-
 	return (
-		<Drawer
-			variant="permanent"
-			open={isOpen}
-			onClose={toggleDrawer}
+		<Box
 			sx={{
-				boxShadow: "0 0 6px hsl(210 14% 90%)"
+				position: "sticky",
+				top: 80,
+				left: 0,
+				width: "100%",
+				padding: 2,
+
+				"& svg": {
+					color: "#666"
+				}
 			}}
 		>
-			<DrawerHeader />
-			{menuItems.map((list, index) => (
-				<List key={index}>
-					<NavLink to={list.path} style={{ textDecoration: "none", color: "unset" }}>
-						<Tooltip title={list.name} placement="right" arrow>
-							<ListItemButton
-								key={list.name}
+			<Stack flexDirection="column">
+				{dummySidebar.map((item, index) => {
+					return (
+						<Link to={item.link} key={index} className="link">
+							<Stack
+								flexDirection="row"
+								justifyContent="start"
+								alignItems="center"
 								sx={{
-									minHeight: 48,
-									justifyContent: isOpen ? "initial" : "center"
+									height: 50,
+									padding: 1,
+									borderRadius: 1,
+
+									":hover": {
+										backgroundColor: "#ddd"
+									}
 								}}
 							>
-								<ListItemIcon
+								<Box
 									sx={{
-										minWidth: 0,
-										mr: isOpen ? 3 : "auto",
+										display: "flex",
+										alignContent: "center",
 										justifyContent: "center",
-										color: "#1976d2"
+										marginRight: 1,
+										color: "#666"
 									}}
 								>
-									{list.icon}
-								</ListItemIcon>
-								<ListItemText primary={list.name} sx={{ opacity: isOpen ? 1 : 0 }} />
-							</ListItemButton>
-						</Tooltip>
-					</NavLink>
-				</List>
-			))}
-		</Drawer>
+									{item.icon}
+								</Box>
+								<Box
+									sx={{
+										display: "flex",
+										alignContent: "center",
+										justifyContent: "center",
+										color: "#666",
+										textDecoration: "none"
+									}}
+								>
+									<Typography>{item.name}</Typography>
+								</Box>
+							</Stack>
+						</Link>
+					);
+				})}
+			</Stack>
+		</Box>
 	);
 };
 
-export default Sidebar;
+export default SideBar;

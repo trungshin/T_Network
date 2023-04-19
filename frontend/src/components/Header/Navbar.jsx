@@ -6,8 +6,8 @@ import { Toolbar, IconButton, Avatar, Menu, MenuItem, Tooltip } from "@mui/mater
 import MuiAppBar from "@mui/material/AppBar";
 import MenuIcon from "@mui/icons-material/Menu";
 import ListItemIcon from "@mui/material/ListItemIcon";
-import { sideBarToggle } from "../redux/navigateSlice";
-import { logOutUser } from "../redux/apiRequests";
+import { sideBarToggle } from "../../redux/navigateSlice";
+import { logOutUser } from "../../redux/apiRequests";
 import SearchUser from "./Search";
 import Logout from "@mui/icons-material/Logout";
 
