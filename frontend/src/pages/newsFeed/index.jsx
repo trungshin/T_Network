@@ -8,8 +8,9 @@ import CreatePost from "../../components/Posts/CreatePosts";
 import { getAllPosts, getAllUsers } from "../../redux/apiRequests";
 import Post from "../../components/Posts/Post";
 import { Link } from "react-router-dom";
-import {PersonOutlined, NewspaperOutlined} from '@mui/icons-material';
+import { PersonOutlined, NewspaperOutlined } from "@mui/icons-material";
 import UserCard from "../../components/UserCard";
+import Navbar_v2 from "../../components/Navbar_v2";
 
 const Newsfeed = () => {
 	const { posts, pending } = useSelector((state) => state.post.allPosts);
@@ -173,13 +174,28 @@ export default Newsfeed;
 
 export const HomeLayout = styled(Box)(() => ({}));
 
-export const Body = styled(Box)(() => ({}));
+export const Body = styled(Box)(() => ({
+	position: "relative",
+	top: 0
+}));
 
 export const Header = () => {
 	return (
-		<Box sx={{ marginBottom: 2, position: "sticky", top: 0, left: 0 }}>
-			<Navbar />
-			<CssBaseline />
+		<Box
+			sx={{
+				marginBottom: 2,
+				position: "sticky",
+				top: 0,
+				left: 0,
+				backgroundColor: "#fff",
+				zIndex: 2,
+				boxShadow: "0 3px 5px rgba(0,0,0,0.2)"
+			}}
+		>
+			{/* <Navbar />
+			<CssBaseline /> */}
+
+			<Navbar_v2 />
 		</Box>
 	);
 };
