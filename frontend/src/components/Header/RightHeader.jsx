@@ -24,7 +24,7 @@ import {
 } from "@mui/icons-material";
 import { logOutUser } from "../../redux/apiRequests";
 
-const RightNavbar = () => {
+const RightHeader = () => {
 	// Message
 	const Message = () => {
 		const [anchorEl, setAnchorEl] = React.useState(null);
@@ -408,4 +408,4 @@ const RightNavbar = () => {
 		</Stack>
 	);
 };
-export default RightNavbar;
+export default RightHeader;

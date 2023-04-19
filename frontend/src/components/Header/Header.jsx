@@ -3,7 +3,7 @@ import { useSelector } from "react-redux";
 import { Box, Container, Grid, Stack } from "@mui/material";
 import SearchUser from "./Search";
 import Logo from "./Logo";
-import RightNavbar from "./RightNavbar";
+import RightHeader from "./RightHeader";
 
 const Header = () => {
 	const user = useSelector((state) => state.user.user?.currentUser);
@@ -34,7 +34,7 @@ const Header = () => {
 						</Grid>
 						<Grid item xs>
 							<Stack justifyContent="center" alignItems="end" width="100%" height="100%">
-								<RightNavbar />
+								<RightHeader />
 							</Stack>
 						</Grid>
 					</Grid>
