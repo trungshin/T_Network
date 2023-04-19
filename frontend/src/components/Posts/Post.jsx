@@ -31,6 +31,7 @@ import InputComment from "../InputComment";
 import { useTheme, styled } from "@mui/material/styles";
 import { Close, PhotoCamera } from "@mui/icons-material";
 import { updatePost } from "../../redux/apiRequests";
+import { Link } from "react-router-dom";
 
 const Input = styled("input")({
 	display: "none"
@@ -161,12 +162,11 @@ const Post = ({ post }) => {
 								aria-haspopup="true"
 								color="inherit"
 							>
-								<Avatar alt="Travis Howard" src={post?.avatar} />
+								<Avatar alt="" src={post?.avatar} />
 							</IconButton>
 						</NavLink>
 					}
 					action={
-<<<<<<< HEAD
 						<React.Fragment>
 							<Box
 								sx={{
@@ -239,19 +239,18 @@ const Post = ({ post }) => {
 								)}
 							</Menu>
 						</React.Fragment>
-=======
-						<IconButton
-							id="more_icon"
-							aria-controls={open ? "menu" : undefined}
-							aria-haspopup="true"
-							aria-expanded={open ? "true" : undefined}
-							onClick={handleClick}
-						>
-							<MoreVert />
-						</IconButton>
->>>>>>> f9e52828be1d67c280483a7ae5942069dd394dfd
 					}
-					title={post?.username}
+					title={
+						<Link
+							to={`/user/${post?.userId}`}
+							style={{
+								textDecorationLine: "none",
+								color: "#333"
+							}}
+						>
+							{post?.username}
+						</Link>
+					}
 					subheader={moment(post?.createdAt).fromNow()}
 				/>
 
@@ -276,11 +275,11 @@ const Post = ({ post }) => {
 					<IconButton color="primary">
 						<LikeButton isLike={isLike} handleLike={handleLike} handleUnLike={handleUnLike} />
 					</IconButton>
-					<h6>{likeNumber} likes</h6>
+					<h4>{likeNumber} likes</h4>
 					<IconButton color="primary">
 						<Message onClick={() => handleComment(post?._id)} />
 					</IconButton>
-					<h6>{post?.comments} comments</h6>
+					<h4>{post?.comments} comments</h4>
 				</CardActions>
 				{comments?.length > 0 &&
 					comments.map((comment) => (

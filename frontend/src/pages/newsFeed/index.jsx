@@ -181,7 +181,6 @@ export const Body = styled(Box)(() => ({
 
 export const Header = () => {
 	return (
-<<<<<<< HEAD
 		<Box
 			sx={{
 				marginBottom: 2,
@@ -197,11 +196,6 @@ export const Header = () => {
 			<CssBaseline /> */}
 
 			<Navbar_v2 />
-=======
-		<Box sx={{ marginBottom: 2, position: "sticky", top: 0, left: 0, zIndex: 99 }}>
-			<Navbar />
-			<CssBaseline />
->>>>>>> f9e52828be1d67c280483a7ae5942069dd394dfd
 		</Box>
 	);
 };

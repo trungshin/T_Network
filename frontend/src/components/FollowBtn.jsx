@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { Typography } from "@mui/material";
+import { Stack, Typography } from "@mui/material";
 import { followUser, unFollowUser } from "../redux/apiRequests";
 import { FiberManualRecord } from "@mui/icons-material";
 
@@ -36,29 +36,33 @@ const FollowBtn = ({ user }) => {
 	return (
 		<>
 			{followed ? (
-				<Typography
-					variant="outlined"
-					textTransform="uppercase"
-					fontWeight={500}
-					fontSize={14}
-					color="crimson"
-					onClick={handleUnFollow}
-				>
-					<FiberManualRecord sx={{ fontSize: 10, marginRight: "5px" }} />
-					UnFollow
-				</Typography>
+				<Stack justifyContent="center">
+					<Typography
+						variant="outlined"
+						textTransform="uppercase"
+						fontWeight={600}
+						fontSize={14}
+						color="crimson"
+						onClick={handleUnFollow}
+					>
+						<FiberManualRecord sx={{ fontSize: 10, marginRight: "5px" }} />
+						UnFollow
+					</Typography>
+				</Stack>
 			) : (
-				<Typography
-					variant="outlined"
-					textTransform="uppercase"
-					fontWeight={500}
-					fontSize={14}
-					color="dodgerblue"
-					onClick={handleFollow}
-				>
-					<FiberManualRecord sx={{ fontSize: 10, marginRight: "5px" }} />
-					Follow
-				</Typography>
+				<Stack justifyContent="center">
+					<Typography
+						variant="outlined"
+						textTransform="uppercase"
+						fontWeight={600}
+						fontSize={14}
+						color="dodgerblue"
+						onClick={handleFollow}
+					>
+						<FiberManualRecord sx={{ fontSize: 10, marginRight: "5px" }} />
+						Follow
+					</Typography>
+				</Stack>
 			)}
 		</>
 	);
