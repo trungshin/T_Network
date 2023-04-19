@@ -31,7 +31,6 @@ import InputComment from "../InputComment";
 import { useTheme, styled } from "@mui/material/styles";
 import { Close, PhotoCamera } from "@mui/icons-material";
 import { updatePost } from "../../redux/apiRequests";
-import { red } from "@mui/material/colors";
 
 const Input = styled("input")({
 	display: "none"
@@ -168,7 +167,7 @@ const Post = ({ post }) => {
 					action={
 						<IconButton
 							id="more_icon"
-							aria-controls={open ? "basic-menu" : undefined}
+							aria-controls={open ? "menu" : undefined}
 							aria-haspopup="true"
 							aria-expanded={open ? "true" : undefined}
 							onClick={handleClick}

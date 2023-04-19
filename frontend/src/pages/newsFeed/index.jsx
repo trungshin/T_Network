@@ -8,7 +8,7 @@ import CreatePost from "../../components/Posts/CreatePosts";
 import { getAllPosts, getAllUsers } from "../../redux/apiRequests";
 import Post from "../../components/Posts/Post";
 import { Link } from "react-router-dom";
-import {PersonOutlined, NewspaperOutlined} from '@mui/icons-material';
+import { PersonOutlined, NewspaperOutlined } from "@mui/icons-material";
 import UserCard from "../../components/UserCard";
 
 const Newsfeed = () => {
@@ -130,7 +130,7 @@ const Newsfeed = () => {
 						</Grid>
 
 						{/* Feed */}
-						<Grid item xs={6}>
+						<Grid item xs={5}>
 							<Stack
 								flexDirection="column"
 								justifyContent="center"
@@ -177,7 +177,7 @@ export const Body = styled(Box)(() => ({}));
 
 export const Header = () => {
 	return (
-		<Box sx={{ marginBottom: 2, position: "sticky", top: 0, left: 0 }}>
+		<Box sx={{ marginBottom: 2, position: "sticky", top: 0, left: 0, zIndex: 99 }}>
 			<Navbar />
 			<CssBaseline />
 		</Box>
