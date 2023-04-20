@@ -39,20 +39,15 @@ export const updatePost = async (req, res) => {
 	try {
 		const { description, img } = req.body;
 		const post = await Post.findById(req.params.id);
-		console.log(req.body, post.description, post.img);
 		//find the post ID in post model
 		if (post.userId === req.body.userId) {
 			if (post.description !== description) {
-				console.log("kill me");
 				if (post.img && img === undefined) {
-					console.log("kill kill me");
 					await cloudinary.uploader.destroy(post.cloudinaryId);
-					await post.updateOne({ $set: { description: description }, $unset: {img: "", cloudinaryId: ""} });
-				} else if (post.img === undefined && img === undefined) {
-					console.log("kill kill meme");
-					await post.updateOne({ $set: { description: description }});
-				} else if (post.img && img) {
-					console.log("kill meee");
+					await post.updateOne({ $set: { description: description }, $unset: { img: "", cloudinaryId: "" } });
+				} else if ((post.img === undefined && img === undefined) || (post.img && img && post.img === img)) {
+					await post.updateOne({ $set: { description: description } });
+				} else if (post.img && img && post.img !== img) {
 					await cloudinary.uploader.destroy(post.cloudinaryId);
 					const result = await cloudinary.uploader.upload(img, {
 						upload_preset: "network_library"
@@ -61,22 +56,15 @@ export const updatePost = async (req, res) => {
 						$set: { description: description, img: result.secure_url, cloudinaryId: result.public_id }
 					});
 				} else if (post.img === undefined && img) {
-					console.log("it's me");
 					const result = await cloudinary.uploader.upload(img, {
 						upload_preset: "network_library"
 					});
-					await post.updateOne({ $set: { description: description, img: result.secure_url, cloudinaryId: result.public_id } });
+					await post.updateOne({
+						$set: { description: description, img: result.secure_url, cloudinaryId: result.public_id }
+					});
 				}
-			// } else if (post.img === undefined && (post.description === description || post.description !== description)) {
-			// 	console.log("it's me");
-			// 	const result = await cloudinary.uploader.upload(img, {
-			// 		upload_preset: "network_library"
-			// 	});
-			// 	await post.updateOne({ $set: { description: description, img: result.secure_url, cloudinaryId: result.public_id } });
-			} else if (post.description === description ) {
-				console.log("not me");
-				if (img) {
-					console.log("not not me");
+			} else if (post.description === description) {
+				if (post.img && img) {
 					await cloudinary.uploader.destroy(post.cloudinaryId);
 					const result = await cloudinary.uploader.upload(img, {
 						upload_preset: "network_library"
@@ -84,31 +72,18 @@ export const updatePost = async (req, res) => {
 					await post.updateOne({
 						$set: { description: description, img: result.secure_url, cloudinaryId: result.public_id }
 					});
-				} else if (img === undefined) {
-					console.log("not not meme");
+				} else if (post.img && img === undefined) {
 					await cloudinary.uploader.destroy(post.cloudinaryId);
-					await post.updateOne({$unset: {img: "", cloudinaryId: ""} });
+					await post.updateOne({ $unset: { img: "", cloudinaryId: "" } });
+				} else if (post.img === undefined && img) {
+					const result = await cloudinary.uploader.upload(img, {
+						upload_preset: "network_library"
+					});
+					await post.updateOne({
+						$set: { description: description, img: result.secure_url, cloudinaryId: result.public_id }
+					});
 				}
 			}
-			// } else if (post.img && img === undefined) {
-			// 	console.log("kill you");
-			// 	await cloudinary.uploader.destroy(post.cloudinaryId);
-			// 	await post.updateOne({
-			// 		$set: { description: description},
-			// 		$unset: {img: "", cloudinaryId: ""}
-			// 	});
-			// }
-			// if (img) {
-			// 	await cloudinary.uploader.destroy(post.cloudinaryId);
-			// 	const result = await cloudinary.uploader.upload(img, {
-			// 		upload_preset: "network_library"
-			// 	});
-			// 	await post.updateOne({
-			// 		$set: { description: description, img: result.secure_url, cloudinaryId: result.public_id }
-			// 	});
-			// } else {
-			// 	await post.updateOne({ $set: { description: description } });
-			// }
 			res.status(200).json("The post has been updated");
 		} else {
 			return res.status(403).json("You can only update your post");
