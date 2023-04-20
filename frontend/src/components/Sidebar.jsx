@@ -16,9 +16,10 @@ const SideBar = () => {
 		<Box
 			sx={{
 				position: "sticky",
-				top: 80,
+				top: 85,
 				left: 0,
-				width: "100%",
+				// width: "100%",
+				// height: "100vh",
 				padding: 2,
 
 				"& svg": {
@@ -35,12 +36,16 @@ const SideBar = () => {
 								justifyContent="start"
 								alignItems="center"
 								sx={{
-									height: 50,
+									height: 45,
 									padding: 1,
 									borderRadius: 1,
 
 									":hover": {
-										backgroundColor: "#ddd"
+										backgroundColor: "#eee",
+
+										"& svg, p": {
+											color: "dodgerblue"
+										}
 									}
 								}}
 							>

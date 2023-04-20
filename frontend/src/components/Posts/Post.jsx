@@ -141,8 +141,8 @@ const Post = ({ post }) => {
 	return (
 		<Box
 			sx={{
-				marginTop: "8px",
-				marginBottom: "8px",
+				// marginTop: "8px",
+				marginBottom: 2,
 				backgroundColor: "#fff",
 				position: "relative",
 

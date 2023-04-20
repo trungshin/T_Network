@@ -3,19 +3,19 @@ import React from "react";
 import Header from "../components/Header/Header";
 import SideBar from "../components/SideBar";
 
-const DefaultLayout = ({ children }) => {
+const ProfileLayout = ({ children }) => {
 	return (
-		<Box classNames="default-layout">
+		<Box classNames="profile-layout">
 			<Header />
 
 			<Stack flexDirection="row">
-				<Stack width="32%" paddingTop={2}>
+				<Stack width="35%" paddingTop={2}>
 					<SideBar />
 				</Stack>
-				<Box sx={{ padding: 2, width: "80%" }}>{children}</Box>
+				<Box sx={{ padding: 2 }}>{children}</Box>
 			</Stack>
 		</Box>
 	);
 };
 
-export default DefaultLayout;
+export default ProfileLayout;

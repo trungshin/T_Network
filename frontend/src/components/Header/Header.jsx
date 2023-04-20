@@ -10,7 +10,7 @@ const Header = () => {
 	return (
 		<Box
 			sx={{
-				marginBottom: 2,
+				// marginBottom: 2,
 				position: "sticky",
 				top: 0,
 				left: 0,

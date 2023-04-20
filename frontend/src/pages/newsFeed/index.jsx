@@ -24,8 +24,8 @@ const Newsfeed = () => {
 	}, [dispatch, user, page]);
 
 	return (
-		<Grid container spacing={2}>
-			<Grid item xs={7}>
+		<Grid container spacing={2} width="100%">
+			<Grid item xs={7.4}>
 				<Stack
 					flexDirection="column"
 					justifyContent="center"
@@ -34,7 +34,7 @@ const Newsfeed = () => {
 				>
 					<CreatePost />
 
-					<Stack width="100%">
+					<Stack width="100%" paddingTop={1}>
 						{pending && (
 							<Stack justifyContent="center" alignItems="center" height={100}>
 								<CircularProgress />
