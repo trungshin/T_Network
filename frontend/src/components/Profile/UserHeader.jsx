@@ -30,6 +30,8 @@ const UserHeader = () => {
 	const [scroll, setScroll] = useState("paper");
 	const dispatch = useDispatch();
 
+	console.log("currentUser", currentUser);
+
 	const { id } = useParams();
 
 	const handleClickOpen = (scrollType) => {
@@ -37,9 +39,17 @@ const UserHeader = () => {
 		setScroll(scrollType);
 	};
 
+	const user_id = useParams("user_id");
+
+	console.log(useParams("user_id"));
+
 	useEffect(() => {
 		getUser(dispatch, id, user?.accessToken);
 	}, [dispatch, id, user]);
+	
+	// useEffect(() => {
+	// 	getUser(dispatch, user_id, user?.accessToken);
+	// }, [dispatch, user_id, user]);
 
 	return (
 		<>

@@ -1,0 +1,10 @@
+# Get a user
+POST http://localhost:8080/api/users/63355f04e0a685b0411aec05
+Content-Type: application/json
+
+{
+    "user_id": "63355f04e0a685b0411aec05"
+}
+
+###
+GET http://localhost:8080/api/users/63355f04e0a685b0411aec05

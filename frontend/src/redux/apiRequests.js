@@ -158,11 +158,27 @@ export const getUser = async (dispatch, id, token) => {
 		const res = await axios.get(`${APIPaths.Users}/${id}`, {
 			headers: { token: `Bearer ${token}` }
 		});
+
 		dispatch(getUserSuccess(res.data));
 	} catch (err) {
 		dispatch(getUserFailed());
 	}
 };
+// export const getUser = async (dispatch, id, token) => {
+// 	dispatch(getUserStart());
+// 	try {
+// 		const res = await axios.post(`${APIPaths.Users}/${id}`, {
+// 			headers: { token: `Bearer ${token}` },
+// 			data: {
+// 				user_id: id
+// 			}
+// 		});
+
+// 		dispatch(getUserSuccess(res.data));
+// 	} catch (err) {
+// 		dispatch(getUserFailed());
+// 	}
+// };
 
 export const getCurrentUser = async (dispatch, id, token) => {
 	dispatch(getCurrentUserStart());
@@ -282,7 +298,7 @@ export const updatePost = async (dispatch, token, id, newPost) => {
 	dispatch(updatePostStart());
 	try {
 		const res = await axios.put(`${APIPaths.Posts}/${id}`, newPost, {
-			headers: { token: `Bearer ${token}` },
+			headers: { token: `Bearer ${token}` }
 		});
 		dispatch(updatePostSuccess(res.data));
 	} catch (err) {

@@ -13,6 +13,8 @@ export function userRouter() {
 
 	//GET A USER
 	router.get("/:id", verifyToken, getUser);
+	// router.get("/:id", getUser);
+	// router.post("/:id", getUser);
 
 	//GET ALL USERS
 	router.get("/", verifyToken, getAllUsers);

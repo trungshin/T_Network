@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
-import { Grid, Box } from "@mui/material";
+import { Grid, Box, Stack, Avatar } from "@mui/material";
 import UserHeader from "../../components/Profile/UserHeader";
 import Content from "../../components/Content";
 import Post from "../../components/Posts/Post";
@@ -16,12 +16,15 @@ const Profile = () => {
 	const dispatch = useDispatch();
 	const { id } = useParams();
 
+	// console.log('user', user)
+	// console.log('posts', posts)
+
 	useEffect(() => {
 		getUserPost(dispatch, user?.accessToken, id);
 	}, [dispatch, user, id]);
 
 	return (
-		<Box>
+		<Box classNames="page-profile">
 			<HomeLayout>
 				<Header />
 
@@ -51,6 +54,19 @@ const Profile = () => {
 					</Grid>
 				</Body>
 			</HomeLayout>
+
+			{/* <Stack padding={2}>
+				<Box sx={{ position: "relative" }}>
+					<Box classNames="cover-bg">
+						<img src="" alt="" />
+					</Box>
+
+					<Box>
+						<Avatar width="" />
+					</Box>
+
+				</Box>
+			</Stack> */}
 		</Box>
 	);
 };

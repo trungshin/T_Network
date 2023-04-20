@@ -4,13 +4,16 @@ import { Provider } from "react-redux";
 import { store, StorePersistor } from "./redux/store";
 import App from "./App";
 import { PersistGate } from "redux-persist/integration/react";
+import { DefaultStyles } from "./styles/DefaultStyles/GlobalStyles";
 
 ReactDOM.render(
-	<Provider store={store}>
-		<PersistGate loading={null} persistor={StorePersistor}>
-			<App />
-		</PersistGate>
-	</Provider>,
+	<DefaultStyles>
+		<Provider store={store}>
+			<PersistGate loading={null} persistor={StorePersistor}>
+				<App />
+			</PersistGate>
+		</Provider>
+	</DefaultStyles>,
 	document.getElementById("root")
 );
 

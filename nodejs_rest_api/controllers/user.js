@@ -14,6 +14,19 @@ export const getUser = async (req, res) => {
 	}
 };
 
+// export const getUser = async (req, res) => {
+// 	try {
+// 		console.log("req.body", req.body);
+
+// 		//find the user ID
+// 		const user = await User.findById(req.params.id);
+// 		console.log(user);
+// 		res.status(200).json(user);
+// 	} catch (err) {
+// 		res.status(500).json(err);
+// 	}
+// };
+
 export const getAllUsers = async (req, res) => {
 	try {
 		const users = await User.find();
@@ -124,8 +137,12 @@ export const searchUser = async (req, res) => {
 			.limit(10)
 			.select("username avatar")
 			.exec();
-		return res.status(200).json(user);
+		return res.status(200).json({
+			err: response ? 0 : 1,
+			msg: response ? "sai ma" : null,
+			data: response ? response : null
+		});
 	} catch (err) {
-		return res.status(500).json(err);
+		return res.status(200).json(err);
 	}
 };
