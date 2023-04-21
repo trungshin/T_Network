@@ -6,7 +6,7 @@ export function userRouter() {
 	const router = Router();
 
 	//UPDATE USER
-	router.put("/:id", UserAuthorization, updateUser);
+	router.patch("/:id", UserAuthorization, updateUser);
 
 	//DELETE USER
 	router.delete("/:id", verifyToken, deleteUser);

@@ -32,6 +32,10 @@ const UserSchema = new mongoose.Schema(
 			type: String,
 			default: "https://res.cloudinary.com/dgh9mausg/image/upload/v1667554568/avatar_cr1k4z.png"
 		},
+		coverPhoto: {
+			type: String,
+			default: "https://res.cloudinary.com/dgh9mausg/image/upload/v1682011152/cover_photo.png"
+		},
 		followers: {
 			type: Array,
 			default: []

@@ -1,24 +1,35 @@
-import React, { useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
-import { Grid, Box, Stack, Avatar, Typography, Divider } from "@mui/material";
+import { Grid, Box, Stack, Avatar, Typography, Divider, Chip, Button } from "@mui/material";
 import UserHeader from "../../components/Profile/UserHeader";
-import Content from "../../components/Content";
 import Post from "../../components/Posts/Post";
-import Header from "../../components/Header/Header";
 import { getUserPost } from "../../redux/apiRequests";
-import { HomeLayout, Body } from "../newsFeed";
-import SideBar from "../../components/SideBar";
-import { PF } from "../../__variables";
+import { getUser } from "../../redux/apiRequests";
+import { People } from "@mui/icons-material";
+import EditPage from "../../components/Profile/EditPage";
+import Introduce from "../../components/Profile/Introduce";
+import Follows from "../../components/Profile/Follows";
 
 const Profile = () => {
-	const { posts } = useSelector((state) => state.post.userPost);
 	const user = useSelector((state) => state.user.user?.currentUser);
+	const otherUser = useSelector((state) => state.user.otherUser?.otherUser);
+	const followings = otherUser?.followings?.find((item) => item === user?._id);
+	const followers = otherUser?.followers?.find((item) => item === user?._id);
+	const [open, setOpen] = useState(false);
+	const [scroll, setScroll] = useState("paper");
+	const { posts } = useSelector((state) => state.post.userPost);
 	const dispatch = useDispatch();
 	const { id } = useParams();
 
-	// console.log('user', user)
-	// console.log('posts', posts)
+	const handleClickOpen = (scrollType) => {
+		setOpen(true);
+		setScroll(scrollType);
+	};
+
+	useEffect(() => {
+		getUser(dispatch, id, user?.accessToken);
+	}, [dispatch, id, user]);
 
 	useEffect(() => {
 		getUserPost(dispatch, user?.accessToken, id);
@@ -59,7 +70,7 @@ const Profile = () => {
 			<Box sx={{ position: "relative" }}>
 				<Box classNames="cover-bg" sx={{ width: "100%", height: 300, borderRadius: 3, overflow: "hidden" }}>
 					<img
-						src={`${PF}/assets/images/groups-default-cover-photo-2x.png`}
+						src={otherUser?.coverPhoto}
 						alt=""
 						width="100%"
 						style={{
@@ -74,20 +85,43 @@ const Profile = () => {
 				<Stack
 					sx={{ position: "relative", height: 100, boxShadow: "0 1px 0px rgba(0,0,0,0.2)", paddingBottom: 2 }}
 				>
-					<Avatar
-						sx={{
-							width: 120,
-							height: 120,
-							position: "absolute",
-							top: -60,
-							left: "50%",
-							transform: "translateX(-50%)",
-							boxShadow: "0 1px 5px rgba(0,0,0,0.2)"
-						}}
-					/>
+					<Stack flexDirection="row">
+						<Avatar
+							sx={{
+								width: 120,
+								height: 120,
+								position: "absolute",
+								top: -60,
+								left: "50%",
+								transform: "translateX(-50%)",
+								boxShadow: "0 1px 5px rgba(0,0,0,0.2)"
+							}}
+							alt={otherUser?.username}
+							src={otherUser?.avatar}
+						/>
+
+						{otherUser?._id === user?._id ? null : followings === undefined || followers === undefined ? (
+							<Chip label="Stranger" color="error" icon={<People />} />
+						) : followings === followers &&
+						  (otherUser?.followings?.length && otherUser?.followers?.length) > 0 ? (
+							<Chip label="Friend" color="primary" icon={<People />} />
+						) : null}
+
+						{otherUser?._id === user?._id && (
+							<Button
+								onClick={() => handleClickOpen("paper")}
+								variant="contained"
+								sx={{ ml: 20, height: 50 }}
+							>
+								Edit
+							</Button>
+						)}
+						<EditPage open={open} setOpen={setOpen} scroll={scroll} />
+					</Stack>
+
 					<Stack justifyContent="end" alignItems="center" height="100%">
 						<Typography fontSize={24} fontWeight={500}>
-							Nguyễn Phan Việt Trung
+							{otherUser?.username}
 						</Typography>
 					</Stack>
 				</Stack>
@@ -101,8 +135,8 @@ const Profile = () => {
 				</Stack>
 
 				<Stack width="40%" padding={2} flexDirection="column">
-					<Yourself />
-					<Introduce />
+					<Follows otherUser={otherUser} />
+					<Introduce otherUser={otherUser} />
 				</Stack>
 			</Stack>
 		</Box>
@@ -110,172 +144,3 @@ const Profile = () => {
 };
 
 export default Profile;
-
-const Yourself = () => {
-	return (
-		<Stack flexDirection="column" marginBottom={2}>
-			<Box
-				sx={{
-					boxShadow: "0 0 1.5px 1px rgba(0,0,0,0.2)",
-					borderRadius: 1,
-					paddingTop: 1,
-					paddingLeft: 2,
-					paddingRight: 2,
-					paddingBottom: 1,
-					pointerEvents: "none"
-				}}
-			>
-				<Typography
-					fontSize={18}
-					fontWeight={500}
-					paddingBottom={1}
-					marginBottom={1}
-					borderBottom="2px solid #ccc"
-				>
-					Nguyen Phan Viet Trung
-				</Typography>
-
-				<Stack
-					flexDirection="row"
-					justifyContent="space-between"
-					alignItems="center"
-					marginTop={2}
-					marginBottom={2}
-				>
-					<Typography sx={{ fontWeight: 500 }}>Followings</Typography>
-					<Typography>5</Typography>
-				</Stack>
-				<Stack
-					flexDirection="row"
-					justifyContent="space-between"
-					alignItems="center"
-					marginTop={2}
-					marginBottom={2}
-				>
-					<Typography sx={{ fontWeight: 500 }}>Followings</Typography>
-					<Typography>5</Typography>
-				</Stack>
-				<Stack
-					flexDirection="row"
-					justifyContent="space-between"
-					alignItems="center"
-					marginTop={2}
-					marginBottom={2}
-				>
-					<Typography sx={{ fontWeight: 500 }}>Followings</Typography>
-					<Typography>5</Typography>
-				</Stack>
-			</Box>
-		</Stack>
-	);
-};
-
-const Introduce = () => {
-	return (
-		<Stack flexDirection="column">
-			<Box
-				sx={{
-					boxShadow: "0 0 1.5px 1px rgba(0,0,0,0.2)",
-					borderRadius: 1,
-					paddingTop: 1,
-					paddingLeft: 2,
-					paddingRight: 2,
-					paddingBottom: 1
-				}}
-			>
-				<Typography fontSize={18} fontWeight={500}>
-					Introduce
-				</Typography>
-
-				<Stack
-					justifyContent="center"
-					alignItems="center"
-					sx={{
-						borderRadius: 1,
-						backgroundColor: "#eee",
-						padding: "7px",
-						marginTop: 1,
-						marginBottom: 2,
-						cursor: "pointer",
-						transition: "all .3s ease",
-						// boxShadow: "0 0 0.5px 1px rgba(0,0,0,0.1)",
-
-						":hover": {
-							backgroundColor: "#ddd"
-						}
-					}}
-				>
-					<Typography fontSize={14} fontWeight={500}>
-						Thêm tiểu sử
-					</Typography>
-				</Stack>
-				<Stack
-					justifyContent="center"
-					alignItems="center"
-					sx={{
-						borderRadius: 1,
-						backgroundColor: "#eee",
-						padding: "7px",
-						marginTop: 1,
-						marginBottom: 2,
-						cursor: "pointer",
-						transition: "all .3s ease",
-						// boxShadow: "0 0 0.5px 1px rgba(0,0,0,0.1)",
-
-						":hover": {
-							backgroundColor: "#ddd"
-						}
-					}}
-				>
-					<Typography fontSize={14} fontWeight={500}>
-						Thêm tiểu sử
-					</Typography>
-				</Stack>
-				<Stack
-					justifyContent="center"
-					alignItems="center"
-					sx={{
-						borderRadius: 1,
-						backgroundColor: "#eee",
-						padding: "7px",
-						marginTop: 1,
-						marginBottom: 2,
-						cursor: "pointer",
-						transition: "all .3s ease",
-						// boxShadow: "0 0 0.5px 1px rgba(0,0,0,0.1)",
-
-						":hover": {
-							backgroundColor: "#ddd"
-						}
-					}}
-				>
-					<Typography fontSize={14} fontWeight={500}>
-						Thêm tiểu sử
-					</Typography>
-				</Stack>
-				<Stack
-					justifyContent="center"
-					alignItems="center"
-					sx={{
-						borderRadius: 1,
-						backgroundColor: "#eee",
-						padding: "7px",
-						marginTop: 1,
-						marginBottom: 2,
-						cursor: "pointer",
-						transition: "all .3s ease",
-						// boxShadow: "0 0 0.5px 1px rgba(0,0,0,0.1)",
-
-						":hover": {
-							backgroundColor: "#ddd"
-						}
-					}}
-				>
-					<Typography fontSize={14} fontWeight={500}>
-						Thêm tiểu sử
-					</Typography>
-				</Stack>
-			</Box>
-		</Stack>
-	);
-};
