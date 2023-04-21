@@ -1,14 +1,5 @@
 import { BrowserRouter as Router, Route, Routes, BrowserRouter } from "react-router-dom";
-import Register from "./pages/register";
-import Login from "./pages/login";
 import RequireAuth from "./components/RequireAuth/RequireAuth";
-import Newsfeed from "./pages/newsFeed";
-import Profile from "./pages/profile";
-import ActivationEmail from "./components/ActivationEmail";
-import ForgotPassword from "./components/ForgotPassword";
-import ResetPassword from "./components/ResetPassword";
-import { Box } from "@mui/material";
-import { DefaultStyles } from "./styles/DefaultStyles/GlobalStyles";
 import DefaultLayout from "./layouts/DefaultLayout";
 import { publicRoutes } from "./routes";
 
@@ -65,9 +56,11 @@ function App() {
 							path={path}
 							element={
 								<div className="__nguyenphanviettrung">
+									{/* <RequireAuth> */}
 									<Layout>
 										<Page />
 									</Layout>
+									{/* </RequireAuth> */}
 								</div>
 							}
 						/>

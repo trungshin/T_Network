@@ -133,15 +133,12 @@ export const unFollowUser = async (req, res) => {
 export const searchUser = async (req, res) => {
 	try {
 		const username = req.query.username;
+
 		const user = await User.find({ username: { $regex: username } })
 			.limit(10)
 			.select("username avatar")
 			.exec();
-		return res.status(200).json({
-			err: response ? 0 : 1,
-			msg: response ? "sai ma" : null,
-			data: response ? response : null
-		});
+		return res.status(200).json(user);
 	} catch (err) {
 		return res.status(200).json(err);
 	}

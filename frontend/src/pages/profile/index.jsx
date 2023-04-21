@@ -1,15 +1,16 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
-import { Grid, Box, Stack, Avatar, Typography, Divider, Chip, Button } from "@mui/material";
-import UserHeader from "../../components/Profile/UserHeader";
+import { Box, Stack, Avatar, Typography } from "@mui/material";
 import Post from "../../components/Posts/Post";
 import { getUserPost } from "../../redux/apiRequests";
 import { getUser } from "../../redux/apiRequests";
-import { People } from "@mui/icons-material";
 import EditPage from "../../components/Profile/EditPage";
 import Introduce from "../../components/Profile/Introduce";
 import Follows from "../../components/Profile/Follows";
+import CreateOutlinedIcon from "@mui/icons-material/CreateOutlined";
+import PersonAddOutlinedIcon from "@mui/icons-material/PersonAddOutlined";
+import CreatePost from "../../components/Posts/CreatePosts";
 
 const Profile = () => {
 	const user = useSelector((state) => state.user.user?.currentUser);
@@ -37,36 +38,6 @@ const Profile = () => {
 
 	return (
 		<Box classNames="page-profile">
-			{/* <HomeLayout>
-				<Header />
-
-				<Body>
-					<Grid container spacing={3}>
-						<Grid item xs={2}>
-							<SideBar />
-						</Grid>
-
-						<Grid item xs={5}>
-							<Box
-								sx={{
-									position: "fixed",
-									backgroundColor: "rgb(248, 249, 250)",
-									width: "100%",
-									height: "100%"
-								}}
-							>
-								<Content>
-									<UserHeader />
-									{posts?.map((post) => {
-										return <Post key={post._id} post={post} />;
-									})}
-								</Content>
-							</Box>
-						</Grid>
-					</Grid>
-				</Body>
-			</HomeLayout> */}
-
 			<Box sx={{ position: "relative" }}>
 				<Box classNames="cover-bg" sx={{ width: "100%", height: 300, borderRadius: 3, overflow: "hidden" }}>
 					<img
@@ -94,28 +65,70 @@ const Profile = () => {
 								top: -60,
 								left: "50%",
 								transform: "translateX(-50%)",
-								boxShadow: "0 1px 5px rgba(0,0,0,0.2)"
+								boxShadow: "0 1px 5px rgba(0,0,0,0.2)",
+								backgroundColor: "#fff"
 							}}
 							alt={otherUser?.username}
 							src={otherUser?.avatar}
 						/>
 
-						{otherUser?._id === user?._id ? null : followings === undefined || followers === undefined ? (
-							<Chip label="Stranger" color="error" icon={<People />} />
-						) : followings === followers &&
-						  (otherUser?.followings?.length && otherUser?.followers?.length) > 0 ? (
-							<Chip label="Friend" color="primary" icon={<People />} />
-						) : null}
+						<Box
+							classNames="relation"
+							sx={{
+								position: "absolute",
+								right: 0,
+								top: 20
+							}}
+						>
+							{otherUser?._id === user?._id ? null : followings === undefined ||
+							  followers === undefined ? (
+								// <Chip label="Stranger" color="error" icon={<People />} />
+								<AddFriend />
+							) : followings === followers &&
+							  (otherUser?.followings?.length && otherUser?.followers?.length) > 0 ? (
+								// <Chip label="Friend" color="primary" icon={<People />} />
+								<AddFriend />
+							) : null}
 
-						{otherUser?._id === user?._id && (
-							<Button
-								onClick={() => handleClickOpen("paper")}
-								variant="contained"
-								sx={{ ml: 20, height: 50 }}
-							>
-								Edit
-							</Button>
-						)}
+							{otherUser?._id === user?._id && (
+								// <Button
+								// 	onClick={() => handleClickOpen("paper")}
+								// 	variant="contained"
+								// 	sx={{
+								// 		padding: "8px 30px"
+								// 	}}
+								// >
+								// 	Edit
+								// </Button>
+
+								<Stack
+									flexDirection="row"
+									justifyContent="center"
+									alignItems="center"
+									sx={{
+										padding: "10px 25px",
+										backgroundColor: "#ddd",
+										borderRadius: 2,
+										cursor: "pointer",
+
+										":hover": {
+											backgroundColor: "#ccc"
+										}
+									}}
+									onClick={() => handleClickOpen("paper")}
+								>
+									<Stack flexDirection="row" justifyContent="center" sx={{ mr: 1 }}>
+										<CreateOutlinedIcon sx={{ fontSize: 19 }} />
+									</Stack>
+									<Box>
+										<Typography fontSize={14} fontWeight={500}>
+											Edit Profile
+										</Typography>
+									</Box>
+								</Stack>
+							)}
+						</Box>
+
 						<EditPage open={open} setOpen={setOpen} scroll={scroll} />
 					</Stack>
 
@@ -128,13 +141,28 @@ const Profile = () => {
 			</Box>
 
 			<Stack flexDirection="row" position="relative" width="80%" margin="0 auto">
-				<Stack width="70%" flexDirection="column" paddingTop={2} paddingRight={2}>
+				<Stack
+					width="70%"
+					flexDirection="column"
+					paddingTop={2}
+					paddingRight={2}
+					sx={{
+						"& > div:first-child": {
+							marginBottom: 2
+						}
+					}}
+				>
+					<Box>
+						<CreatePost />
+					</Box>
+
 					{posts?.map((post) => {
 						return <Post key={post._id} post={post} />;
 					})}
 				</Stack>
 
 				<Stack width="40%" padding={2} flexDirection="column">
+					{/* <Follows otherUser={otherUser} /> */}
 					<Follows otherUser={otherUser} />
 					<Introduce otherUser={otherUser} />
 				</Stack>
@@ -144,3 +172,27 @@ const Profile = () => {
 };
 
 export default Profile;
+
+export const AddFriend = () => {
+	return (
+		<Stack
+			flexDirection="row"
+			justifyContent="center"
+			alignItems="center"
+			sx={{
+				backgroundColor: "#1976d2", // crimson
+				color: "#fff",
+				padding: "5px 20px",
+				borderRadius: 2,
+				cursor: "pointer",
+
+				":hover": {
+					backgroundColor: "#1866b4" // crimson
+				}
+			}}
+		>
+			<PersonAddOutlinedIcon sx={{ mr: 1 }} />
+			<Typography fontSize={16}>Add Friend</Typography>
+		</Stack>
+	);
+};

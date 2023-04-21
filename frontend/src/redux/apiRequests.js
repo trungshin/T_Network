@@ -213,6 +213,7 @@ export const searchUsername = async (dispatch, search, token, setResulsts) => {
 		const res = await axios.get(`${APIPaths.Search}?username=${search}`, {
 			headers: { token: `Bearer ${token}` }
 		});
+
 		if (search === "") {
 			setResulsts([]);
 		} else {

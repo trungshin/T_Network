@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, Fragment } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import { Avatar, Box, IconButton, MenuItem, Popper, Stack, Typography } from "@mui/material";
+import { Avatar, Box, IconButton, InputBase, MenuItem, Popper, Stack, Typography } from "@mui/material";
 import { Close, SearchOutlined } from "@mui/icons-material";
 import { searchUsername } from "../../redux/apiRequests";
 
@@ -13,12 +13,18 @@ const SearchUser = ({ user }) => {
 	const open = Boolean(anchorEl);
 	const dispatch = useDispatch();
 
+	console.log("result", result);
+
 	useEffect(() => {
 		searchUsername(dispatch, search, user?.accessToken, setResult);
 	}, [dispatch, search, user]);
 
-	const handleFocus = (e) => {
-		setAnchorEl(anchorEl ? null : e.currentTarget);
+	const handleClick = (e) => {
+		document.querySelector("#auto-complete").style.display = "block";
+
+		document.querySelector("#input-base").addEventListener("blur", () => {
+			document.querySelector("#auto-complete").style.display = "none";
+		});
 	};
 	const handleClose = () => {
 		setAnchorEl(null);
@@ -41,10 +47,10 @@ const SearchUser = ({ user }) => {
 
 				".icon-search": {
 					position: "absolute",
-					left: 0,
-					top: 0,
-					width: 42,
-					height: 42,
+					left: 8,
+					top: 10,
+					width: 30,
+					height: 30,
 					display: "flex",
 					justifyContent: "center",
 					alignItems: "center",
@@ -81,15 +87,83 @@ const SearchUser = ({ user }) => {
 				</Box>
 
 				<Box className="input">
-					<input
+					<InputBase
+						id="input-base"
 						placeholder="Search T-Network"
 						value={search}
 						onChange={(e) => setSearch(e.target.value)}
-						onFocus={handleFocus}
+						onClick={handleClick}
 					/>
 				</Box>
 
-				<Popper
+				{/*  */}
+				<Box
+					id="auto-complete"
+					sx={{
+						position: "absolute",
+						top: 60,
+						backgroundColor: "#fff",
+						zIndex: 100,
+						boxShadow: "0 0 3px 1px rgba(0,0,0,0.2)",
+						width: 550,
+						borderRadius: 1,
+						display: "none"
+					}}
+				>
+					{result.length > 0 && (
+						<Stack
+							flexDirection="row"
+							justifyContent="space-between"
+							alignItems="center"
+							sx={{ padding: "8px 16px" }}
+						>
+							<Typography fontWeight={500}>Recent searches</Typography>
+							<Typography sx={{ cursor: "pointer", color: "dodgerblue" }}>Edit</Typography>
+						</Stack>
+					)}
+
+					{result.length > 0 ? (
+						result?.map((usersearch) => {
+							return (
+								<Fragment>
+									<Link
+										to={`/user/${usersearch._id}`}
+										style={{
+											textDecorationLine: "none",
+											color: "#333"
+										}}
+									>
+										<MenuItem
+											onClick={handleClose}
+											sx={{
+												display: "flex",
+												justifyContent: "space-between",
+												alignItems: "center"
+											}}
+										>
+											<Stack flexDirection="row">
+												<Avatar alt={usersearch.username} src={usersearch.avatar} />
+												<Typography sx={{ margin: 1 }}>{usersearch.username}</Typography>
+											</Stack>
+
+											<IconButton>
+												<Close fontSize="small" />
+											</IconButton>
+										</MenuItem>
+									</Link>
+								</Fragment>
+							);
+						})
+					) : (
+						<Stack justifyContent="center" alignItems="center" sx={{ padding: 2 }}>
+							<Typography fontSize={16} color="#666">
+								No result
+							</Typography>
+						</Stack>
+					)}
+				</Box>
+
+				{/* <Popper
 					style={{
 						backgroundColor: "#fff",
 						zIndex: 100,
@@ -105,41 +179,58 @@ const SearchUser = ({ user }) => {
 					transformOrigin={{ horizontal: "right", vertical: "top" }}
 					anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
 				>
-					<Stack
-						flexDirection="row"
-						justifyContent="space-between"
-						alignItems="center"
-						sx={{ padding: "2px 2px 1px 2px" }}
-					>
-						<Typography fontWeight={500}>Recent searchs</Typography>
-						<Typography sx={{ cursor: "pointer", color: "dodgerblue" }}>Edit</Typography>
-					</Stack>
-					{result?.map((usersearch) => {
-						return (
-							<Link
-								to={`/user/${usersearch._id}`}
-								style={{
-									textDecorationLine: "none",
-									color: "#333"
-								}}
-							>
-								<MenuItem
-									onClick={handleClose}
-									sx={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}
-								>
-									<Stack flexDirection="row">
-										<Avatar alt={usersearch.username} src={usersearch.avatar} />
-										<Typography sx={{ margin: 1 }}>{usersearch.username}</Typography>
-									</Stack>
+					{result.length > 0 && (
+						<Stack
+							flexDirection="row"
+							justifyContent="space-between"
+							alignItems="center"
+							sx={{ padding: "2px 2px 1px 2px" }}
+						>
+							<Typography fontWeight={500}>Recent searches</Typography>
+							<Typography sx={{ cursor: "pointer", color: "dodgerblue" }}>Edit</Typography>
+						</Stack>
+					)}
 
-									<IconButton>
-										<Close fontSize="small" />
-									</IconButton>
-								</MenuItem>
-							</Link>
-						);
-					})}
-				</Popper>
+					{result.length > 0 ? (
+						result?.map((usersearch) => {
+							return (
+								<Fragment>
+									<Link
+										to={`/user/${usersearch._id}`}
+										style={{
+											textDecorationLine: "none",
+											color: "#333"
+										}}
+									>
+										<MenuItem
+											onClick={handleClose}
+											sx={{
+												display: "flex",
+												justifyContent: "space-between",
+												alignItems: "center"
+											}}
+										>
+											<Stack flexDirection="row">
+												<Avatar alt={usersearch.username} src={usersearch.avatar} />
+												<Typography sx={{ margin: 1 }}>{usersearch.username}</Typography>
+											</Stack>
+
+											<IconButton>
+												<Close fontSize="small" />
+											</IconButton>
+										</MenuItem>
+									</Link>
+								</Fragment>
+							);
+						})
+					) : (
+						<Stack justifyContent="center" alignItems="center" sx={{ padding: 2 }}>
+							<Typography fontSize={16} color="#666">
+								No result
+							</Typography>
+						</Stack>
+					)}
+				</Popper> */}
 			</Stack>
 		</Box>
 	);
