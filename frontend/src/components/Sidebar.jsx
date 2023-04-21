@@ -20,7 +20,7 @@ const SideBar = () => {
 				}
 			}}
 		>
-			<Pages user_id={user._id} />
+			<Pages user_id={user && user._id} />
 
 			<Divider sx={{ marginTop: 1, marginBottom: 1 }} />
 		</Box>
