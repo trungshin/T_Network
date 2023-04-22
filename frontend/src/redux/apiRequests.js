@@ -196,7 +196,7 @@ export const getCurrentUser = async (dispatch, id, token) => {
 export const updateUser = async (dispatch, user, id, token) => {
 	dispatch(updateStart());
 	try {
-		const res = await axios.patch(`${APIPaths.Users}/${id}`, user, {
+		const res = await axios.put(`${APIPaths.Users}/${id}`, user, {
 			headers: { token: `Bearer ${token}` }
 		});
 		// console.log(res.config);
@@ -213,7 +213,6 @@ export const searchUsername = async (dispatch, search, token, setResulsts) => {
 		const res = await axios.get(`${APIPaths.Search}?username=${search}`, {
 			headers: { token: `Bearer ${token}` }
 		});
-
 		if (search === "") {
 			setResulsts([]);
 		} else {
@@ -237,11 +236,14 @@ export const getAllUsers = async (dispatch, token) => {
 };
 
 export const followUser = async (dispatch, id, userId, token) => {
+	console.log(id);
+	console.log(userId);
 	dispatch(followUserStart());
 	try {
 		const res = await axios.put(`${APIPaths.Users}/${id}/follow`, userId, {
 			headers: { token: `Bearer ${token}` }
 		});
+		console.log(res);
 		const update = {
 			...res.data,
 			accessToken: token
@@ -254,11 +256,14 @@ export const followUser = async (dispatch, id, userId, token) => {
 };
 
 export const unFollowUser = async (dispatch, id, userId, token) => {
+	console.log(id);
+	console.log(userId);
 	dispatch(followUserStart());
 	try {
 		const res = await axios.put(`${APIPaths.Users}/${id}/unfollow`, userId, {
 			headers: { token: `Bearer ${token}` }
 		});
+		console.log(res);
 		const update = {
 			...res.data,
 			accessToken: token

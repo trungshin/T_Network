@@ -6,19 +6,22 @@ import { FiberManualRecord } from "@mui/icons-material";
 
 const FollowBtn = ({ user }) => {
 	const currentUser = useSelector((state) => state.user.user?.currentUser);
-	const [followed, setFollowed] = useState(false);
+	const [followed, setFollowed] = useState(user?.followers?.find((item) => item === currentUser?._id));
 	const dispatch = useDispatch();
 
+	
+
 	useEffect(() => {
-		if (user?.followers?.find((item) => item === currentUser?._id)) {
-			setFollowed(true);
+		if (user?.followers?.find((item) => item === currentUser?._id) === currentUser?._id) {
+			setFollowed(currentUser?._id);
 		} else {
-			setFollowed(false);
+			setFollowed(undefined);
 		}
 	}, [user?.followers, currentUser?._id]);
 
 	const handleFollow = () => {
-		setFollowed(true);
+		console.log(followed);
+		setFollowed(currentUser?._id);
 		const userId = {
 			userId: currentUser?._id
 		};
@@ -26,7 +29,8 @@ const FollowBtn = ({ user }) => {
 	};
 
 	const handleUnFollow = () => {
-		setFollowed(false);
+		console.log(followed);
+		setFollowed(undefined);
 		const userId = {
 			userId: currentUser?._id
 		};
@@ -35,7 +39,7 @@ const FollowBtn = ({ user }) => {
 
 	return (
 		<>
-			{followed ? (
+			{followed === currentUser?._id ? (
 				<Stack justifyContent="center">
 					<Typography
 						variant="outlined"

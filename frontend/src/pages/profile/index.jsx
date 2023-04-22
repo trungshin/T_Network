@@ -1,16 +1,16 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
-import { Box, Stack, Avatar, Typography } from "@mui/material";
+import { Box, Stack, Avatar, Typography, Chip } from "@mui/material";
 import Post from "../../components/Posts/Post";
 import { getUserPost } from "../../redux/apiRequests";
 import { getUser } from "../../redux/apiRequests";
 import EditPage from "../../components/Profile/EditPage";
 import Introduce from "../../components/Profile/Introduce";
 import Follows from "../../components/Profile/Follows";
-import CreateOutlinedIcon from "@mui/icons-material/CreateOutlined";
-import PersonAddOutlinedIcon from "@mui/icons-material/PersonAddOutlined";
+import { CreateOutlined, People, PersonAddOutlined } from "@mui/icons-material";
 import CreatePost from "../../components/Posts/CreatePosts";
+import { followUser, unFollowUser } from "../../redux/apiRequests";
 
 const Profile = () => {
 	const user = useSelector((state) => state.user.user?.currentUser);
@@ -82,13 +82,12 @@ const Profile = () => {
 						>
 							{otherUser?._id === user?._id ? null : followings === undefined ||
 							  followers === undefined ? (
-								// <Chip label="Stranger" color="error" icon={<People />} />
-								<AddFriend />
+								<Chip label="Stranger" color="error" icon={<People />} />
 							) : followings === followers &&
 							  (otherUser?.followings?.length && otherUser?.followers?.length) > 0 ? (
-								// <Chip label="Friend" color="primary" icon={<People />} />
-								<AddFriend />
+								<Chip label="Friend" color="primary" icon={<People />} />
 							) : null}
+							{otherUser?._id === user?._id ? null : <AddFriend otherUser={otherUser} user={user} />}
 
 							{otherUser?._id === user?._id && (
 								// <Button
@@ -118,7 +117,7 @@ const Profile = () => {
 									onClick={() => handleClickOpen("paper")}
 								>
 									<Stack flexDirection="row" justifyContent="center" sx={{ mr: 1 }}>
-										<CreateOutlinedIcon sx={{ fontSize: 19 }} />
+										<CreateOutlined sx={{ fontSize: 19 }} />
 									</Stack>
 									<Box>
 										<Typography fontSize={14} fontWeight={500}>
@@ -156,12 +155,20 @@ const Profile = () => {
 						<CreatePost />
 					</Box>
 
-					{posts?.map((post) => {
-						return <Post key={post._id} post={post} />;
-					})}
+					{posts?.length > 0 ? (
+						posts?.map((post) => {
+							return <Box pl={2}> 
+								<Post key={post._id} post={post} />
+							</Box>;
+						})
+					) : (
+						<Stack justifyContent="center" alignItems="center">
+							<Typography fontSize={24} fontWeight={500}>No posts</Typography>
+						</Stack>
+					)}
 				</Stack>
 
-				<Stack width="40%" padding={2} flexDirection="column">
+				<Stack width="40%" p={2} flexDirection="column">
 					{/* <Follows otherUser={otherUser} /> */}
 					<Follows otherUser={otherUser} />
 					<Introduce otherUser={otherUser} />
@@ -173,26 +180,62 @@ const Profile = () => {
 
 export default Profile;
 
-export const AddFriend = () => {
+export const AddFriend = ({ otherUser, user }) => {
+	const [followed, setFollowed] = useState(otherUser?.followers?.find((item) => item === user?._id));
+
+	const dispatch = useDispatch();
+
+	// console.log(otherUser?.followers?.find((item) => item === user?._id));
+
+	useEffect(() => {
+		if (otherUser?.followers?.find((item) => item === user?._id) === user?._id) {
+			setFollowed(user?._id);
+		} else {
+			setFollowed(undefined);
+		}
+	}, [otherUser?.followers, user?._id]);
+
+	const handleFollowAndUnFollow = () => {
+		const userId = {
+			userId: user?._id
+		};
+		if (followed === user?._id) {
+			setFollowed(undefined);
+			unFollowUser(dispatch, otherUser?._id, userId, user?.accessToken);
+		} else {
+			setFollowed(user?._id);
+			followUser(dispatch, otherUser?._id, userId, user?.accessToken);
+		}
+	};
+
+	// const handleUnFollow = () => {
+	// 	setFollowed(false);
+	// 	const userId = {
+	// 		userId: user?._id
+	// 	};
+	// 	unFollowUser(dispatch, user?._id, userId, user?.accessToken);
+	// };
+
 	return (
 		<Stack
 			flexDirection="row"
 			justifyContent="center"
 			alignItems="center"
 			sx={{
-				backgroundColor: "#1976d2", // crimson
+				backgroundColor: `${followed === user?._id ? "crimson" : "#1976d2"}`, // crimson
 				color: "#fff",
 				padding: "5px 20px",
 				borderRadius: 2,
 				cursor: "pointer",
 
 				":hover": {
-					backgroundColor: "#1866b4" // crimson
+					backgroundColor: `${followed === user?._id ? "#f56991" : "#1866b4"}` // #f56991
 				}
 			}}
+			onClick={handleFollowAndUnFollow}
 		>
-			<PersonAddOutlinedIcon sx={{ mr: 1 }} />
-			<Typography fontSize={16}>Add Friend</Typography>
+			<PersonAddOutlined sx={{ mr: 1 }} />
+			<Typography fontSize={16}>{followed === user?._id ? "UnFollow" : "Follow"}</Typography>
 		</Stack>
 	);
 };
