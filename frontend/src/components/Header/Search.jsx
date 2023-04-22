@@ -10,13 +10,19 @@ const SearchUser = ({ user }) => {
 	const [result, setResult] = useState(users);
 	const [search, setSearch] = useState("");
 	const [anchorEl, setAnchorEl] = useState(null);
+	const [openSearch, setOpenSearch] = useState(false);
 	const open = Boolean(anchorEl);
 	const dispatch = useDispatch();
 
 	console.log("result", result);
 
 	useEffect(() => {
-		searchUsername(dispatch, search, user?.accessToken, setResult);
+		if (search === "") {
+			setOpenSearch(false);
+		} else {
+			setOpenSearch(true);
+			searchUsername(dispatch, search, user?.accessToken, setResult);
+		}
 	}, [dispatch, search, user]);
 
 	const handleClick = (e) => {
@@ -122,7 +128,7 @@ const SearchUser = ({ user }) => {
 						</Stack>
 					)}
 
-					{result.length > 0 ? (
+					{result.length > 0 || (openSearch && result.length > 0) ? (
 						result?.map((usersearch) => {
 							return (
 								<Fragment>

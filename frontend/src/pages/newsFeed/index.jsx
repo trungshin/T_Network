@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Grid, Box, CircularProgress, styled, Stack } from "@mui/material";
-import RightBar from "../../components/RightBar";
+import RightBar from "../../components/RightBar/RightBar";
 import CreatePost from "../../components/Posts/CreatePosts";
 import Post from "../../components/Posts/Post";
 import { getAllPosts } from "../../redux/apiRequests";

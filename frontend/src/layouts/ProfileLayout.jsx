@@ -1,7 +1,7 @@
 import { Box, Stack } from "@mui/material";
 import React from "react";
 import Header from "../components/Header/Header";
-import SideBar from "../components/SideBar";
+import SideBar from "../components/SideBar/SideBar";
 
 const ProfileLayout = ({ children }) => {
 	return (
@@ -9,7 +9,7 @@ const ProfileLayout = ({ children }) => {
 			<Header />
 
 			<Stack flexDirection="row">
-				<Stack width="35%" paddingTop={2}>
+				<Stack width="28%" paddingTop={2}>
 					<SideBar />
 				</Stack>
 				<Box sx={{ padding: 2 }}>{children}</Box>

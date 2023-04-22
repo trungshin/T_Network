@@ -45,7 +45,7 @@ const Follows = ({ otherUser }) => {
 				</StackFollow>
 				<StackFollow>
 					<Typography sx={{ fontWeight: 500 }}>Followers</Typography>
-					<Typography>{otherUser?.followings?.length}</Typography>
+					<Typography>{otherUser?.followers?.length}</Typography>
 				</StackFollow>
 			</Box>
 		</Stack>

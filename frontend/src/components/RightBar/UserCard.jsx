@@ -1,48 +1,43 @@
-import React, { useEffect, useState } from "react";
-import { IconButton, Avatar, Stack, Box, styled, Badge, Typography } from "@mui/material";
-import FollowBtn from "./FollowBtn";
+import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import moment from "moment";
-import { deleteUser } from "../redux/apiRequests";
+import {
+	IconButton,
+	Avatar,
+	Stack,
+	Box,
+	Typography,
+	Tooltip,
+	Button,
+	Dialog,
+	DialogActions,
+	DialogContent,
+	DialogContentText,
+	DialogTitle
+} from "@mui/material";
 import { Close } from "@mui/icons-material";
-
-const StyledBadge = styled(Badge)(({ theme }) => ({
-	"& .MuiBadge-badge": {
-		backgroundColor: "#44b700",
-		color: "#44b700",
-		boxShadow: `0 0 0 2px ${theme.palette.background.paper}`,
-		"&::after": {
-			position: "absolute",
-			top: 0,
-			left: 0,
-			width: "100%",
-			height: "100%",
-			borderRadius: "50%",
-			animation: "ripple 1.2s infinite ease-in-out",
-			border: "1px solid currentColor",
-			content: '""'
-		}
-	},
-	"@keyframes ripple": {
-		"0%": {
-			transform: "scale(.8)",
-			opacity: 1
-		},
-		"100%": {
-			transform: "scale(2.4)",
-			opacity: 0
-		}
-	}
-}));
+import { deleteUser } from "../../redux/apiRequests";
+import FollowBtn from "../FollowBtn";
+import StyledBadge from "../StyleBadge";
 
 const UserCard = ({ user }) => {
+	const [open, setOpen] = useState(false);
 	const currentUser = useSelector((state) => state.user.user?.currentUser);
 	const dispatch = useDispatch();
 
 	const handleDeleteUser = (id) => {
+		setOpen(false);
 		deleteUser(dispatch, currentUser?.accessToken, id);
 		window.location.reload();
+	};
+
+	const handleClickOpen = () => {
+		setOpen(true);
+	};
+
+	const handleClose = () => {
+		setOpen(false);
 	};
 
 	return (
@@ -97,11 +92,56 @@ const UserCard = ({ user }) => {
 					</Stack>
 
 					{currentUser?.admin && (
-						<Stack>
-							<IconButton onClick={() => handleDeleteUser(user?._id)}>
-								<Close />
-							</IconButton>
-						</Stack>
+						<>
+							<Stack>
+								<Tooltip title="Remove User">
+									<IconButton onClick={handleClickOpen}>
+										<Close />
+									</IconButton>
+								</Tooltip>
+							</Stack>
+
+							<Dialog
+								open={open}
+								onClose={handleClose}
+								aria-labelledby="cfm-remove-user-title"
+								aria-describedby="cfm-remove-user-desc"
+							>
+								<DialogTitle id="cfm-remove-user-title">{"Confirm Remove User"}</DialogTitle>
+								<DialogContent>
+									<DialogContentText id="cfm-remove-user-desc">
+										Do you want to remove this user?
+									</DialogContentText>
+								</DialogContent>
+								<DialogActions>
+									<Button
+										sx={{
+											color: "#fff",
+											backgroundColor: "#1976d2",
+											":hover": {
+												backgroundColor: "#1866b4"
+											}
+										}}
+										onClick={handleClose}
+									>
+										Cancel
+									</Button>
+									<Button
+										sx={{
+											color: "#fff",
+											backgroundColor: "crimson",
+											":hover": {
+												backgroundColor: "#f56991"
+											}
+										}}
+										onClick={() => handleDeleteUser(user?._id)}
+										autoFocus
+									>
+										Remove
+									</Button>
+								</DialogActions>
+							</Dialog>
+						</>
 					)}
 				</Stack>
 			)}
