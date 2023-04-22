@@ -79,6 +79,7 @@ export const loginUser = async (user, dispatch, navigate, state) => {
 	dispatch(updateStart());
 	try {
 		const res = await axios.post(`${APIPaths.Auth}/login`, user);
+		console.log(res);
 		dispatch(loginSuccess(res.data));
 		dispatch(updateSuccess(res.data));
 		navigate(state?.path || "/newsfeed");
@@ -236,40 +237,34 @@ export const getAllUsers = async (dispatch, token) => {
 };
 
 export const followUser = async (dispatch, id, userId, token) => {
-	console.log(id);
-	console.log(userId);
 	dispatch(followUserStart());
 	try {
 		const res = await axios.put(`${APIPaths.Users}/${id}/follow`, userId, {
 			headers: { token: `Bearer ${token}` }
 		});
-		console.log(res);
 		const update = {
 			...res.data,
 			accessToken: token
 		};
 		dispatch(followUserSuccess(res.data));
-		dispatch(updateFollowSuccess(update));
+		dispatch(updateSuccess(update));
 	} catch (err) {
 		dispatch(followUserFailed());
 	}
 };
 
 export const unFollowUser = async (dispatch, id, userId, token) => {
-	console.log(id);
-	console.log(userId);
 	dispatch(followUserStart());
 	try {
 		const res = await axios.put(`${APIPaths.Users}/${id}/unfollow`, userId, {
 			headers: { token: `Bearer ${token}` }
 		});
-		console.log(res);
 		const update = {
 			...res.data,
 			accessToken: token
 		};
 		dispatch(followUserSuccess(res.data));
-		dispatch(updateFollowSuccess(update));
+		dispatch(updateSuccess(update));
 	} catch (err) {
 		dispatch(followUserFailed());
 	}
