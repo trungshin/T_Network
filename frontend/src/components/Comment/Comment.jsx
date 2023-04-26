@@ -1,18 +1,17 @@
 import React, { useState } from "react";
-import { Card, CardHeader, IconButton, MenuItem, Menu } from "@mui/material";
-import Avatar from "@mui/material/Avatar";
 import { useDispatch, useSelector } from "react-redux";
 import { NavLink } from "react-router-dom";
-import { deleteComment } from "../redux/apiRequests";
 import moment from "moment";
+import { Card, CardHeader, IconButton, MenuItem, Menu, Avatar } from "@mui/material";
 import { MoreVert, DeleteOutlined } from "@mui/icons-material";
+import { deleteComment } from "../../redux/apiRequests";
 
-const Comment = ({ id, postId, postUserId, content, username, avatar, createdAt }) => {
+const Comment = ({ id, postUserId, content, username, avatar, createdAt, commentNumber, setCommentNumber }) => {
 	const user = useSelector((state) => state.user.user?.currentUser);
+	const [closeCmt, setCloseCmt] = useState(true);
 	const dispatch = useDispatch();
 	const [anchorEl, setAnchorEl] = useState(null);
 	const open = Boolean(anchorEl);
-	const [closeCmt, setCloseCmt] = useState(true);
 	const handleClick = (e) => {
 		setAnchorEl(e.currentTarget);
 	};
@@ -21,6 +20,7 @@ const Comment = ({ id, postId, postUserId, content, username, avatar, createdAt 
 	};
 
 	const handleDeleteCmt = () => {
+		setCommentNumber(commentNumber - 1);
 		deleteComment(dispatch, user?.accessToken, id, postUserId);
 		setCloseCmt(false);
 	};

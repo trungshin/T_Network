@@ -22,11 +22,11 @@ const PostSchema = new mongoose.Schema(
 			type: String
 		},
 		likes: [{ type: mongoose.Types.ObjectId, ref: "User" }],
-		comments: {
-			type: Number,
-			default: 0
-		}
-		// comments: [{ type: mongoose.Types.ObjectId, ref: 'Comment' }],
+		// comments: {
+		// 	type: Number,
+		// 	default: 0
+		// }
+		comments: [{ type: mongoose.Types.ObjectId, ref: "Comment" }]
 	},
 	{ timestamps: true }
 );

@@ -129,7 +129,7 @@ export const getAPost = async (req, res) => {
 
 export const getPostFromUser = async (req, res) => {
 	try {
-		const post = await Post.find({ userId: req.params.id }).sort({ createdAt: -1 });
+		const post = await Post.find({ userId: req.params.id }).sort({ createdAt: -1 }).populate("comments");
 		res.status(200).json(post);
 	} catch (err) {
 		res.status(500).json(err);

@@ -24,10 +24,10 @@ import {
 	Box
 } from "@mui/material";
 import { MoreVert, DeleteOutlined, Message, EditOutlined } from "@mui/icons-material";
-import { likePost, unLikePost, deletePost, getUserComment } from "../../redux/apiRequests";
+import { likePost, unLikePost, deletePost } from "../../redux/apiRequests";
 import LikeButton from "../LikeButton";
-import Comment from "../Comment";
-import InputComment from "../InputComment";
+import Comments from "../Comment/Comments";
+import InputComment from "../Comment/InputComment";
 import { useTheme, styled } from "@mui/material/styles";
 import { Close, PhotoCamera } from "@mui/icons-material";
 import { updatePost } from "../../redux/apiRequests";
@@ -51,8 +51,9 @@ const Post = ({ post }) => {
 	const [scroll, setScroll] = useState("paper");
 	const [isLike, setIsLike] = useState(false);
 	const [likeNumber, setLikeNumber] = useState(post?.likes?.length);
+	const [commentNumber, setCommentNumber] = useState(post?.comments?.length);
 	const user = useSelector((state) => state.user.user?.currentUser);
-	const { comments } = useSelector((state) => state.comment.userComments);
+
 	const theme = useTheme();
 	const fullScreen = useMediaQuery(theme.breakpoints.down("md"));
 	const [description, setDescription] = useState(post?.description);
@@ -96,10 +97,6 @@ const Post = ({ post }) => {
 	const handleDelete = (id) => {
 		deletePost(dispatch, user?.accessToken, id, user?._id);
 		window.location.reload();
-	};
-
-	const handleComment = (id) => {
-		getUserComment(dispatch, user?.accessToken, id);
 	};
 
 	const handleCloseDialog = () => {
@@ -279,24 +276,17 @@ const Post = ({ post }) => {
 					</IconButton>
 					<h4>{likeNumber} likes</h4>
 					<IconButton color="primary">
-						<Message onClick={() => handleComment(post?._id)} />
+						<Message />
 					</IconButton>
-					<h4>{post?.comments} comments</h4>
+					<h4>{commentNumber} comments</h4>
 				</CardActions>
-				{comments?.length > 0 &&
-					comments.map((comment) => (
-						<Comment
-							key={comment._id}
-							id={comment._id}
-							postId={comment.postId}
-							postUserId={comment.postUserId}
-							username={comment.username}
-							avatar={comment.avatar}
-							createdAt={comment.createdAt}
-							content={comment.content}
-						/>
-					))}
-				<InputComment post={post} user={user} />
+				<Comments post={post} commentNumber={commentNumber} setCommentNumber={setCommentNumber} />
+				<InputComment
+					post={post}
+					user={user}
+					commentNumber={commentNumber}
+					setCommentNumber={setCommentNumber}
+				/>
 
 				<Dialog
 					fullScreen={fullScreen}

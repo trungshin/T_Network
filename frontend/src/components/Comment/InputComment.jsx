@@ -1,23 +1,24 @@
 import React, { useState } from "react";
-import { CardActions, Button, InputBase } from "@mui/material";
-import { createComment, getUserComment } from "../redux/apiRequests";
 import { useDispatch } from "react-redux";
-import CommentOutlinedIcon from "@mui/icons-material/CommentOutlined";
+import { CardActions, Button, InputBase } from "@mui/material";
+import { CommentOutlined } from "@mui/icons-material";
+import { createComment } from "../../redux/apiRequests";
 
-const InputComment = ({ post, user }) => {
+const InputComment = ({ post, user, commentNumber, setCommentNumber }) => {
 	const [content, setContent] = useState("");
 	const dispatch = useDispatch();
 
-	const handleComment = (id) => {
+	const handleComment = (e, postId) => {
+		e.preventDefault();
+		setCommentNumber(commentNumber + 1);
 		const newComment = {
 			content,
 			postUserId: user?._id,
 			createdAt: new Date().toISOString()
 		};
 		setContent("");
-		createComment(dispatch, user?.accessToken, id, newComment);
-		// setCloseCmt(true);
-		getUserComment(dispatch, user?.accessToken, id);
+		createComment(dispatch, user?.accessToken, postId, newComment);
+		window.location.reload();
 	};
 
 	return (
@@ -29,12 +30,12 @@ const InputComment = ({ post, user }) => {
 				onChange={(e) => setContent(e.target.value)}
 			/>
 			{content ? (
-				<Button variant="contained" onClick={(e) => handleComment(post?._id)}>
-					<CommentOutlinedIcon />
+				<Button variant="contained" onClick={(e) => handleComment(e, post?._id)}>
+					<CommentOutlined />
 				</Button>
 			) : (
 				<Button variant="contained" disabled>
-					<CommentOutlinedIcon />
+					<CommentOutlined />
 				</Button>
 			)}
 		</CardActions>

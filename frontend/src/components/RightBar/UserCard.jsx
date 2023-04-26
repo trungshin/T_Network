@@ -18,7 +18,7 @@ import {
 } from "@mui/material";
 import { Close } from "@mui/icons-material";
 import { deleteUser } from "../../redux/apiRequests";
-import FollowBtn from "../FollowBtn";
+import FollowBtn from "../FollowButton/FollowBtn";
 import StyledBadge from "../StyleBadge";
 
 const UserCard = ({ user }) => {

@@ -8,6 +8,16 @@ export const userSlice = createSlice({
 			pending: false,
 			error: false
 		},
+		followingsList: {
+			usersList: [],
+			pending: false,
+			error: false
+		},
+		followersList: {
+			usersList: [],
+			pending: false,
+			error: false
+		},
 		user: {
 			currentUser: null,
 			pending: false,
@@ -58,18 +68,18 @@ export const userSlice = createSlice({
 			state.otherUser.pending = false;
 			state.otherUser.error = true;
 		},
-		getCurrentUserStart: (state) => {
-			state.user.pending = true;
-		},
-		getCurrentUserSuccess: (state, action) => {
-			state.user.pending = false;
-			state.user.currentUser = action.payload;
-			state.user.error = false;
-		},
-		getCurrentUserFailed: (state) => {
-			state.user.pending = false;
-			state.user.error = true;
-		},
+		// getCurrentUserStart: (state) => {
+		// 	state.user.pending = true;
+		// },
+		// getCurrentUserSuccess: (state, action) => {
+		// 	state.user.pending = false;
+		// 	state.user.currentUser = action.payload;
+		// 	state.user.error = false;
+		// },
+		// getCurrentUserFailed: (state) => {
+		// 	state.user.pending = false;
+		// 	state.user.error = true;
+		// },
 		getAllUsersStart: (state) => {
 			state.allUsers.pending = true;
 		},
@@ -80,6 +90,28 @@ export const userSlice = createSlice({
 		getAllUsersFailed: (state) => {
 			state.allUsers.pending = false;
 			state.allUsers.error = true;
+		},
+		getFollowingsListStart: (state) => {
+			state.followingsList.pending = false;
+		},
+		getFollowingsListSuccess: (state, action) => {
+			state.followingsList.pending = false;
+			state.followingsList.usersList = action.payload;
+		},
+		getFollowingsListFailed: (state) => {
+			state.followingsList.pending = false;
+			state.followingsList.error = true;
+		},
+		getFollowersListStart: (state) => {
+			state.followersList.pending = false;
+		},
+		getFollowersListSuccess: (state, action) => {
+			state.followersList.pending = false;
+			state.followersList.usersList = action.payload;
+		},
+		getFollowersListFailed: (state) => {
+			state.followersList.pending = false;
+			state.followersList.error = true;
 		},
 		followUserStart: (state) => {
 			state.followUser.pending = false;
@@ -114,12 +146,18 @@ export const {
 	getUserStart,
 	getUserSuccess,
 	getUserFailed,
-	getCurrentUserStart,
-	getCurrentUserSuccess,
-	getCurrentUserFailed,
+	// getCurrentUserStart,
+	// getCurrentUserSuccess,
+	// getCurrentUserFailed,
 	getAllUsersStart,
 	getAllUsersSuccess,
 	getAllUsersFailed,
+	getFollowingsListStart,
+	getFollowingsListSuccess,
+	getFollowingsListFailed,
+	getFollowersListStart,
+	getFollowersListSuccess,
+	getFollowersListFailed,
 	followUserStart,
 	followUserSuccess,
 	followUserFailed,

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Stack, Typography } from "@mui/material";
-import { followUser, unFollowUser } from "../redux/apiRequests";
+import { followUser, unFollowUser } from "../../redux/apiRequests";
 import { FiberManualRecord } from "@mui/icons-material";
 
 const FollowBtn = ({ user }) => {

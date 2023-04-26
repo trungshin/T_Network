@@ -3,46 +3,53 @@ import { createSlice } from "@reduxjs/toolkit";
 export const commentSlice = createSlice({
 	name: "comment",
 	initialState: {
-		userComments: {
-			comments: [],
-			pending: false,
-			error: false
-		},
+		// userComments: {
+		// 	comments: null,
+		// 	pending: false,
+		// 	success: false,
+		// 	error: false
+		// },
 		createComments: {
 			pending: false,
-			error: null
+			success: false,
+			error: false
 		},
 		deleteComments: {
 			pending: false,
-			error: false,
-			success: false
+			success: false,
+			error: false
 		}
 	},
 	reducers: {
 		createCommentStart: (state) => {
 			state.createComments.pending = true;
+			state.createComments.success = false;
 			state.createComments.error = false;
 		},
 		createCommentSuccess: (state) => {
 			state.createComments.pending = false;
-			state.createComments.error = false;
+			state.createComments.success = true;
 		},
 		createCommentFailed: (state) => {
 			state.createComments.pending = false;
 			state.createComments.error = true;
 		},
-		getUserCommentStart: (state) => {
-			state.userComments.pending = true;
-			state.userComments.error = false;
-		},
-		getUserCommentSuccess: (state, action) => {
-			state.userComments.pending = false;
-			state.userComments.comments = action.payload;
-		},
-		getUserCommentFailed: (state) => {
-			state.userComments.pending = false;
-			state.userComments.error = true;
-		},
+		// getUserCommentStart: (state) => {
+		// 	state.userComments.pending = true;
+		// 	state.userComments.success = false;
+		// 	state.userComments.error = false;
+		// },
+		// getUserCommentSuccess: (state, action) => {
+		// 	state.userComments.pending = false;
+		// 	state.userComments.success = true;
+		// 	state.userComments.error = false;
+		// 	state.userComments.comments = action.payload;
+		// },
+		// getUserCommentFailed: (state) => {
+		// 	state.userComments.pending = false;
+		// 	state.userComments.success = false;
+		// 	state.userComments.error = true;
+		// },
 		deleteCommentStart: (state) => {
 			state.deleteComments.pending = true;
 			state.deleteComments.success = false;
@@ -63,9 +70,9 @@ export const {
 	createCommentStart,
 	createCommentSuccess,
 	createCommentFailed,
-	getUserCommentStart,
-	getUserCommentSuccess,
-	getUserCommentFailed,
+	// getUserCommentStart,
+	// getUserCommentSuccess,
+	// getUserCommentFailed,
 	deleteCommentStart,
 	deleteCommentSuccess,
 	deleteCommentFailed

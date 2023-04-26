@@ -3,14 +3,13 @@ import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { Box, Stack, Avatar, Typography, Chip } from "@mui/material";
 import Post from "../../components/Posts/Post";
-import { getUserPost } from "../../redux/apiRequests";
-import { getUser } from "../../redux/apiRequests";
 import EditPage from "../../components/Profile/EditPage";
 import Introduce from "../../components/Profile/Introduce";
-import Follows from "../../components/Profile/Follows";
 import { CreateOutlined, People, PersonAddOutlined } from "@mui/icons-material";
 import CreatePost from "../../components/Posts/CreatePosts";
-import { followUser, unFollowUser } from "../../redux/apiRequests";
+import { followUser, unFollowUser, getUser, getUserPost } from "../../redux/apiRequests";
+import FollowingsList from "../../components/Profile/FollowingsList";
+import FollowersList from "../../components/Profile/FollowersList";
 
 const Profile = () => {
 	const user = useSelector((state) => state.user.user?.currentUser);
@@ -22,6 +21,8 @@ const Profile = () => {
 	const { posts } = useSelector((state) => state.post.userPost);
 	const dispatch = useDispatch();
 	const { id } = useParams();
+
+	console.log("id: ", id);
 
 	const handleClickOpen = (scrollType) => {
 		setOpen(true);
@@ -71,12 +72,12 @@ const Profile = () => {
 							alt={otherUser?.username}
 							src={otherUser?.avatar}
 						/>
-
 						<Box
 							classNames="relation"
 							sx={{
 								position: "absolute",
 								right: 0,
+								mr: 39,
 								top: 20
 							}}
 						>
@@ -87,19 +88,19 @@ const Profile = () => {
 							  (otherUser?.followings?.length && otherUser?.followers?.length) > 0 ? (
 								<Chip label="Friend" color="primary" icon={<People />} />
 							) : null}
+						</Box>
+
+						<Box
+							classNames="relation"
+							sx={{
+								position: "absolute",
+								right: 0,
+								top: 20
+							}}
+						>
 							{otherUser?._id === user?._id ? null : <AddFriend otherUser={otherUser} user={user} />}
 
 							{otherUser?._id === user?._id && (
-								// <Button
-								// 	onClick={() => handleClickOpen("paper")}
-								// 	variant="contained"
-								// 	sx={{
-								// 		padding: "8px 30px"
-								// 	}}
-								// >
-								// 	Edit
-								// </Button>
-
 								<Stack
 									flexDirection="row"
 									justifyContent="center"
@@ -151,26 +152,32 @@ const Profile = () => {
 						}
 					}}
 				>
-					<Box>
-						<CreatePost />
-					</Box>
+					{otherUser?._id === user?._id && (
+						<Box>
+							<CreatePost />
+						</Box>
+					)}
 
 					{posts?.length > 0 ? (
 						posts?.map((post) => {
-							return <Box pl={2}> 
-								<Post key={post._id} post={post} />
-							</Box>;
+							return (
+								<Box pl={2}>
+									<Post key={post._id} post={post} />
+								</Box>
+							);
 						})
 					) : (
 						<Stack justifyContent="center" alignItems="center">
-							<Typography fontSize={24} fontWeight={500}>No posts</Typography>
+							<Typography fontSize={24} fontWeight={500}>
+								No posts
+							</Typography>
 						</Stack>
 					)}
 				</Stack>
 
 				<Stack width="40%" p={2} flexDirection="column">
-					{/* <Follows otherUser={otherUser} /> */}
-					<Follows otherUser={otherUser} />
+					<FollowingsList otherUser={otherUser} />
+					<FollowersList otherUser={otherUser} />
 					<Introduce otherUser={otherUser} />
 				</Stack>
 			</Stack>

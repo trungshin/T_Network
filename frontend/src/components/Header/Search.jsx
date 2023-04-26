@@ -1,7 +1,7 @@
 import React, { useState, useEffect, Fragment } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import { Avatar, Box, IconButton, InputBase, MenuItem, Popper, Stack, Typography } from "@mui/material";
+import { Avatar, Box, IconButton, InputBase, MenuItem, Stack, Typography } from "@mui/material";
 import { Close, SearchOutlined } from "@mui/icons-material";
 import { searchUsername } from "../../redux/apiRequests";
 
@@ -9,12 +9,10 @@ const SearchUser = ({ user }) => {
 	const { users } = useSelector((state) => state.user.allUsers);
 	const [result, setResult] = useState(users);
 	const [search, setSearch] = useState("");
-	const [anchorEl, setAnchorEl] = useState(null);
-	const [openSearch, setOpenSearch] = useState(false);
-	const open = Boolean(anchorEl);
-	const dispatch = useDispatch();
 
-	console.log("result", result);
+	const [openSearch, setOpenSearch] = useState(false);
+
+	const dispatch = useDispatch();
 
 	useEffect(() => {
 		if (search === "") {
@@ -28,12 +26,16 @@ const SearchUser = ({ user }) => {
 	const handleClick = (e) => {
 		document.querySelector("#auto-complete").style.display = "block";
 
-		document.querySelector("#input-base").addEventListener("blur", () => {
-			document.querySelector("#auto-complete").style.display = "none";
-		});
+		// document.querySelector("#input-base").addEventListener("blur", () => {
+		// 	document.querySelector("#auto-complete").style.display = "none";
+		// });
 	};
 	const handleClose = () => {
-		setAnchorEl(null);
+		document.querySelector("#auto-complete").style.display = "none";
+
+		document.querySelector("#auto-complete").addEventListener("blur", () => {
+			document.querySelector("#auto-complete").style.display = "none";
+		});
 	};
 
 	return (
@@ -102,7 +104,6 @@ const SearchUser = ({ user }) => {
 					/>
 				</Box>
 
-				{/*  */}
 				<Box
 					id="auto-complete"
 					sx={{
@@ -115,6 +116,9 @@ const SearchUser = ({ user }) => {
 						borderRadius: 1,
 						display: "none"
 					}}
+					tabIndex={-1}
+					onFocus={() => (document.querySelector("#auto-complete").style.display = "block")}
+					onBlur={() => (document.querySelector("#auto-complete").style.display = "none")}
 				>
 					{result.length > 0 && (
 						<Stack
@@ -128,7 +132,7 @@ const SearchUser = ({ user }) => {
 						</Stack>
 					)}
 
-					{result.length > 0 || (openSearch && result.length > 0) ? (
+					{openSearch && result.length > 0 ? (
 						result?.map((usersearch) => {
 							return (
 								<Fragment>
@@ -168,75 +172,6 @@ const SearchUser = ({ user }) => {
 						</Stack>
 					)}
 				</Box>
-
-				{/* <Popper
-					style={{
-						backgroundColor: "#fff",
-						zIndex: 100,
-						boxShadow: "0 0 3px 1px rgba(0,0,0,0.2)",
-						width: 550,
-						borderRadius: 1
-					}}
-					anchorEl={anchorEl}
-					id="account-menu-search"
-					open={open}
-					onClose={handleClose}
-					onClick={handleClose}
-					transformOrigin={{ horizontal: "right", vertical: "top" }}
-					anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
-				>
-					{result.length > 0 && (
-						<Stack
-							flexDirection="row"
-							justifyContent="space-between"
-							alignItems="center"
-							sx={{ padding: "2px 2px 1px 2px" }}
-						>
-							<Typography fontWeight={500}>Recent searches</Typography>
-							<Typography sx={{ cursor: "pointer", color: "dodgerblue" }}>Edit</Typography>
-						</Stack>
-					)}
-
-					{result.length > 0 ? (
-						result?.map((usersearch) => {
-							return (
-								<Fragment>
-									<Link
-										to={`/user/${usersearch._id}`}
-										style={{
-											textDecorationLine: "none",
-											color: "#333"
-										}}
-									>
-										<MenuItem
-											onClick={handleClose}
-											sx={{
-												display: "flex",
-												justifyContent: "space-between",
-												alignItems: "center"
-											}}
-										>
-											<Stack flexDirection="row">
-												<Avatar alt={usersearch.username} src={usersearch.avatar} />
-												<Typography sx={{ margin: 1 }}>{usersearch.username}</Typography>
-											</Stack>
-
-											<IconButton>
-												<Close fontSize="small" />
-											</IconButton>
-										</MenuItem>
-									</Link>
-								</Fragment>
-							);
-						})
-					) : (
-						<Stack justifyContent="center" alignItems="center" sx={{ padding: 2 }}>
-							<Typography fontSize={16} color="#666">
-								No result
-							</Typography>
-						</Stack>
-					)}
-				</Popper> */}
 			</Stack>
 		</Box>
 	);

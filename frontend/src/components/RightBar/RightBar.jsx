@@ -60,7 +60,40 @@ export const RightBar = () => {
 					</Typography>
 				</Box>
 
-				<Stack flexDirection="column">
+				<Stack
+					flexDirection="column"
+					sx={{
+						height: "calc(50vh - 90px)",
+						overflowY: "scroll",
+						
+						"&::-webkit-scrollbar": {
+							width: "10px"
+						},
+
+						"&::-webkit-scrollbar-track": {
+							backgroundColor: "#fff"
+						},
+
+						"&::-webkit-scrollbar-thumb": {
+							backgroundColor: "#fff",
+							borderRadius: "10px",
+
+							"&:hover": {
+								backgroundColor: "#b4b0b0"
+							}
+						},
+
+						":hover": {
+							"&::-webkit-scrollbar-track": {
+								backgroundColor: "#f1f1f1"
+							},
+
+							"&::-webkit-scrollbar-thumb": {
+								backgroundColor: "#cdc9c9"
+							}
+						}
+					}}
+				>
 					{users.length > 0 && users?.map((user) => <UserCard key={user._id} user={user} />)}
 				</Stack>
 			</Box>

@@ -13,17 +13,15 @@ export function userRouter() {
 
 	//GET A USER
 	router.get("/:id", verifyToken, getUser);
-	// router.get("/:id", getUser);
-	// router.post("/:id", getUser);
 
 	//GET ALL USERS
 	router.get("/", verifyToken, getAllUsers);
 
 	//FOLLOW A USER
-	router.put("/:id/follow", verifyToken, followUser);
+	router.patch("/:id/follow", verifyToken, followUser);
 
 	//UNFOLLOW A USER
-	router.put("/:id/unfollow", verifyToken, unFollowUser);
+	router.patch("/:id/unfollow", verifyToken, unFollowUser);
 
 	return router;
 }

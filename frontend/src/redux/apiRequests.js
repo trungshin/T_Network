@@ -25,12 +25,18 @@ import {
 	getUserStart,
 	getUserSuccess,
 	getUserFailed,
-	getCurrentUserStart,
-	getCurrentUserSuccess,
-	getCurrentUserFailed,
+	// getCurrentUserStart,
+	// getCurrentUserSuccess,
+	// getCurrentUserFailed,
 	getAllUsersStart,
 	getAllUsersSuccess,
 	getAllUsersFailed,
+	getFollowingsListStart,
+	getFollowingsListSuccess,
+	getFollowingsListFailed,
+	getFollowersListStart,
+	getFollowersListSuccess,
+	getFollowersListFailed,
 	followUserStart,
 	followUserSuccess,
 	followUserFailed,
@@ -65,9 +71,9 @@ import {
 	createCommentFailed,
 	createCommentStart,
 	createCommentSuccess,
-	getUserCommentStart,
-	getUserCommentFailed,
-	getUserCommentSuccess,
+	// getUserCommentStart,
+	// getUserCommentFailed,
+	// getUserCommentSuccess,
 	deleteCommentFailed,
 	deleteCommentStart,
 	deleteCommentSuccess
@@ -155,44 +161,35 @@ export const logOutUser = async (dispatch, token, userId, navigate) => {
 
 export const getUser = async (dispatch, id, token) => {
 	dispatch(getUserStart());
+	dispatch(getFollowingsListStart());
+	dispatch(getFollowersListStart());
 	try {
 		const res = await axios.get(`${APIPaths.Users}/${id}`, {
 			headers: { token: `Bearer ${token}` }
 		});
 
-		dispatch(getUserSuccess(res.data));
+		dispatch(getUserSuccess(res.data.user));
+		dispatch(getFollowingsListSuccess(res.data.userFollowings));
+		dispatch(getFollowersListSuccess(res.data.userFollowers));
 	} catch (err) {
 		dispatch(getUserFailed());
+		dispatch(getFollowingsListFailed());
+		dispatch(getFollowersListFailed());
 	}
 };
-// export const getUser = async (dispatch, id, token) => {
-// 	dispatch(getUserStart());
-// 	try {
-// 		const res = await axios.post(`${APIPaths.Users}/${id}`, {
-// 			headers: { token: `Bearer ${token}` },
-// 			data: {
-// 				user_id: id
-// 			}
-// 		});
 
-// 		dispatch(getUserSuccess(res.data));
+// export const getCurrentUser = async (dispatch, id, token) => {
+// 	dispatch(getCurrentUserStart());
+// 	try {
+// 		const res = await axios.get(`${APIPaths.Users}/${id}`, {
+// 			headers: { token: `Bearer ${token}` }
+// 		});
+// 		console.log(res);
+// 		dispatch(getCurrentUserSuccess(res.data));
 // 	} catch (err) {
-// 		dispatch(getUserFailed());
+// 		dispatch(getCurrentUserFailed());
 // 	}
 // };
-
-export const getCurrentUser = async (dispatch, id, token) => {
-	dispatch(getCurrentUserStart());
-	try {
-		const res = await axios.get(`${APIPaths.Users}/${id}`, {
-			headers: { token: `Bearer ${token}` }
-		});
-		console.log(res);
-		dispatch(getCurrentUserSuccess(res.data));
-	} catch (err) {
-		dispatch(getCurrentUserFailed());
-	}
-};
 
 export const updateUser = async (dispatch, user, id, token) => {
 	dispatch(updateStart());
@@ -200,7 +197,7 @@ export const updateUser = async (dispatch, user, id, token) => {
 		const res = await axios.put(`${APIPaths.Users}/${id}`, user, {
 			headers: { token: `Bearer ${token}` }
 		});
-		// console.log(res.config);
+		
 		dispatch(updateFollowSuccess(res.data));
 	} catch (err) {
 		console.log(err);
@@ -214,6 +211,7 @@ export const searchUsername = async (dispatch, search, token, setResulsts) => {
 		const res = await axios.get(`${APIPaths.Search}?username=${search}`, {
 			headers: { token: `Bearer ${token}` }
 		});
+
 		if (search === "") {
 			setResulsts([]);
 		} else {
@@ -239,7 +237,7 @@ export const getAllUsers = async (dispatch, token) => {
 export const followUser = async (dispatch, id, userId, token) => {
 	dispatch(followUserStart());
 	try {
-		const res = await axios.put(`${APIPaths.Users}/${id}/follow`, userId, {
+		const res = await axios.patch(`${APIPaths.Users}/${id}/follow`, userId, {
 			headers: { token: `Bearer ${token}` }
 		});
 		const update = {
@@ -256,7 +254,7 @@ export const followUser = async (dispatch, id, userId, token) => {
 export const unFollowUser = async (dispatch, id, userId, token) => {
 	dispatch(followUserStart());
 	try {
-		const res = await axios.put(`${APIPaths.Users}/${id}/unfollow`, userId, {
+		const res = await axios.patch(`${APIPaths.Users}/${id}/unfollow`, userId, {
 			headers: { token: `Bearer ${token}` }
 		});
 		const update = {
@@ -425,17 +423,19 @@ export const createComment = async (dispatch, token, id, comment) => {
 	}
 };
 
-export const getUserComment = async (dispatch, token, postId) => {
-	dispatch(getUserCommentStart());
-	try {
-		const res = await axios.get(`${APIPaths.Posts}/comment/${postId}`, {
-			headers: { token: `Bearer ${token}` }
-		});
-		dispatch(getUserCommentSuccess(res.data));
-	} catch (err) {
-		dispatch(getUserCommentFailed());
-	}
-};
+// export const getUserComment = async (dispatch, token, postId) => {
+// 	console.log("postId: ", postId);
+// 	dispatch(getUserCommentStart());
+// 	try {
+// 		const res = await axios.get(`${APIPaths.Posts}/comment/${postId}`, {
+// 			headers: { token: `Bearer ${token}` }
+// 		});
+// 		console.log("res: ", res);
+// 		dispatch(getUserCommentSuccess(res.data));
+// 	} catch (err) {
+// 		dispatch(getUserCommentFailed());
+// 	}
+// };
 
 export const deleteComment = async (dispatch, token, id, postUserId) => {
 	dispatch(deleteCommentStart());

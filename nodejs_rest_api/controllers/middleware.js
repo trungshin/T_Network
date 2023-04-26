@@ -62,7 +62,13 @@ export const paginatedResult = (model) => {
 			};
 		}
 		try {
-			results.results = await model.find().sort({ createdAt: -1 }).limit(limit).skip(startIndex).exec();
+			results.results = await model
+				.find()
+				.sort({ createdAt: -1 })
+				.populate("comments")
+				.limit(limit)
+				.skip(startIndex)
+				.exec();
 			res.paginatedResults = results;
 			next();
 		} catch (err) {

@@ -5,27 +5,28 @@ import cloudinary from "../utils/cloudinary";
 
 export const getUser = async (req, res) => {
 	try {
-		//find the user ID
+		//find the otherUser ID
 		const user = await User.findById(req.params.id);
-		console.log(user);
-		res.status(200).json(user);
+
+		//returns a list of people the otherUser is following.
+		const userFollowings = await Promise.all(
+			user.followings.map((followingId) => {
+				return User.findById(followingId);
+			})
+		);
+
+		//returns a list of people who are following otherUser.
+		const userFollowers = await Promise.all(
+			user.followers.map((followerId) => {
+				return User.findById(followerId);
+			})
+		);
+
+		res.status(200).json({ user, userFollowings, userFollowers });
 	} catch (err) {
 		res.status(500).json(err);
 	}
 };
-
-// export const getUser = async (req, res) => {
-// 	try {
-// 		console.log("req.body", req.body);
-
-// 		//find the user ID
-// 		const user = await User.findById(req.params.id);
-// 		console.log(user);
-// 		res.status(200).json(user);
-// 	} catch (err) {
-// 		res.status(500).json(err);
-// 	}
-// };
 
 export const getAllUsers = async (req, res) => {
 	try {
@@ -38,8 +39,30 @@ export const getAllUsers = async (req, res) => {
 
 export const deleteUser = async (req, res) => {
 	try {
-		//find the user ID and delete that user
-		const user = await User.findByIdAndDelete(req.params.id);
+		const user = await User.findByIdAndDelete(req.params.id); //find the user ID and delete that user
+		const userFollowingDeleted = await User.find({ followings: req.params.id });
+		const userFollowerDeleted = await User.find({ followers: req.params.id });
+
+		await Promise.all(
+			userFollowingDeleted.map((followingDeletedId) => {
+				return User.findByIdAndUpdate(
+					followingDeletedId,
+					{ $pull: { followings: req.params.id } },
+					{ returnDocument: "after" }
+				);
+			})
+		);
+
+		await Promise.all(
+			userFollowerDeleted.map((followerDeletedId) => {
+				return User.findByIdAndUpdate(
+					followerDeletedId,
+					{ $pull: { followers: req.params.id } },
+					{ returnDocument: "after" }
+				);
+			})
+		);
+
 		res.status(200).json("Account " + user.username + " has been deleted");
 	} catch (err) {
 		res.status(500).json(err);

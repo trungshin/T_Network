@@ -1,7 +1,7 @@
 import React from "react";
 import { Routes, Route } from "react-router";
 import { BrowserRouter } from "react-router-dom";
-import { AuthRoutes, PublicRoutes } from "./routes";
+import { AuthRoutes, PublicRoutes } from "./utils/index";
 import RequireAuth from "./components/RequireAuth";
 
 function App() {
@@ -25,7 +25,7 @@ function App() {
 						/>
 					);
 				})}
-				
+
 				{AuthRoutes.map((route, index) => {
 					const path = route.path;
 					const Layout = route.layout;
