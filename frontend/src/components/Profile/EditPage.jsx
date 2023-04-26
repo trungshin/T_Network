@@ -18,11 +18,19 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { updateUser } from "../../redux/apiRequests";
-import { useTheme } from "@mui/material/styles";
+import { useTheme, styled } from "@mui/material/styles";
 import { Close, PhotoCamera } from "@mui/icons-material";
 import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/style.css";
-import { Avatar } from "./UserHeader";
+import MuiAvatar from "@mui/material/Avatar";
+
+export const Avatar = styled(MuiAvatar)(({ theme }) => ({
+	border: `3px solid white`,
+	width: theme.spacing(17),
+	height: theme.spacing(17),
+	boxShadow: theme.shadows[3]
+}));
+
 
 const EditPage = ({ open, scroll, setOpen }) => {
 	const user = useSelector((state) => state.user.user?.currentUser);
