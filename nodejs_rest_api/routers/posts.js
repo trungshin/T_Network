@@ -10,7 +10,7 @@ import {
 	likePost,
 	unLikePost
 } from "../controllers/post";
-import { createComment, getCommentsInPost, deleteComment } from "../controllers/comment";
+import { createComment, deleteComment, updateComment } from "../controllers/comment";
 import Post from "../models/post";
 import { verifyToken, UserPostAuthorization, paginatedResult, commentAuthorization } from "../controllers/middleware";
 import upload from "../utils/multer";
@@ -48,8 +48,8 @@ export function postRouter() {
 	//CREATE A COMMENT
 	router.post("/comment/:id", verifyToken, createComment);
 
-	// GET ALL COMMENTS IN A POST
-	router.get("/comment/:id", verifyToken, getCommentsInPost);
+	//UPDATE COMMENT
+	router.patch("/comment/:id", verifyToken, updateComment);
 
 	// DELETE A COMMENT
 	router.delete("/comment/:id", commentAuthorization, deleteComment);

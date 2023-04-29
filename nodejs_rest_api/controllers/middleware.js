@@ -47,6 +47,7 @@ export const paginatedResult = (model) => {
 		// const endIndex = page * limit;
 
 		const results = {};
+		results.full = await model.countDocuments().exec();
 
 		if (endIndex < (await model.countDocuments().exec())) {
 			results.next = {

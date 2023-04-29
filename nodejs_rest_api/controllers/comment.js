@@ -12,7 +12,7 @@ export const createComment = async (req, res) => {
 			avatar: user.avatar
 		};
 		const newComment = new Comment(createComment);
-		await Post.findOneAndUpdate({ _id: req.params.id }, { $push: {comments: newComment._id} }, {new: true});
+		await Post.findOneAndUpdate({ _id: req.params.id }, { $push: { comments: newComment._id } }, { new: true });
 		const savedComment = await newComment.save();
 		res.status(200).json(savedComment);
 	} catch (err) {
@@ -20,12 +20,16 @@ export const createComment = async (req, res) => {
 	}
 };
 
-export const getCommentsInPost = async (req, res) => {
-	console.log("req.params.id: ", req.params.id);
+export const updateComment = async (req, res) => {
 	try {
-		const comments = await Comment.find({ postId: req.params.id });
-		console.log("cmts: ", comments);
-		res.status(200).json(comments);
+		const comment = await Comment.findById(req.params.id);
+		if (comment.postUserId === req.body.userId) {
+			console.log("content: ", req.body.content);
+			await comment.updateOne({ $set: { content: req.body.content } });
+			res.status(200).json("Update Success!");
+		} else {
+			return res.status(403).json("You can only update your comment");
+		}
 	} catch (err) {
 		res.status(500).json(err);
 	}
@@ -35,7 +39,7 @@ export const deleteComment = async (req, res) => {
 	try {
 		const comment = await Comment.findById(req.params.id);
 		await Comment.findByIdAndDelete(req.params.id);
-		await Post.findOneAndUpdate({ _id: comment.postId }, { $pull: {comments: req.params.id} }, {new: true});
+		await Post.findOneAndUpdate({ _id: comment.postId }, { $pull: { comments: req.params.id } }, { new: true });
 		res.status(200).json("Delete comment succesfully");
 	} catch (err) {
 		res.status(500).json(err);

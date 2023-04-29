@@ -3,12 +3,11 @@ import { createSlice } from "@reduxjs/toolkit";
 export const commentSlice = createSlice({
 	name: "comment",
 	initialState: {
-		// userComments: {
-		// 	comments: null,
-		// 	pending: false,
-		// 	success: false,
-		// 	error: false
-		// },
+		oneComment: {
+			comment: [],
+			pending: false,
+			error: false
+		},
 		createComments: {
 			pending: false,
 			success: false,
@@ -34,22 +33,18 @@ export const commentSlice = createSlice({
 			state.createComments.pending = false;
 			state.createComments.error = true;
 		},
-		// getUserCommentStart: (state) => {
-		// 	state.userComments.pending = true;
-		// 	state.userComments.success = false;
-		// 	state.userComments.error = false;
-		// },
-		// getUserCommentSuccess: (state, action) => {
-		// 	state.userComments.pending = false;
-		// 	state.userComments.success = true;
-		// 	state.userComments.error = false;
-		// 	state.userComments.comments = action.payload;
-		// },
-		// getUserCommentFailed: (state) => {
-		// 	state.userComments.pending = false;
-		// 	state.userComments.success = false;
-		// 	state.userComments.error = true;
-		// },
+		updateCommentStart: (state) => {
+			state.oneComment.pending = true;
+		},
+		updateCommentSuccess: (state, action) => {
+			state.oneComment.pending = false;
+			state.oneComment.error = false;
+			state.oneComment.comment = action.payload;
+		},
+		updateCommentError: (state) => {
+			state.oneComment.error = true;
+			state.oneComment.pending = false;
+		},
 		deleteCommentStart: (state) => {
 			state.deleteComments.pending = true;
 			state.deleteComments.success = false;
@@ -70,9 +65,9 @@ export const {
 	createCommentStart,
 	createCommentSuccess,
 	createCommentFailed,
-	// getUserCommentStart,
-	// getUserCommentSuccess,
-	// getUserCommentFailed,
+	updateCommentStart,
+	updateCommentSuccess,
+	updateCommentFailed,
 	deleteCommentStart,
 	deleteCommentSuccess,
 	deleteCommentFailed

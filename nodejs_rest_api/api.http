@@ -1,8 +1,0 @@
-
-####
-PUT http://localhost:8080/api/users/63444beb3093a414861f258a/follow
-Content-Type: application/json
-
-{
-    "63355f04e0a685b0411aec05": "63355f04e0a685b0411aec05",
-}

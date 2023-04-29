@@ -25,9 +25,6 @@ import {
 	getUserStart,
 	getUserSuccess,
 	getUserFailed,
-	// getCurrentUserStart,
-	// getCurrentUserSuccess,
-	// getCurrentUserFailed,
 	getAllUsersStart,
 	getAllUsersSuccess,
 	getAllUsersFailed,
@@ -54,6 +51,7 @@ import {
 	getAllPostFailed,
 	getAllPostStart,
 	getAllPostSuccess,
+	getAllPostLengthSuccess,
 	getOnePostFailed,
 	getOnePostStart,
 	getOnePostSuccess,
@@ -71,9 +69,9 @@ import {
 	createCommentFailed,
 	createCommentStart,
 	createCommentSuccess,
-	// getUserCommentStart,
-	// getUserCommentFailed,
-	// getUserCommentSuccess,
+	updateCommentFailed,
+	updateCommentStart,
+	updateCommentSuccess,
 	deleteCommentFailed,
 	deleteCommentStart,
 	deleteCommentSuccess
@@ -178,26 +176,13 @@ export const getUser = async (dispatch, id, token) => {
 	}
 };
 
-// export const getCurrentUser = async (dispatch, id, token) => {
-// 	dispatch(getCurrentUserStart());
-// 	try {
-// 		const res = await axios.get(`${APIPaths.Users}/${id}`, {
-// 			headers: { token: `Bearer ${token}` }
-// 		});
-// 		console.log(res);
-// 		dispatch(getCurrentUserSuccess(res.data));
-// 	} catch (err) {
-// 		dispatch(getCurrentUserFailed());
-// 	}
-// };
-
 export const updateUser = async (dispatch, user, id, token) => {
 	dispatch(updateStart());
 	try {
 		const res = await axios.put(`${APIPaths.Users}/${id}`, user, {
 			headers: { token: `Bearer ${token}` }
 		});
-		
+
 		dispatch(updateFollowSuccess(res.data));
 	} catch (err) {
 		console.log(err);
@@ -319,44 +304,15 @@ export const deletePost = async (dispatch, token, id, userId) => {
 	}
 };
 
-// export const getAllPosts = async (
-// 	dispatch,
-// 	token,
-// 	pageNumber,
-// 	setHasMore
-//   ) => {
-// 	dispatch(getAllPostStart());
-// 	try {
-// 	  const res = await axios.get(
-// 		`${APIPaths.Posts}?page=${pageNumber}&limit=2`,
-// 		{
-// 		  headers: { token: `Bearer ${token}` },
-// 		}
-// 	  );
-// 	  setHasMore(res.data.results.length > 0);
-// 	  dispatch(getAllPostSuccess(res.data.results));
-// 	} catch (err) {
-// 	  dispatch(getAllPostFailed());
-// 	}
-//   };
-
-// pageNumber
 export const getAllPosts = async (dispatch, token, page) => {
 	dispatch(getAllPostStart());
 	try {
-		const res = await axios.get(
-			// `${APIPaths.Posts}?page=${pageNumber}&limit=4`,
-			`${APIPaths.Posts}?page=${page}&limit=10`,
-			{
-				headers: { token: `Bearer ${token}` }
-			}
-		);
-		// if (!res.data.results.length) {
-		// 	setWasLastList(true);
-		// 	return;
-		// }
-		// setPrevPage(page);
+		const res = await axios.get(`${APIPaths.Posts}?page=${page}&limit=10`, {
+			headers: { token: `Bearer ${token}` }
+		});
+
 		dispatch(getAllPostSuccess(res.data.results));
+		dispatch(getAllPostLengthSuccess(res.data.full));
 	} catch (e) {
 		dispatch(getAllPostFailed());
 	}
@@ -399,7 +355,6 @@ export const likePost = async (dispatch, token, postId, userId) => {
 };
 
 export const unLikePost = async (dispatch, token, postId, userId) => {
-	// const newPost = {...post, likes: post.likes.filter(like => like._id !== userId)}
 	dispatch(interactPostStart());
 	try {
 		await axios.patch(`${APIPaths.Posts}/${postId}/unlike`, userId, {
@@ -423,19 +378,18 @@ export const createComment = async (dispatch, token, id, comment) => {
 	}
 };
 
-// export const getUserComment = async (dispatch, token, postId) => {
-// 	console.log("postId: ", postId);
-// 	dispatch(getUserCommentStart());
-// 	try {
-// 		const res = await axios.get(`${APIPaths.Posts}/comment/${postId}`, {
-// 			headers: { token: `Bearer ${token}` }
-// 		});
-// 		console.log("res: ", res);
-// 		dispatch(getUserCommentSuccess(res.data));
-// 	} catch (err) {
-// 		dispatch(getUserCommentFailed());
-// 	}
-// };
+export const updateComment = async (dispatch, token, id, newComment) => {
+	dispatch(updateCommentStart());
+	try {
+		const res = await axios.patch(`${APIPaths.Posts}/comment/${id}`, newComment, {
+			headers: { token: `Bearer ${token}` }
+		});
+		console.log("res: ", res);
+		dispatch(updateCommentSuccess(res.data));
+	} catch (err) {
+		dispatch(updateCommentFailed());
+	}
+};
 
 export const deleteComment = async (dispatch, token, id, postUserId) => {
 	dispatch(deleteCommentStart());

@@ -5,6 +5,7 @@ import RightBar from "../../components/RightBar/RightBar";
 import CreatePost from "../../components/Posts/CreatePosts";
 import Post from "../../components/Posts/Post";
 import { getAllPosts } from "../../redux/apiRequests";
+import PaginationCustomize from "../../components/Pagination";
 
 export const HomeLayout = styled(Box)(() => ({}));
 
@@ -14,10 +15,10 @@ export const Body = styled(Box)(() => ({
 }));
 
 const Newsfeed = () => {
-	const { posts, pending } = useSelector((state) => state.post.allPosts);
+	const { posts, pending, postsLength } = useSelector((state) => state.post.allPosts);
 	const user = useSelector((state) => state.user.user?.currentUser);
+	const [page, setPage] = useState(Number(new URLSearchParams(window.location.search).get("page") || 1));
 	const dispatch = useDispatch();
-	const [page, setPage] = useState(1);
 
 	useEffect(() => {
 		getAllPosts(dispatch, user?.accessToken, page);
@@ -50,6 +51,7 @@ const Newsfeed = () => {
 							/>
 						))}
 					</Stack>
+					<PaginationCustomize page={page} setPage={setPage} postsLength={postsLength} />
 				</Stack>
 			</Grid>
 

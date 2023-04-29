@@ -6,6 +6,7 @@ export const postSlice = createSlice({
 		allPosts: {
 			posts: [],
 			comments: [],
+			postsLength: null,
 			pending: false,
 			error: false
 		},
@@ -40,6 +41,10 @@ export const postSlice = createSlice({
 		getAllPostSuccess: (state, action) => {
 			state.allPosts.pending = false;
 			state.allPosts.posts = action.payload;
+		},
+		getAllPostLengthSuccess: (state, action) => {
+			state.allPosts.pending = false;
+			state.allPosts.postsLength = action.payload;
 		},
 		getAllPostFailed: (state) => {
 			state.allPosts.pending = false;
@@ -108,7 +113,7 @@ export const postSlice = createSlice({
 		updatePostSuccess: (state, action) => {
 			state.onePost.pending = false;
 			state.onePost.error = false;
-			state.onePost.currentUser = action.payload;
+			state.onePost.post = action.payload;
 		},
 		updatePostError: (state) => {
 			state.onePost.error = true;
@@ -123,6 +128,7 @@ export const {
 	createPostFailed,
 	getAllPostStart,
 	getAllPostSuccess,
+	getAllPostLengthSuccess,
 	getAllPostFailed,
 	getOnePostStart,
 	getOnePostSuccess,

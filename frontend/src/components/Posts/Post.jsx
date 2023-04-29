@@ -176,7 +176,7 @@ const Post = ({ post }) => {
 									onClick={handleClick}
 									size="small"
 									sx={{ ml: 2 }}
-									aria-controls={open ? "account-menu-2" : undefined}
+									aria-controls={open ? "post-menu" : undefined}
 									aria-haspopup="true"
 									aria-expanded={open ? "true" : undefined}
 								>
@@ -186,7 +186,7 @@ const Post = ({ post }) => {
 							{(user?._id === post?.userId || user?.admin) && (
 								<Menu
 									anchorEl={anchorEl}
-									id="account-menu-2"
+									id="post-menu"
 									open={open}
 									onClose={handleClose}
 									onClick={handleClose}
