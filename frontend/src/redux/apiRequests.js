@@ -88,7 +88,7 @@ export const loginUser = async (user, dispatch, navigate, state) => {
 		dispatch(updateSuccess(res.data));
 		navigate(state?.path || "/newsfeed");
 	} catch (e) {
-		dispatch(loginFailed(e.response.data));
+		dispatch(loginFailed(e));
 		dispatch(updateError());
 	}
 };
