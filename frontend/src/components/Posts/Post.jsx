@@ -120,7 +120,6 @@ const Post = ({ post }) => {
 		}
 		setImages("");
 		handleClose();
-		window.location.reload();
 	};
 
 	const handleFileInputChange = (e) => {
