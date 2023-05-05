@@ -21,7 +21,7 @@ app.use(morgan("common"));
 app.use(
 	cors({
 		origin: ["http://localhost:3000", "https://t-network.onrender.com"]
-	}),
+	})
 );
 app.use(cookieParser());
 
