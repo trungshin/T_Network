@@ -96,7 +96,6 @@ const Post = ({ post }) => {
 
 	const handleDelete = (id) => {
 		deletePost(dispatch, user?.accessToken, id, user?._id);
-		window.location.reload();
 	};
 
 	const handleCloseDialog = () => {
@@ -119,7 +118,7 @@ const Post = ({ post }) => {
 			updatePost(dispatch, user?.accessToken, post?._id, newPost);
 		}
 		setImages("");
-		handleClose();
+		handleCloseDialog();
 	};
 
 	const handleFileInputChange = (e) => {
