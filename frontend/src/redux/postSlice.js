@@ -116,8 +116,8 @@ export const postSlice = createSlice({
 		updatePostSuccess: (state, action) => {
 			state.onePost.pending = false;
 			state.onePost.error = false;
-			state.onePost.post = action.payload;
-			state.allPosts.posts = EditData(state.allPosts.posts, action.payload);
+			// state.onePost.post = action.payload;
+			state.allPosts.posts = EditData(state.allPosts.posts, action.payload._id, action.payload);
 		},
 		updatePostError: (state) => {
 			state.onePost.error = true;
