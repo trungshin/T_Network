@@ -1,4 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { DeleteData, EditData } from "./apiRequests";
 
 export const postSlice = createSlice({
 	name: "post",
@@ -74,8 +75,9 @@ export const postSlice = createSlice({
 			state.createPost.pending = true;
 			state.createPost.error = false;
 		},
-		createPostSuccess: (state) => {
+		createPostSuccess: (state, action) => {
 			state.createPost.pending = false;
+			state.allPosts.posts = [action.payload, ...state.allPosts.posts];
 			state.createPost.error = false;
 		},
 		createPostFailed: (state) => {
@@ -85,8 +87,9 @@ export const postSlice = createSlice({
 		deletePostStart: (state) => {
 			state.deletePost.pending = true;
 		},
-		deletePostSuccess: (state) => {
+		deletePostSuccess: (state, action) => {
 			state.deletePost.pending = false;
+			state.allPosts.posts = DeleteData(state.allPosts.posts, action.payload._id);
 			state.deletePost.error = false;
 		},
 		deletePostFailed: (state) => {
@@ -114,6 +117,7 @@ export const postSlice = createSlice({
 			state.onePost.pending = false;
 			state.onePost.error = false;
 			state.onePost.post = action.payload;
+			state.allPosts.posts = EditData(state.allPosts.posts, action.payload);
 		},
 		updatePostError: (state) => {
 			state.onePost.error = true;

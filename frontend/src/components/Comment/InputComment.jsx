@@ -17,8 +17,7 @@ const InputComment = ({ post, user, commentNumber, setCommentNumber }) => {
 			createdAt: new Date().toISOString()
 		};
 		setContent("");
-		createComment(dispatch, user?.accessToken, postId, newComment);
-		window.location.reload();
+		createComment(dispatch, user?.accessToken, postId, newComment, post);
 	};
 
 	return (

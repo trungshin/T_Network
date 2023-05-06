@@ -268,11 +268,12 @@ export const deleteUser = async (dispatch, token, id) => {
 export const createPost = async (dispatch, token, post, postToggle) => {
 	dispatch(createPostStart());
 	try {
-		await axios.post(`${APIPaths.Posts}`, post, {
+		const res = await axios.post(`${APIPaths.Posts}`, post, {
 			headers: { token: `Bearer ${token}` }
 		});
+		console.log("object: ", res.data);
 		dispatch(postToggle(false));
-		dispatch(createPostSuccess());
+		dispatch(createPostSuccess(res.data));
 	} catch (err) {
 		dispatch(createPostFailed());
 	}
@@ -284,6 +285,7 @@ export const updatePost = async (dispatch, token, id, newPost) => {
 		const res = await axios.put(`${APIPaths.Posts}/${id}`, newPost, {
 			headers: { token: `Bearer ${token}` }
 		});
+		console.log("res: ", res.data);
 		dispatch(updatePostSuccess(res.data));
 	} catch (err) {
 		console.log(err);
@@ -294,11 +296,12 @@ export const updatePost = async (dispatch, token, id, newPost) => {
 export const deletePost = async (dispatch, token, id, userId) => {
 	dispatch(deletePostStart());
 	try {
-		await axios.delete(`${APIPaths.Posts}/${id}`, {
+		const res = await axios.delete(`${APIPaths.Posts}/${id}`, {
 			headers: { token: `Bearer ${token}` },
 			data: { userId: userId }
 		});
-		dispatch(deletePostSuccess());
+
+		dispatch(deletePostSuccess(res.data));
 	} catch (err) {
 		dispatch(deletePostFailed());
 	}
@@ -403,3 +406,15 @@ export const deleteComment = async (dispatch, token, id, postUserId) => {
 		dispatch(deleteCommentFailed());
 	}
 };
+
+export const DeleteData = (data, id) => {
+    const newData = data.filter(item => item._id !== id)
+    return newData;
+}
+
+export const EditData = (data, id, post) => {
+    const newData = data.map(item => 
+        (item._id === id ? post : item)
+    )
+    return newData;
+}
