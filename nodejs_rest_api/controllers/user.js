@@ -39,9 +39,11 @@ export const getAllUsers = async (req, res) => {
 
 export const deleteUser = async (req, res) => {
 	try {
-		const user = await User.findByIdAndDelete(req.params.id); //find the user ID and delete that user
+ 		await User.findByIdAndDelete(req.params.id); //find the user ID and delete that user
 		const userFollowingDeleted = await User.find({ followings: req.params.id });
 		const userFollowerDeleted = await User.find({ followers: req.params.id });
+
+		await Post.findOneAndDelete({userId: req.params.id});
 
 		await Promise.all(
 			userFollowingDeleted.map((followingDeletedId) => {
@@ -63,7 +65,7 @@ export const deleteUser = async (req, res) => {
 			})
 		);
 
-		res.status(200).json("Account " + user.username + " has been deleted");
+		res.status(200).json();
 	} catch (err) {
 		res.status(500).json(err);
 	}
