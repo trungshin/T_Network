@@ -86,9 +86,7 @@ const FollowersList = ({ otherUser }) => {
 					))
 				) : (
 					<Stack alignItems="center">
-						<Typography position="relative">
-							No one is following
-						</Typography>
+						<Typography position="relative">No one is following</Typography>
 					</Stack>
 				)}
 			</Box>

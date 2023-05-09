@@ -9,8 +9,6 @@ const FollowBtn = ({ user }) => {
 	const [followed, setFollowed] = useState(user?.followers?.find((item) => item === currentUser?._id));
 	const dispatch = useDispatch();
 
-	
-
 	useEffect(() => {
 		if (user?.followers?.find((item) => item === currentUser?._id) === currentUser?._id) {
 			setFollowed(currentUser?._id);

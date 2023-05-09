@@ -5,7 +5,7 @@ import { Pagination } from "@mui/material";
 const PaginationCustomize = ({ page, setPage, postsLength }) => {
 	const handleChangePagination = (event, value) => {
 		setPage(value);
-		
+
 		const addOrUpdateURLParams = (key, value) => {
 			const searchParams = new URLSearchParams(window.location.search);
 			searchParams.set(key, value);

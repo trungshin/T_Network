@@ -65,7 +65,7 @@ export const RightBar = () => {
 					sx={{
 						height: "calc(50vh - 90px)",
 						overflowY: "scroll",
-						
+
 						"&::-webkit-scrollbar": {
 							width: "10px"
 						},

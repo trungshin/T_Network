@@ -31,7 +31,6 @@ export const Avatar = styled(MuiAvatar)(({ theme }) => ({
 	boxShadow: theme.shadows[3]
 }));
 
-
 const EditPage = ({ open, scroll, setOpen }) => {
 	const user = useSelector((state) => state.user.user?.currentUser);
 	const otherUser = useSelector((state) => state.user.otherUser?.otherUser);
