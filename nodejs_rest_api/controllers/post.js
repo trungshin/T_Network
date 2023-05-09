@@ -45,27 +45,43 @@ export const updatePost = async (req, res) => {
 			if (post.description !== description) {
 				if (post.img && img === undefined) {
 					await cloudinary.uploader.destroy(post.cloudinaryId);
-					const postUpdated = await Post.findByIdAndUpdate(req.params.id, { $set: { description: description }, $unset: { img: "", cloudinaryId: "" } }, { returnDocument: "after" });
+					const postUpdated = await Post.findByIdAndUpdate(
+						req.params.id,
+						{ $set: { description: description }, $unset: { img: "", cloudinaryId: "" } },
+						{ returnDocument: "after" }
+					);
 					res.status(200).json(postUpdated);
 				} else if ((post.img === undefined && img === undefined) || (post.img && img && post.img === img)) {
-					const postUpdated = await Post.findByIdAndUpdate(req.params.id, { $set: { description: description } }, { returnDocument: "after" });
+					const postUpdated = await Post.findByIdAndUpdate(
+						req.params.id,
+						{ $set: { description: description } },
+						{ returnDocument: "after" }
+					);
 					res.status(200).json(postUpdated);
 				} else if (post.img && img && post.img !== img) {
 					await cloudinary.uploader.destroy(post.cloudinaryId);
 					const result = await cloudinary.uploader.upload(img, {
 						upload_preset: "network_library"
 					});
-					const postUpdated = await Post.findByIdAndUpdate(req.params.id, {
-						$set: { description: description, img: result.secure_url, cloudinaryId: result.public_id }
-					}, { returnDocument: "after" });
+					const postUpdated = await Post.findByIdAndUpdate(
+						req.params.id,
+						{
+							$set: { description: description, img: result.secure_url, cloudinaryId: result.public_id }
+						},
+						{ returnDocument: "after" }
+					);
 					res.status(200).json(postUpdated);
 				} else if (post.img === undefined && img) {
 					const result = await cloudinary.uploader.upload(img, {
 						upload_preset: "network_library"
 					});
-					const postUpdated = await Post.findByIdAndUpdate(req.params.id, {
-						$set: { description: description, img: result.secure_url, cloudinaryId: result.public_id }
-					}, { returnDocument: "after" });
+					const postUpdated = await Post.findByIdAndUpdate(
+						req.params.id,
+						{
+							$set: { description: description, img: result.secure_url, cloudinaryId: result.public_id }
+						},
+						{ returnDocument: "after" }
+					);
 					res.status(200).json(postUpdated);
 				}
 			} else if (post.description === description) {
@@ -74,21 +90,33 @@ export const updatePost = async (req, res) => {
 					const result = await cloudinary.uploader.upload(img, {
 						upload_preset: "network_library"
 					});
-					const postUpdated = await Post.findByIdAndUpdate(req.params.id, {
-						$set: { description: description, img: result.secure_url, cloudinaryId: result.public_id }
-					}, { returnDocument: "after" });
+					const postUpdated = await Post.findByIdAndUpdate(
+						req.params.id,
+						{
+							$set: { description: description, img: result.secure_url, cloudinaryId: result.public_id }
+						},
+						{ returnDocument: "after" }
+					);
 					res.status(200).json(postUpdated);
 				} else if (post.img && img === undefined) {
 					await cloudinary.uploader.destroy(post.cloudinaryId);
-					const postUpdated = await Post.findByIdAndUpdate(req.params.id, { $unset: { img: "", cloudinaryId: "" } }, { returnDocument: "after" });
+					const postUpdated = await Post.findByIdAndUpdate(
+						req.params.id,
+						{ $unset: { img: "", cloudinaryId: "" } },
+						{ returnDocument: "after" }
+					);
 					res.status(200).json(postUpdated);
 				} else if (post.img === undefined && img) {
 					const result = await cloudinary.uploader.upload(img, {
 						upload_preset: "network_library"
 					});
-					const postUpdated = await Post.findByIdAndUpdate(req.params.id, {
-						$set: { description: description, img: result.secure_url, cloudinaryId: result.public_id }
-					}, { returnDocument: "after" });
+					const postUpdated = await Post.findByIdAndUpdate(
+						req.params.id,
+						{
+							$set: { description: description, img: result.secure_url, cloudinaryId: result.public_id }
+						},
+						{ returnDocument: "after" }
+					);
 					res.status(200).json(postUpdated);
 				}
 			}

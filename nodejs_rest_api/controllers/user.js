@@ -39,11 +39,11 @@ export const getAllUsers = async (req, res) => {
 
 export const deleteUser = async (req, res) => {
 	try {
- 		await User.findByIdAndDelete(req.params.id); //find the user ID and delete that user
+		await User.findByIdAndDelete(req.params.id); //find the user ID and delete that user
 		const userFollowingDeleted = await User.find({ followings: req.params.id });
 		const userFollowerDeleted = await User.find({ followers: req.params.id });
 
-		await Post.findOneAndDelete({userId: req.params.id});
+		await Post.findOneAndDelete({ userId: req.params.id });
 
 		await Promise.all(
 			userFollowingDeleted.map((followingDeletedId) => {
