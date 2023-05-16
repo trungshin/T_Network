@@ -57,7 +57,6 @@ const EditPage = ({ open, scroll, setOpen }) => {
 		};
 		updateUser(dispatch, updatedUser, id, user?.accessToken);
 		handleClose();
-		window.location.reload();
 	};
 
 	const handleClose = () => {

@@ -179,11 +179,12 @@ export const getUser = async (dispatch, id, token) => {
 export const updateUser = async (dispatch, user, id, token) => {
 	dispatch(updateStart());
 	try {
-		const res = await axios.put(`${APIPaths.Users}/${id}`, user, {
+		const res = await axios.patch(`${APIPaths.Users}/${id}`, user, {
 			headers: { token: `Bearer ${token}` }
 		});
+		console.log("res: ", res.data);
 
-		dispatch(updateFollowSuccess(res.data));
+		dispatch(updateSuccess(res.data));
 	} catch (err) {
 		console.log(err);
 		dispatch(updateError());

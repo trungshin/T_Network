@@ -2,6 +2,7 @@ import User from "../models/user";
 import Post from "../models/post";
 import Comment from "../models/comment";
 import cloudinary from "../utils/cloudinary";
+import { generateAccessToken } from "./auth";
 
 export const getUser = async (req, res) => {
 	try {
@@ -73,37 +74,45 @@ export const deleteUser = async (req, res) => {
 
 export const updateUser = async (req, res) => {
 	try {
-		const result = await cloudinary.uploader.upload(req.body.avatar, {
+		const { avatar, gender, mobile, address } = req.body
+		const result = await cloudinary.uploader.upload(avatar, {
 			upload_preset: "network_library"
 		});
 
 		const user = await User.findByIdAndUpdate(req.params.id, {
 			$set: {
-				...req.body,
-				avatar: result.secure_url
+				avatar: result.secure_url,
+				gender: gender,
+				mobile: mobile,
+				address: address,
 			}
-		});
-		if (req.body.avatar) {
+		}, { returnDocument: "after" });
+		const accessToken = generateAccessToken(user);
+		if (avatar) {
 			try {
 				await Post.updateMany(
 					{ userId: req.params.id },
 					{
-						$set: { avatar: req.body.avatar }
+						$set: { avatar: avatar }
 					}
 				);
 				await Comment.updateMany(
 					{ postUserId: req.params.id },
 					{
-						$set: { avatar: req.body.avatar }
+						$set: { avatar: avatar }
 					}
 				);
 			} catch (err) {
 				return res.status(500).json(err);
 			}
 		}
-		console.log(req.body);
 
-		res.status(200).json(user);
+		const updatedUser = {
+			...user.toJSON(),
+			accessToken: accessToken,
+		};
+
+		res.status(200).json(updatedUser);
 	} catch (err) {
 		res.status(500).json(err);
 	}
