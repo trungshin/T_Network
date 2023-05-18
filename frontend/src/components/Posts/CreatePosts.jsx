@@ -2,9 +2,7 @@ import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useTheme, styled } from "@mui/material/styles";
 import {
-	Card,
 	Avatar,
-	CardContent,
 	Button,
 	IconButton,
 	Typography,
@@ -15,8 +13,7 @@ import {
 	DialogActions,
 	DialogContent,
 	DialogTitle,
-	Stack,
-	Box
+	Stack
 } from "@mui/material";
 import { Close, PhotoCamera } from "@mui/icons-material";
 import { createPost } from "../../redux/apiRequests";

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { activationEmail } from "../redux/apiRequests";
-import showSuccessMsg from "./notification";
+import ShowSuccessMsg from "./Notification";
 
 const ActivationEmail = () => {
 	const { activationToken } = useParams();
@@ -20,7 +20,7 @@ const ActivationEmail = () => {
 	return (
 		<div>
 			{/* {err && showErrMsg(err)} */}
-			{success && showSuccessMsg(success)}
+			{success && ShowSuccessMsg(success)}
 		</div>
 	);
 };

@@ -63,8 +63,7 @@ const Comment = ({ id, postUserId, content, username, avatar, createdAt, comment
 			content: contentState
 		};
 		updateComment(dispatch, user?.accessToken, id, newComment);
-		handleClose();
-		window.location.reload();
+		handleCloseDialog();
 	};
 
 	return (

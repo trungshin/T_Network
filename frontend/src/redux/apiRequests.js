@@ -88,19 +88,25 @@ export const loginUser = async (user, dispatch, navigate, state) => {
 		dispatch(updateSuccess(res.data));
 		navigate(state?.path || "/newsfeed");
 	} catch (e) {
-		dispatch(loginFailed(e));
+		console.log("e: ", e.response.data);
+		dispatch(loginFailed(e.response.data));
 		dispatch(updateError());
 	}
 };
 
-export const registerUser = async (user, dispatch, setSuccess) => {
+export const registerUser = async (user, dispatch, setOpenError, setOpenSuccess) => {
 	dispatch(registerStart());
 	try {
 		const res = await axios.post(`${APIPaths.Auth}/register`, user);
-		dispatch(registerSuccess(setSuccess(res.data)));
+		console.log("res: ", res);
+		dispatch(registerSuccess(res.data));
+		setOpenSuccess(true);
+		setOpenError(false);
 	} catch (e) {
 		console.log(e.response.data);
 		dispatch(registerFailed(e.response.data));
+		setOpenError(true);
+		setOpenSuccess(false);
 	}
 };
 
@@ -370,13 +376,16 @@ export const unLikePost = async (dispatch, token, postId, userId) => {
 	}
 };
 
-export const createComment = async (dispatch, token, id, comment) => {
+export const createComment = async (dispatch, token, id, comment, post) => {
 	dispatch(createCommentStart());
 	try {
-		await axios.post(`${APIPaths.Posts}/comment/${id}`, comment, {
+		const res = await axios.post(`${APIPaths.Posts}/comment/${id}`, comment, {
 			headers: { token: `Bearer ${token}` }
 		});
-		dispatch(createCommentSuccess());
+		const newPost = {...post, comments: [...post.comments, res.data]}
+
+		dispatch(updatePostSuccess(newPost));
+		dispatch(createCommentSuccess(res.data));
 	} catch (err) {
 		dispatch(createCommentFailed());
 	}

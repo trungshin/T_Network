@@ -12,7 +12,7 @@ export const createComment = async (req, res) => {
 			avatar: user.avatar
 		};
 		const newComment = new Comment(createComment);
-		await Post.findOneAndUpdate({ _id: req.params.id }, { $push: { comments: newComment._id } }, { new: true });
+		await Post.findByIdAndUpdate(req.params.id, { $push: { comments: newComment._id } }, { returnDocument: "after" });
 		const savedComment = await newComment.save();
 		res.status(200).json(savedComment);
 	} catch (err) {

@@ -2,14 +2,14 @@ import React from "react";
 import Alert from "@mui/material/Alert";
 import Stack from "@mui/material/Stack";
 
-const showSuccessMsg = (msg) => {
+const ShowSuccessMsg = (succesMsg) => {
 	return (
 		<Stack sx={{ width: "100%" }} spacing={2}>
 			<Alert variant="filled" severity="success">
-				{msg}
+				{succesMsg}
 			</Alert>
 		</Stack>
 	);
 };
 
-export default showSuccessMsg;
+export default ShowSuccessMsg;

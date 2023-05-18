@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { TextField, Button, Grid } from "@mui/material";
 import { useNavigate } from "react-router-dom";
-import showSuccessMsg from "./notification";
+import ShowSuccessMsg from "./Notification";
 import { forgotPassword } from "../redux/apiRequests";
 import { useDispatch } from "react-redux";
 import GridLayout from "./GridLayout";
@@ -21,7 +21,7 @@ function ForgotPassword() {
 			<Grid container spacing={3} direction="column">
 				<Grid item>
 					{/* {err && showErrMsg(err)} */}
-					{success && showSuccessMsg(success)}
+					{success && ShowSuccessMsg(success)}
 					<label htmlFor="email">Enter your email address</label>
 				</Grid>
 

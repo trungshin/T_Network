@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { registerUser } from "../../redux/apiRequests";
 import * as Yup from "yup";
@@ -13,15 +13,18 @@ import {
 	InputAdornment,
 	IconButton,
 	FormControl,
-	InputLabel
+	InputLabel,
+	Alert,
+	Stack
 } from "@mui/material";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
-import showSuccessMsg from "../../components/notification";
 import GridLayout from "../../components/GridLayout";
 
 const Register = () => {
 	const dispatch = useDispatch();
-	const [success, setSuccess] = useState("");
+	const { errorMsg, successMsg } = useSelector((state) => state.auth.register);
+	const [openError, setOpenError] = useState(false);
+	const [openSuccess, setOpenSuccess] = useState(false);
 	const [showPassword, setShowPassword] = useState(false);
 	const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
@@ -30,8 +33,7 @@ const Register = () => {
 			email: "",
 			username: "",
 			password: "",
-			confirmPassword: "",
-			success: ""
+			confirmPassword: ""
 		},
 		validationSchema: Yup.object({
 			username: Yup.string().max(20, "Maximum 20 characters").min(3, "Minimum 3 characters").required("Required"),
@@ -57,10 +59,9 @@ const Register = () => {
 			const newUser = {
 				email: values.email,
 				username: values.username,
-				password: values.password,
-				success: success
+				password: values.password
 			};
-			registerUser(newUser, dispatch, setSuccess);
+			registerUser(newUser, dispatch, setOpenError, setOpenSuccess);
 		}
 	});
 
@@ -80,7 +81,22 @@ const Register = () => {
 		<GridLayout heading={"Register"}>
 			<form onSubmit={formik.handleSubmit}>
 				<Grid container spacing={3} direction="column">
-					<Grid item>{success && showSuccessMsg(success)}</Grid>
+					<Grid item>
+						{openSuccess && (
+							<Stack sx={{ width: "100%" }} spacing={2}>
+								<Alert variant="filled" severity="success">
+									{successMsg}
+								</Alert>
+							</Stack>
+						)}
+						{openError && (
+							<Stack sx={{ width: "100%" }} spacing={2}>
+								<Alert variant="filled" severity="warning">
+									{errorMsg}
+								</Alert>
+							</Stack>
+						)}
+					</Grid>
 
 					<Grid item>
 						<TextField
@@ -138,7 +154,6 @@ const Register = () => {
 								}
 							/>
 						</FormControl>
-						{/* <p>{error && error.substring(50).replace("to be unique","already existed")}</p> */}
 					</Grid>
 
 					<Grid item>

@@ -11,7 +11,9 @@ const initialState = {
 	register: {
 		error: false,
 		isFetching: false,
-		success: false
+		success: false,
+		successMsg: null,
+		errorMsg: null
 	},
 	activationEmail: {
 		error: false,
@@ -54,17 +56,17 @@ export const authSlice = createSlice({
 		registerStart: (state) => {
 			state.register.isFetching = true;
 		},
-		registerSuccess: (state) => {
+		registerSuccess: (state, action) => {
 			state.register.isFetching = false;
 			state.register.success = true;
 			state.register.error = false;
-			// state.register.message = action.payload;
+			state.register.successMsg = action.payload;
 		},
 		registerFailed: (state, action) => {
 			state.register.isFetching = false;
 			state.register.success = false;
 			state.register.error = true;
-			// state.register.message = action.payload;
+			state.register.errorMsg = action.payload;
 		},
 		activationEmailSuccess: (state) => {
 			state.activationEmail.success = true;

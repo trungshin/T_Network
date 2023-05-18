@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { loginUser } from "../../redux/apiRequests";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import {
 	TextField,
 	Button,
@@ -11,7 +13,9 @@ import {
 	IconButton,
 	OutlinedInput,
 	FormControl,
-	InputLabel
+	InputLabel,
+	Snackbar,
+	Alert
 } from "@mui/material";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import GridLayout from "../../components/GridLayout";
@@ -22,6 +26,33 @@ const Login = () => {
 	const [email, setEmail] = useState("email");
 	const [password, setPassword] = useState("password");
 	const [showPassword, setShowPassword] = useState(false);
+	// const errorNotify = () => toast.error(error, {
+	// 	position: "top-center",
+	// 	autoClose: 5000,
+	// 	hideProgressBar: false,
+	// 	closeOnClick: true,
+	// 	pauseOnHover: true,
+	// 	draggable: true,
+	// 	progress: 0,
+	// 	theme: "light",
+	// 	});
+	const [open, setOpen] = useState(false);
+	const handleError = () => {
+		if (error) {
+			setOpen(true);	
+		} else {
+			setOpen(false);
+		}
+		return open;
+	  };
+	const handleClose = (event, reason) => {
+		if (reason === 'clickaway') {
+		  return;
+		}
+	
+		setOpen(false);
+	  };
+
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
 	const handleLogin = (e) => {
@@ -85,7 +116,7 @@ const Login = () => {
 								}
 							/>
 						</FormControl>
-						{error && <p>{error}</p>}
+						
 						<Typography marginTop={2}>
 							<Link style={{ textDecoration: "none", color: "unset" }} to="/user/forgotPassword">
 								Forgot password?
@@ -94,7 +125,7 @@ const Login = () => {
 					</Grid>
 
 					<Grid item>
-						<Button color="primary" variant="contained" fullWidth type="submit">
+						<Button color="primary" variant="contained" fullWidth type="submit"  disabled={email && password ? false : true}>
 							Login
 						</Button>
 						<Typography marginTop={2}>
@@ -104,6 +135,30 @@ const Login = () => {
 					</Grid>
 				</Grid>
 			</form>
+			{error &&
+				<Snackbar
+					autoHideDuration={6000}
+					open={handleError}
+					onClose={handleClose}
+					anchorOrigin={{vertical: 'top', horizontal: 'center'}}
+				>
+					<Alert variant="filled" severity="warning" sx={{ width: '100%' }}>
+						{error}
+				  	</Alert>
+				</Snackbar>
+			}
+			{/* <ToastContainer
+				position="top-center"
+				autoClose={5000}
+				hideProgressBar={false}
+				newestOnTop={false}
+				closeOnClick
+				rtl={false}
+				pauseOnFocusLoss
+				draggable
+				pauseOnHover
+				theme="light"
+			/> */}
 			{/* {error && <Typography> {error} </Typography>} */}
 		</GridLayout>
 	);
