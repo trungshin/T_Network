@@ -39,7 +39,7 @@ const sendEmail = async (to, username, url, txt) => {
 		});
 
 		const mailOptions = {
-			from: { address: SENDER_EMAIL_ADDRESS, name: T_NETWORK },
+			from: { address: SENDER_EMAIL_ADDRESS, name: "T_NETWORK" },
 			to: to,
 			subject: "T_Network",
 			html: `
