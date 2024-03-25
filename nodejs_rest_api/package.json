@@ -2,7 +2,7 @@
 	"name": "nodejs_rest_api",
 	"version": "1.0.0",
 	"description": "",
-	"type": "module",
+	"type": "commonjs",
 	"main": "app.js",
 	"scripts": {
 		"format": "yarn prettier --write .",
