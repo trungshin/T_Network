@@ -25,7 +25,7 @@ app.use(helmet());
 app.use(morgan("common"));
 app.use(
 	cors({
-		origin: ["http://localhost:3000", "https://t-network.onrender.com"]
+		origin: ["https://t-network-zeta.vercel.app"]
 	})
 );
 app.use(cookieParser());
