@@ -36,6 +36,13 @@ app.use("/api/auth", authRouter());
 app.use("/api/posts", postRouter());
 app.use("/api/search", searchRouter());
 
-app.listen(process.env.PORT || 8080, () => {
-	console.log("Backend Server has been started!");
-});
+
+if (process.env.BUILD_MODE === 'production') {
+	app.listen(process.env.PORT, () => {
+		console.log("Backend Server has been started at production!");
+	});
+} else {
+	app.listen(process.env.APP_PORT || 8080, () => {
+		console.log("Backend Server has been started!");
+	});
+}
