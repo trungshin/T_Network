@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import isEmail from "validator/lib/isEmail";
+import isEmail from "validator/lib/isEmail.js";
 import uniqueValidator from "mongoose-unique-validator";
 
 const UserSchema = new mongoose.Schema(

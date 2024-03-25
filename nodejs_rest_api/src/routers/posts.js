@@ -9,11 +9,11 @@ import {
 	getAllPosts,
 	likePost,
 	unLikePost
-} from "../controllers/post";
-import { createComment, deleteComment, updateComment } from "../controllers/comment";
-import Post from "../models/post";
-import { verifyToken, UserPostAuthorization, paginatedResult, commentAuthorization } from "../controllers/middleware";
-import upload from "../utils/multer";
+} from "../controllers/post.js";
+import { createComment, deleteComment, updateComment } from "../controllers/comment.js";
+import Post from "../models/post.js";
+import { verifyToken, UserPostAuthorization, paginatedResult, commentAuthorization } from "../controllers/middleware.js";
+import upload from "../utils/multer.js";
 
 export function postRouter() {
 	const router = Router();

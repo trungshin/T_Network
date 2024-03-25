@@ -1,5 +1,5 @@
-import { getUser, deleteUser, updateUser, followUser, unFollowUser, getAllUsers } from "../controllers/user";
-import { verifyToken, UserAuthorization } from "../controllers/middleware";
+import { getUser, deleteUser, updateUser, followUser, unFollowUser, getAllUsers } from "../controllers/user.js";
+import { verifyToken, UserAuthorization } from "../controllers/middleware.js";
 import { Router } from "express";
 
 export function userRouter() {

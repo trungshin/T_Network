@@ -6,7 +6,12 @@ import helmet from "helmet";
 import morgan from "morgan";
 import cookieParser from "cookie-parser";
 import jwt from "jsonwebtoken";
-import { userRouter, authRouter, postRouter, searchRouter } from "./routers";
+// import { authRouter, userRouter, postRouter, searchRouter} from "./routers/index.js";
+import { authRouter } from "./routers/auth.js";
+import { userRouter } from "./routers/users.js";
+import { postRouter } from "./routers/posts.js";
+import { searchRouter } from "./routers/search.js";
+
 const app = express();
 
 dotenv.config();

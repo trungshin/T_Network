@@ -5,12 +5,17 @@
 	"type": "module",
 	"main": "app.js",
 	"scripts": {
-		"start": "nodemon --experimental-specifier-resolution=node app.js",
-		"format": "yarn prettier --write ."
+		"format": "yarn prettier --write .",
+		"dev": "nodemon --exec babel-node ./src/app.js",
+		"clean": "rm -rf build && mkdir build",
+		"build-babel": "babel ./src -d ./build/src",
+    	"build": "npm run clean && npm run build-babel",
+    	"production": "npm run build && node ./build/src/app.js"
 	},
 	"author": "",
 	"license": "ISC",
 	"dependencies": {
+		"@babel/runtime": "^7.24.1",
 		"bcrypt": "^5.0.1",
 		"cloudinary": "^1.29.0",
 		"cookie-parser": "^1.4.6",
@@ -19,7 +24,7 @@
 		"express": "^4.17.1",
 		"googleapis": "^100.0.0",
 		"helmet": "^4.6.0",
-		"jsonwebtoken": "^8.5.1",
+		"jsonwebtoken": "^9.0.2",
 		"mongoose": "^6.1.2",
 		"mongoose-unique-validator": "^3.0.0",
 		"morgan": "^1.10.0",
@@ -29,6 +34,12 @@
 		"validator": "^13.7.0"
 	},
 	"devDependencies": {
+		"@babel/cli": "^7.24.1",
+		"@babel/core": "^7.24.3",
+		"@babel/node": "^7.23.9",
+		"@babel/plugin-transform-runtime": "^7.24.3",
+		"@babel/preset-env": "^7.24.3",
+		"babel-plugin-module-resolver": "^5.0.0",
 		"prettier": "^2.7.1"
 	}
 }

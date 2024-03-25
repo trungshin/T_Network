@@ -1,6 +1,6 @@
-import Post from "../models/post";
-import User from "../models/user";
-import cloudinary from "../utils/cloudinary";
+import Post from "../models/post.js";
+import User from "../models/user.js";
+import cloudinary from "../utils/cloudinary.js";
 
 export const createPost = async (req, res) => {
 	console.log("res: ", res);

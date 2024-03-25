@@ -248,7 +248,7 @@ const Post = ({ post }) => {
 							{post?.username}
 						</Link>
 					}
-					subheader={moment(post?.createdAt).fromNow()}
+					subheader={moment(post?.createdAt).format("YYYY-MM-DD HH:mm:ss")}
 				/>
 
 				<CardContent style={{ padding: 0 }}>

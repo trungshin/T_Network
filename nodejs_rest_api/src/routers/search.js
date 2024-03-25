@@ -1,5 +1,5 @@
-import { searchUser } from "../controllers/user";
-import { verifyToken } from "../controllers/middleware";
+import { searchUser } from "../controllers/user.js";
+import { verifyToken } from "../controllers/middleware.js";
 import { Router } from "express";
 
 export function searchRouter() {

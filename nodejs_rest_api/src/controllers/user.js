@@ -1,8 +1,8 @@
-import User from "../models/user";
-import Post from "../models/post";
-import Comment from "../models/comment";
-import cloudinary from "../utils/cloudinary";
-import { generateAccessToken } from "./auth";
+import User from "../models/user.js";
+import Post from "../models/post.js";
+import Comment from "../models/comment.js";
+import cloudinary from "../utils/cloudinary.js";
+import { generateAccessToken } from "./auth.js";
 
 export const getUser = async (req, res) => {
 	try {

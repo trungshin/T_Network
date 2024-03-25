@@ -7,8 +7,8 @@ import {
 	activateEmail,
 	forgotPassword,
 	resetPassword
-} from "../controllers/auth";
-import { verifyToken } from "../controllers/middleware";
+} from "../controllers/auth.js";
+import { verifyToken } from "../controllers/middleware.js";
 
 export function authRouter() {
 	const router = Router();

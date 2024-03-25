@@ -8,7 +8,7 @@ import ForgotPassword from "../components/ForgotPassword";
 import ResetPassword from "../components/ResetPassword";
 import DefaultLayout from "../layouts/DefaultLayout";
 
-export const APIBase = "https://t-network-api.onrender.com/api";
+export const APIBase = "http://localhost:8080/api";
 
 export const APIPaths = {
 	Auth: `${APIBase}/auth`,
