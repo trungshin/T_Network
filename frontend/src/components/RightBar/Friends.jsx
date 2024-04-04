@@ -5,11 +5,11 @@ import StyledBadge from "../StyleBadge";
 
 const Friends = () => {
 	const dummy = [
-		{ avatar: "", name: "ha van duoc", link: "" },
-		{ avatar: "", name: "ha van duoc", link: "" },
-		{ avatar: "", name: "ha van duoc", link: "" },
-		{ avatar: "", name: "ha van duoc", link: "" },
-		{ avatar: "", name: "ha van duoc", link: "" }
+		{ avatar: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSj-LMfCCn7jdf18wfuFno4J1-R1CC2IMqgxtHEnaVo4A&s", name: "Hercule Poirot", link: "" },
+		{ avatar: "https://i.pinimg.com/736x/5c/38/24/5c3824311d7ef477515e6c722582166c.jpg", name: "Shinichi Kudo", link: "" },
+		{ avatar: "https://i.pinimg.com/736x/54/37/f3/5437f3edb80e54f263ae5e247bb011ae.jpg", name: "Ran Mori", link: "" },
+		{ avatar: "https://i.pinimg.com/736x/0e/b6/5a/0eb65a09ad6a7e7d6da86ab1149ef9da.jpg", name: "Luffy", link: "" },
+		{ avatar: "https://i.pinimg.com/280x280_RS/8a/3d/a6/8a3da6ee522d12423ec38ffba7cab6b9.jpg", name: "Sherlock Home", link: "" }
 	];
 
 	return (
@@ -64,10 +64,10 @@ const Friends = () => {
 								anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
 								variant="dot"
 							>
-								<Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg" />
+								<Avatar alt={item.name} src={item.avatar} />
 							</StyledBadge>
 						</Stack>
-						<Typography>Ha Van Duoc</Typography>
+						<Typography>{item.name}</Typography>
 					</Stack>
 				);
 			})}
